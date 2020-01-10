@@ -1,13 +1,20 @@
 <template>
   <div id="app">
     <p>npm run serve is working</p>
+    <share-card />
   </div>
 </template>
 
 <script>
-import StockCard from './components/ShareCard.vue'
+import ShareCard from './components/ShareCard.vue'
 export default {
   name: 'app',
+  data(){
+    return{
+      chartdata:{},
+      options:{}
+    }
+  },
   components: {
     'share-card': ShareCard,
   }
