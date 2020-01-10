@@ -46,7 +46,7 @@ export default {
           const price = doc["Time Series (1min)"][timestamp]["4. close"];
           shares.push(createShares(ticker, price, 30));
         })
-        shares stocks;
+        return shares;
       });
     })
 
