@@ -1,5 +1,6 @@
 <template>
   <div id="app">
+    <h1>Portfolio Tracker</h1>
 
   </div>
 </template>
