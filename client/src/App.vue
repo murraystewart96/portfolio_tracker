@@ -1,15 +1,15 @@
 <template>
   <div id="app">
-
+    <p>npm run serve is working</p>
   </div>
 </template>
 
 <script>
-
+import StockCard from './components/ShareCard.vue'
 export default {
   name: 'app',
   components: {
-    
+    'share-card': ShareCard,
   }
 }
 </script>
