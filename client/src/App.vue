@@ -6,13 +6,34 @@
 
 <script>
 
+import SharesService from "../services/SharesService.js"
+
 export default {
   name: 'app',
   data(){
     return {
-      shares: []
+      shares: [],
+      temp: null
+
     }
-  }
+  },
+
+  mounted(){
+    SharesService.getShares()
+    .then(data => {
+      this.shares = data;
+      debugger;
+    })
+
+
+    
+
+  },
+
+  methods: {
+
+  },
+
   components: {
 
   }
