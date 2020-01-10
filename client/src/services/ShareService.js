@@ -16,4 +16,13 @@ export default {
 
     Promise.all(promises);
   }
+  getTotalValue(shares){
+    let total = 0;
+
+    for (share in shares){
+      value = share.price * share.quantity;
+      total += value
+    };
+    return total;
+  }
 }
