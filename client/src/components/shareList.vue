@@ -1,7 +1,8 @@
 <template lang="html">
-<div class="shareslist" v-for="share in shares">
-    <button v-on:click="handleDisplay(share._id)">{{ share.name }}</button>
-
+  <div class="myshares">
+    <div id="sharelist" v-for="share in shares">
+      <button v-on:click="handleDisplay(share._id)">{{ share.name }}</button>
+  </div>
 </div>
 </template>
 
@@ -10,7 +11,7 @@ import { eventBus } from '../main';
 import ShareService from '../services/ShareService';
 
 export default {
-  name: "shares-list",
+  name: "share-list",
   props: ["shares"],
 	methods: {
     handleDisplay(id){
@@ -22,7 +23,7 @@ export default {
 </script>
 
 <style lang="css" scoped>
-  .shareslist {
+  .sharelist {
     padding: 5px;
   }
 </style>

@@ -47,13 +47,13 @@ export default {
         return shares;
       });
     })
-
+},
   getTotalValue(shares){
     let total = 0;
 
     for (share in shares){
-      value = share.price * share.quantity;
-      total += value
+      let value = share.price * share.quantity;
+      total += value;
     };
     return total;
   }

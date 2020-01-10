@@ -1,13 +1,17 @@
 <template>
   <div id="app">
     <h1>Portfolio Tracker</h1>
-
+    <portfolio-total :shares="shares"/>
+    <share-list :shares="shares"/>
   </div>
 </template>
 
 <script>
 
-import SharesService from "../services/SharesService.js"
+import SharesService from "./services/ShareService.js"
+import portfolioTotal from  "./components/portfolioTotal"
+import shareList from  "./components/shareList"
+
 
 export default {
   name: 'app',
@@ -18,7 +22,11 @@ export default {
 
     }
   },
+  components: {
+    'portfolio-total' : portfolioTotal,
+    'share-list' : shareList
 
+  },
   mounted(){
     SharesService.getShares()
     .then(data => {
@@ -27,7 +35,7 @@ export default {
     })
 
 
-    
+
 
   },
 
