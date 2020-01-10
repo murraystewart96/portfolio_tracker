@@ -8,8 +8,13 @@
 
 export default {
   name: 'app',
+  data(){
+    return {
+      shares: []
+    }
+  }
   components: {
-    
+
   }
 }
 </script>
