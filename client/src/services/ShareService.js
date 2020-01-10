@@ -48,7 +48,6 @@ export default {
       });
     })
 
-  }
   getTotalValue(shares){
     let total = 0;
 
