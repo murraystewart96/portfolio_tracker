@@ -1,7 +1,7 @@
 <template>
   <div id="app">
     <h1>Portfolio Tracker</h1>
-    <portfolio-total :shares="shares"/>
+    <portfolio-total :shares="shares"></portfolio-total>
     <share-list :shares="shares"/>
     <share-card :shares="shares" />
   </div>
@@ -66,19 +66,19 @@ export default {
     SharesService.getShares()
     .then(data => {
       this.shares = data;
-      debugger;
+      // debugger;
     })
-
-  },
-
-  methods: {
-
-  },
-
-  components: {
-
-  }
-}
+   }
+//,
+//
+//   methods: {
+//
+//   },
+//
+//   components: {
+//
+//   }
+ }
 </script>
 
 <style>
