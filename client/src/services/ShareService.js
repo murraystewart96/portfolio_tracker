@@ -79,6 +79,7 @@ export default {
     .then(res => res.json());
   },
 
+<<<<<<< HEAD
   getPricesIntraday(ticker){
 
     const dateObj = new Date();
@@ -112,6 +113,12 @@ export default {
       mins = '0' + mins;
     }
     console.log(time);
+=======
+  handleDisplay(){
+    
+  }
+}
+>>>>>>> feature/get_shares
 
     const currTimestamp = date + " " + time;
 

@@ -36,10 +36,6 @@ export default {
       SharesService.updateSharePrices(this.shares);
     })
 
-
-
-
-
   },
 
   methods: {
