@@ -1,8 +1,7 @@
 <template lang="html">
   <div class="myshares">
     <div id="sharelist" v-for="share in shares">
-      <li v-if="share.quantity > 0"><button v-on:click="handleDisplay(share._id)">{{ share.name }}</button></li>
-      <p id="dontDisplay"></p>
+    <button v-on:click="handleDisplay(share._id)">{{ share.name }}</button>
   </div>
 </div>
 </template>
