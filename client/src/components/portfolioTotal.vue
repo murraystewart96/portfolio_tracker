@@ -1,7 +1,7 @@
 <template lang="html">
   <div class="PortfolioTotal">
   <h2>Portfolio Total</h2>
-  <h4>value</h4>
+  <h4>value: £{{totalValue}}</h4>
   </div>
 </template>
 
@@ -12,11 +12,14 @@ export default {
   name: "portfolio-total",
   props: ['shares'],
   data() {
+    return {
     totalValue: 0
+  }
   },
 methods: {
   getTotalValue(){
-    ShareService.getTotalValue(shares);
+    ShareService.getTotalValue(shares)
+    .then(data => this.totalValue = data)
     }
 
   }
