@@ -23,12 +23,6 @@ export default {
 
 
   getShares(){
-    return fetch(baseURLint => {
-
-    })
-  }
-
-  getShares(){
     let fetchPromises = [];
     let responsePromises = [];
 
