@@ -37,6 +37,12 @@ export default {
 
   async mounted(){
     this.loaded = false
+    try {
+      this.chartdata = null
+      this.loaded = true
+    } catch(e) {
+      console.error(e);
+    }
   },
 
   methods: {
