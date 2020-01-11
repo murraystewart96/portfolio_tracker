@@ -28,16 +28,16 @@ import LineChart from './ShareChart.vue'
 import {Line} from 'vue-chart.js'
 export default {
   name: 'share-card',
-  components: {
-    {LineChart}
-  },
+  components: {LineChart},
 
-  data(){
-    return {
-      share: ''
-    }
-  },
+  data: () => ({
+    loaded: false,
+    chartdata: null
+  }),
 
+  async mounted(){
+    this.loaded = false
+  },
 
   methods: {
 

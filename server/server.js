@@ -13,6 +13,8 @@ MongoClient.connect("mongodb://localhost:27017")
   const db = client.db("portfolio_shares");
   const sharesCollection = db.collection('shares');
   const sharesRouter = createRouter(sharesCollection);
+
+  app.use()
 })
 
 
