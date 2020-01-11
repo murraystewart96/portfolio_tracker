@@ -1,8 +1,6 @@
 <template>
   <div id="app">
     <h1>Portfolio Tracker</h1>
-    <portfolio-total :shares="shares"/>
-    <share-list :shares="shares"/>
     <!-- <portfolio-total :shares="shares"/>
     <share-list :shares="shares"/> -->
   </div>
@@ -30,11 +28,13 @@ export default {
 
   },
   mounted(){
-    SharesService.getShares()
-    .then(data => {
-      this.shares = data;
-      debugger;
-    })
+
+    SharesService.getPricesIntraday("AAPL");
+    // SharesService.getShares()
+    // .then(data => {
+    //   this.shares = data;
+    //   debugger;
+    // })
 
 
 
