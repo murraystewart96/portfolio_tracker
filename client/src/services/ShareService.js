@@ -22,6 +22,12 @@ const createShares = function(ticker_p, price_p, quantity_p){
 export default {
 
 
+  // getShares(){
+  //   return fetch(baseURLint => {
+  //
+  //   })
+  // }
+
   getShares(){
     let fetchPromises = [];
     let responsePromises = [];

@@ -5,9 +5,11 @@
 <script>
 import {eventBus} from '../main.js'
 import { Line } from 'vue-chartjs'
+import SharesService from './../services/ShareService'
 
 export default {
   extends: Line,
+
   props: {
     chartData: {
       type: Object,
@@ -16,15 +18,27 @@ export default {
     options: {
       type: Object,
       default: null
+    },
+    shareSelected: {
+      type: Object,
+      default: null
     }
   },
 
   data(){
-    return{}
+    return{
+      chartdata: [],
+
+    }
+  },
+
+  methods:{
+
   },
 
    mounted(){
     this.renderChart(this.chartdata,this.options)
+
   }
 }
 

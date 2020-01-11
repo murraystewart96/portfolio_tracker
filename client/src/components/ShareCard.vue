@@ -15,7 +15,8 @@
         <line-chart
           v-if="loaded"
           :chartdata="chartdata"
-          :options="options"/>
+          :options="options"
+          :shareSelected="shareSelected"/>
       </div>
     </div>
 
@@ -23,20 +24,36 @@
 </template>
 
 <script>
-import LineChart from './ShareChart.vue'
-// import ShareService from '../services/ShareService.js'
 import {Line} from 'vue-chart.js'
+import LineChart from './ShareChart.vue'
+import SharesService from './../services/ShareService'
+
 export default {
   name: 'share-card',
   components: {LineChart},
+  props: ['shares'],
 
-  data: () => ({
+  data(){
+    return{
     loaded: false,
-    chartdata: null
-  }),
+    shareId: 0,
+    shareSelected: {},
+  }}
+  ,
 
   async mounted(){
+    this.shares = SharesService.getShares()
+
     this.loaded = false
+    try {
+      this.chartdata = null
+      this.loaded = true
+    } catch(e) {
+      console.error(e);
+    }
+
+    eventBus.$on('share-displayed', id => id === this.shareId);
+    this.shareSelected = shares.filter(share => share._id == share)
   },
 
   methods: {
