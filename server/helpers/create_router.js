@@ -26,10 +26,10 @@ const createRouter = function(collection){
     });
   });
 
-  router.post('/' (req, res) => {
+  router.post('/', (req, res) => {
     const newData = req.body;
     collection.insertOne(newData)
-    .then(doc => res.json(doc.ops[0]));
+    .then(doc => res.json(doc.ops[0]))
     .catch((error) => {
       console.error(error);
       res.status(500);
@@ -37,7 +37,7 @@ const createRouter = function(collection){
     });
   });
 
-  router.delete('/:id' (req, res) => {
+  router.delete('/:id', (req, res) => {
     const id = ObjectID(req.params.id);
     collection.deleteOne({_id:id})
     .then(doc => res.json(doc))
@@ -62,6 +62,9 @@ const createRouter = function(collection){
       res.json({status:500, error: error});
     });
   })
+
+
+  router.get('')
 
   return router;
 }
