@@ -60,6 +60,7 @@ export default {
       let value = share.price * share.quantity;
       total += value;
     };
+    console.log(total);
     return total;
   },
 
@@ -73,7 +74,7 @@ export default {
   },
 
   handleDisplay(){
-    
+
   }
 }
 
