@@ -3,6 +3,8 @@
     <h1>Portfolio Tracker</h1>
     <portfolio-total :shares="shares"/>
     <share-list :shares="shares"/>
+    <!-- <portfolio-total :shares="shares"/>
+    <share-list :shares="shares"/> -->
   </div>
 </template>
 
