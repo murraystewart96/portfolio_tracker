@@ -22,14 +22,16 @@ export default {
       ticker: "AAPL",
       name: "Apple Inc.",
       exchange: "NASDAQ",
-      quantity: 30
+      quantity: 30,
+      price: 10
     },
     {
       _id: "5e199985dc3127e9ea7607af",
       ticker: "GOOGL",
       name: "Alphabet Inc.",
       exchange: "NASDAQ",
-      quantity: 20
+      quantity: 20,
+      price: 20
     }],
       temp: null
     }
