@@ -12,7 +12,9 @@ export default {
   name: "portfolio-total",
   props: ['shares'],
   data() {
+    return{
     totalValue: 0
+  }
   },
 methods: {
   getTotalValue(){

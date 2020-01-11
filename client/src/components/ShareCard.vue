@@ -10,12 +10,13 @@
     </div>
 
     <div class="chart-container">
-      <canvas id="share-chart" width="400" height="400"></canvas>
+      <canvas id="share-chart" width="400" height="400">
         <line-chart
           v-if="loaded"
           :chartdata="chartdata"
           :options="options"
           :shareSelected="shareSelected"/>
+        </canvas>
     </div>
 
   </div>
@@ -25,6 +26,7 @@
 import {Line} from 'vue-chart.js'
 import LineChart from './ShareChart.vue'
 import SharesService from './../services/ShareService'
+import {eventBus} from './../main.js'
 
 export default {
   name: 'share-card',
