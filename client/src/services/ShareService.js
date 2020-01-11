@@ -34,7 +34,6 @@ export default {
 
     for(let i = 0; i < tickers.length; i++){
       fetchPromises.push(fetch(baseURLext + intraDayQuery + tickers[i] + intraDayParams + key2))
-      //fetchPromises.push(fetch(`https://www.alphavantage.co/query?function=TIME_SERIES_INTRADAY&symbol=${tickers[i]}&interval=1min&outputsize=compact&${key2}`));
     }
 
     return Promise.all(fetchPromises) //once the fetch requests have resolved
@@ -79,3 +78,24 @@ export default {
     .then(res => res.json());
   }
 }
+
+
+
+
+// {
+// "Meta Data": {
+// "1. Information": "Intraday (5min) open, high, low, close prices and volume",
+// "2. Symbol": "SBUX",
+// "3. Last Refreshed": "2020-01-10 11:10:00",
+// "4. Interval": "5min",
+// "5. Output Size": "Compact",
+// "6. Time Zone": "US/Eastern"
+// },
+// "Time Series (5min)": {
+// "2020-01-10 11:10:00": {
+// "1. open": "90.0500",
+// "2. high": "90.1000",
+// "3. low": "90.0449",
+// "4. close": "90.0700",
+// "5. volume": "60985"
+// },
