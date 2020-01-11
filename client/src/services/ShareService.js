@@ -22,36 +22,42 @@ const createShares = function(ticker_p, price_p, quantity_p){
 
 export default {
 
-
   getShares(){
+    return fetch(baseURLint)
+    .then(docs => docs.json());
+  },
+
+  updateSharePrices(shares){
     let fetchPromises = [];
     let responsePromises = [];
 
-    for(let i = 0; i < tickers.length; i++){
-      fetchPromises.push(fetch(baseURLext + intraDayQuery + tickers[i] + intraDayParams + key2))
+    //request data for each share
+    for(let i = 0; i < shares.length; i++){
+      fetchPromises.push(fetch(baseURLext + intraDayQuery + shares[i].ticker + intraDayParams1min + key2))
     }
 
     return Promise.all(fetchPromises) //once the fetch requests have resolved
     .then((docs) => {
       docs.forEach((doc) => {
-        responsePromises.push(doc.json()); //push each response
+        responsePromises.push(doc.json()); //push each promise response
       })
     })
     .then(() => {
-      return Promise.all(responsePromises)
+      return Promise.all(responsePromises) //Once all docs have converted to JSON
       .then((docs) => {
 
-        let shares = [];
-        console.log(docs); //hdhshsdhshsh
-        docs.forEach((doc) => {
-          const timestamp = doc["Meta Data"]["3. Last Refreshed"];
-          const ticker = doc["Meta Data"]["2. Symbol"];
-          const price = doc["Time Series (1min)"][timestamp]["4. close"];
-          shares.push(createShares(ticker, price, 30));
-        })
-        return shares;
-      });
-    })
+        console.log(docs)
+        for(let i = 0; i < docs.length; i++){
+          const timestamp = docs[i]["Meta Data"]["3. Last Refreshed"];
+          const price = docs[i]["Time Series (1min)"][timestamp]["4. close"];
+          shares[i]["price"] = price;
+          console.log(price);
+          console.log(shares[i]);
+        }
+      })
+
+    });
+
 },
 
   getTotalValue(shares){
@@ -111,13 +117,13 @@ export default {
 
     let prices = [];
 
-    fetch(baseURLext + intraDayQuery + ticker + intraDayParams60min + key2)
+    return fetch(baseURLext + intraDayQuery + ticker + intraDayParams60min + key2)
     .then(doc => doc.json())
     .then((doc) => {
       const latestTimestamp = doc["Meta Data"]["3. Last Refreshed"];
-      //const latestTimestamp = "2020-01-10 15:30:00"
       const latestDay = latestTimestamp.slice(8,10)
       const latestHour = latestTimestamp.slice(11,13)
+
       const sharesData = Object.values(doc["Time Series (60min)"])
 
       const closingTime = "15:30:00"
@@ -140,7 +146,7 @@ export default {
           prices.push(sharesData[i]["4. close"]);
         }
       }
-      console.log(prices);
+      return prices;
      })
   }
 }

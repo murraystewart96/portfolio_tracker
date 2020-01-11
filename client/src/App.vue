@@ -18,6 +18,7 @@ export default {
   data(){
     return {
       shares: [],
+      sharesPrices: [],
       temp: null
 
     }
@@ -29,12 +30,12 @@ export default {
   },
   mounted(){
 
-    SharesService.getPricesIntraday("AAPL");
-    // SharesService.getShares()
-    // .then(data => {
-    //   this.shares = data;
-    //   debugger;
-    // })
+    SharesService.getShares()
+    .then(data => {
+      this.shares = data;
+      SharesService.updateSharePrices(this.shares);
+    })
+
 
 
 
@@ -42,6 +43,8 @@ export default {
   },
 
   methods: {
+
+
 
   },
 
