@@ -28,7 +28,7 @@ export default {
   }
   #sharelist {
     padding: 5px;
-  },
+  }
   #dontDisplay {
   display: none;
 }
