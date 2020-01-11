@@ -9,7 +9,7 @@
 import ShareService from '../services/ShareService';
 
 export default {
-  name: "Portfolio Total",
+  name: "portfolio-total",
   props: ['shares'],
   data() {
     totalValue: 0
