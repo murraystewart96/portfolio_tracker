@@ -1,23 +1,21 @@
 <template lang="html">
   <div class="share-chart-wrapper">
-    <h2>Share name | Share ticker</h2>
+    <h2>Share name | {{shareSelected.ticker}}</h2>
 
     <div class="share-info">
-      <p>Book cost: </p>
-      <p>Exchange: </p>
-      <p>Number of shares: </p>
-      <p>Share price: </p>
+      <p>Current valuation: {{shareSelected.quantity*shareSelected.price}} </p>
+      <p>Exchange: {{shareSelected.exchange}} </p>
+      <p>Number of shares: {{shareSelected.quantity}} </p>
+      <p>Share price: {{shareSelected.price}} </p>
     </div>
 
     <div class="chart-container">
       <canvas id="share-chart" width="400" height="400"></canvas>
-      <div class="container">
         <line-chart
           v-if="loaded"
           :chartdata="chartdata"
           :options="options"
           :shareSelected="shareSelected"/>
-      </div>
     </div>
 
   </div>
@@ -37,7 +35,14 @@ export default {
     return{
     loaded: false,
     shareId: 0,
-    shareSelected: {},
+    // This is a dummy share selected to test "share-info div this would be from
+    //eventBus in the final app"
+    shareSelected:{ _id: "5e199937dc3127e9ea7607ae",
+    price: 310,
+    ticker: "AAPL",
+    name: "Apple Inc.",
+    exchange: "NASDAQ",
+    quantity: 30},
   }}
   ,
 
