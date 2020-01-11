@@ -1,30 +1,14 @@
 <template>
   <div id="app">
-<<<<<<< HEAD
-    <p>npm run serve is working</p>
-    <share-card />
-=======
     <h1>Portfolio Tracker</h1>
     <portfolio-total :shares="shares"/>
     <share-list :shares="shares"/>
->>>>>>> 89fc39e8e1292fc9a08c8c7d9cde7d345eede822
+    <!-- <portfolio-total :shares="shares"/>
+    <share-list :shares="shares"/> -->
   </div>
 </template>
 
 <script>
-<<<<<<< HEAD
-import ShareCard from './components/ShareCard.vue'
-export default {
-  name: 'app',
-  data(){
-    return{
-      chartdata:{},
-      options:{}
-    }
-  },
-  components: {
-    'share-card': ShareCard,
-=======
 
 import SharesService from "./services/ShareService.js"
 import portfolioTotal from  "./components/portfolioTotal"
@@ -63,7 +47,6 @@ export default {
 
   components: {
 
->>>>>>> 89fc39e8e1292fc9a08c8c7d9cde7d345eede822
   }
 }
 </script>

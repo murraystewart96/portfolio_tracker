@@ -7,7 +7,7 @@
 </template>
 
 <script>
-import { eventBus } from '../main';
+import { eventBus } from '../main.js';
 import ShareService from '../services/ShareService';
 
 export default {
