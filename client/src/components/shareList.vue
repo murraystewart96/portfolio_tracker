@@ -1,7 +1,8 @@
 <template lang="html">
   <div class="myshares">
     <div id="sharelist" v-for="share in shares">
-      <button v-on:click="handleDisplay(share._id)">{{ share.name }}</button>
+      <li v-if="share.quantity > 0"><button v-on:click="handleDisplay(share._id)">{{ share.name }}</button></li>
+      <p id="dontDisplay"></p>
   </div>
 </div>
 </template>
@@ -23,7 +24,13 @@ export default {
 </script>
 
 <style lang="css" scoped>
-  .sharelist {
+  .myshares {
     padding: 5px;
   }
+  #sharelist {
+    padding: 5px;
+  },
+  #dontDisplay {
+  display: none;
+}
 </style>
