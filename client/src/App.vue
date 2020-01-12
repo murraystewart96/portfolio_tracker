@@ -22,8 +22,9 @@
 import SharesService from "./services/ShareService.js"
 import portfolioTotal from  "./components/portfolioTotal"
 import shareList from  "./components/shareList"
-import ShareCard from './components/ShareCard'
-import pricesChart from './components/myShareChart'
+import pricesChart from "./components/myShareChart"
+import { eventBus } from './main.js';
+import shareCard from "./components/ShareCard"
 
 
 export default {
@@ -72,11 +73,6 @@ export default {
 
     }
   },
-  components: {
-    'portfolio-total' : portfolioTotal,
-    'share-list' : shareList,
-    'share-card': ShareCard
-  },
   mounted(){
 
 
@@ -92,6 +88,11 @@ export default {
     //
     // SharesService.getPricesIntraday("AAPL")
     // .then(prices => console.log("Intradaily Prices", prices));
+    eventBus.$on("display-share", (share) => {
+      this.selectedShare = share;
+      this.displayShareCard = true;
+      this.displayPieChart = false;
+    })
 
   },
 
@@ -103,7 +104,8 @@ export default {
     'portfolio-total' : portfolioTotal,
     'share-list' : shareList,
     'shares-chart': pricesChart,
-    'share-card': ShareCard
+    'share-card' : shareCard
+
   },
 }
 </script>

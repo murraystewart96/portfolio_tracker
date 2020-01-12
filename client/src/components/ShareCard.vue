@@ -1,54 +1,50 @@
 <template lang="html">
   <div class="share-chart-wrapper">
-    <h2>{{shareSelected.ticker}}</h2>
+    <h2>{{share.ticker}}</h2>
 
     <div class="share-info">
-      <p>Current valuation: {{shareSelected.quantity*shareSelected.price}} </p>
-      <p>Exchange: {{shareSelected.exchange}} </p>
-      <p>Number of shares: {{shareSelected.quantity}} </p>
-      <p>Share price: {{shareSelected.price}} </p>
+      <p>Current valuation: {{share.quantity*share.price}} </p>
+      <p>Exchange: {{share.exchange}} </p>
+      <p>Number of shares: {{share.quantity}} </p>
+      <p>Share price: {{share.price}} </p>
     </div>
 
     <div class="chart-container">
-        <prices-chart/>
+      <shares-chart v-if="loaded" :data="chartData" type="line"/>
     </div>
 
   </div>
 </template>
 
 <script>
-import {Line} from 'vue-chart.js'
-import LineChart from './ShareChart.vue'
-import SharesService from './../services/ShareService'
-import {eventBus} from './../main.js'
+// import ShareService from '../services/ShareService.js'
 import pricesChart from "./myShareChart"
+import SharesChart from "@/chartHelpers/sharesChart.js"
+import SharesService from "../services/ShareService.js"
+
 
 export default {
   name: 'share-card',
+  components: {
+    'shares-chart': pricesChart,
+  },
 
-  components: {LineChart,
-  'prices-chart': pricesChart},
-
+  components: {'shares-chart': pricesChart},
   props: ['share'],
 
   data(){
     return{
     loaded: false,
-    shareId: 0,
-    shareSelected:{ }
+    chartData: null
   }},
-  
- mounted(){
 
-
-    this.loaded = false
-    try {
-      this.chartdata = null
+  mounted(){
+    SharesService.getPricesDaily(this.share.ticker)
+    .then((prices) => {
+      console.log(prices);
       this.loaded = true
-    } catch(e) {
-      console.error(e);
-    }
-
+      this.chartData = prices;
+    })
   },
 
   methods: {
