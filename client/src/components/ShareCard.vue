@@ -10,12 +10,7 @@
     </div>
 
     <div class="chart-container">
-      <canvas id="share-chart" width="400" height="400">
-        <line-chart
-          v-if="loaded"
-          :options="options"
-          :shareSelected="shareSelected"/>
-        </canvas>
+        <prices-chart/>
     </div>
 
   </div>
@@ -26,11 +21,15 @@ import {Line} from 'vue-chart.js'
 import LineChart from './ShareChart.vue'
 import SharesService from './../services/ShareService'
 import {eventBus} from './../main.js'
+import pricesChart from "./myShareChart"
 
 export default {
   name: 'share-card',
-  components: {LineChart},
-  props: ['shares'],
+
+  components: {LineChart,
+  'prices-chart': pricesChart},
+
+  props: ['share'],
 
   data(){
     return{
@@ -40,11 +39,6 @@ export default {
   }},
 
  mounted(){
-    this.shares = SharesService.getShares()
-
-    eventBus.$on('share-displayed', id => id === this.shareId)
-
-    this.shareSelected = this.shares.filter(share => share._id == share)
 
 
     this.loaded = false
