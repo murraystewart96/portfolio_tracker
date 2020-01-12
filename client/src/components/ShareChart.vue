@@ -11,7 +11,7 @@ export default {
   extends: Line,
 
   props: {
-    chartData: {
+    chartdata: {
       type: Object,
       default: null
     },
@@ -34,7 +34,7 @@ export default {
    mounted(){
     this.renderChart(this.chartdata)
 
-    
+
   }
 }
 

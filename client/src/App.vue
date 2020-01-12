@@ -72,22 +72,27 @@ export default {
     'share-card': ShareCard
   },
   mounted(){
-    SharesService.getShares()
-    .then(data => {
-      this.shares = data;
-      // debugger;
-    })
-   }
-//,
-//
-//   methods: {
-//
-//   },
-//
-//   components: {
-//
-//   }
- }
+
+
+    // SharesService.getShares()
+    // .then(data => {
+    //   this.shares = data;
+    //   SharesService.updateSharePrices(this.shares);
+    // })
+
+
+  },
+
+  methods: {
+
+
+
+  },
+
+  components: {
+
+  }
+}
 </script>
 
 <style lang="css">

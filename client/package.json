@@ -9,10 +9,25 @@
   "dependencies": {
     "chart.js": "^2.9.3",
     "core-js": "^3.4.4",
+<<<<<<< HEAD
+=======
+
+>>>>>>> develop
     "vue": "^2.6.11",
     "vue-chart.js": "^0.2.0",
     "vue-chartjs": "^3.5.0",
+<<<<<<< HEAD
     "cors": "^2.8.5"
+=======
+    "cors": "^2.8.5",
+
+    "vue": "^2.6.10",
+    "vue-chart.js": "^0.2.0",
+    "vue-chartjs": "^3.5.0",
+    "vue": "^2.6.11"
+
+
+>>>>>>> develop
   },
   "devDependencies": {
     "@vue/cli-plugin-babel": "^4.1.0",
