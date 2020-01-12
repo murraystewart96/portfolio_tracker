@@ -1,7 +1,7 @@
 <template lang="html">
   <div class="PortfolioTotal">
   <h2>Portfolio Total</h2>
-  <h4>value: £{{totalValue}}</h4>
+  <h4>value: £{{total}}</h4>
   </div>
 </template>
 
@@ -16,13 +16,17 @@ export default {
     totalValue: 0
   }
   },
-methods: {
-  getTotalValue(){
-    ShareService.getTotalValue(shares)
-    .then(data => this.totalValue = data)
-    }
+  computed: {
+    total: function() {
+      for (const share of this.shares) {
+        let value = (parseInt(share.price)) * share.quantity;
+         this.totalValue += value;
+      };
+      return this.totalValue;
 
+    }
   }
+
 }
 </script>
 
