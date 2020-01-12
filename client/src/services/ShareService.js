@@ -5,19 +5,37 @@ const intraDayQuery = "TIME_SERIES_INTRADAY&symbol=";
 const intraDayParams1min = "&interval=1min&outputsize=compact"
 const intraDayParams60min = "&interval=60min&outputsize=compact"
 
+const dailyQuery = "TIME_SERIES_DAILY&symbol=";
+const dailyParams = "&outputsize=compact"
+
 const key1 = "&apikey=QTA1FETX7I0B34WC";
 const key2 = "&apikey=FT7FZ6ZFM0DJ6CZT";
 
 
 const tickers = ["AAPL","GOOGL","NVDA","AMZN","ATVI"]//,"FB","NFLX","SBUX","EXPE","CMCSA"];
 
-const createShares = function(ticker_p, price_p, quantity_p){
-  return {
-    ticker: ticker_p,
-    exchange: "NASDAQ",
-    price: price_p,
-    quantity: quantity_p
-  }
+const getCurrentTimestamp = function(){
+
+  const dateObj = new Date();
+
+  const year = dateObj.getFullYear();
+  let month = parseInt(dateObj.getMonth()) + 1;
+  month.toString();
+  let day = dateObj.getDate();
+
+  let hour = dateObj.getHours().toString();
+  let mins = dateObj.getMinutes().toString();
+  const secs = ":00";
+
+  if(month < 10) month = '0' + month;
+  if(day < 10) day = '0' + day;
+  if(hour < 10) hour = '0' + hour;
+  if(mins < 10) mins = '0' + mins;
+
+  const date = year + '-' + (month) + '-' + day;
+  const time = hour + ':' + mins + secs;
+
+  return date + " " + time;
 }
 
 export default {
@@ -46,13 +64,10 @@ export default {
       return Promise.all(responsePromises) //Once all docs have converted to JSON
       .then((docs) => {
 
-        console.log(docs)
         for(let i = 0; i < docs.length; i++){
           const timestamp = docs[i]["Meta Data"]["3. Last Refreshed"];
           const price = docs[i]["Time Series (1min)"][timestamp]["4. close"];
           shares[i]["price"] = price;
-          console.log(price);
-          console.log(shares[i]);
         }
       })
 
@@ -79,48 +94,9 @@ export default {
     .then(res => res.json());
   },
 
-<<<<<<< HEAD
   getPricesIntraday(ticker){
 
-    const dateObj = new Date();
-
-    const year = dateObj.getFullYear();
-    let month = parseInt(dateObj.getMonth()) + 1;
-    month.toString();
-    let day = dateObj.getDate();
-
-
-    let hour = dateObj.getHours().toString();
-    let mins = dateObj.getMinutes().toString();
-    const secs = ":00";
-
-    if(month < 10){
-      month = '0' + month;
-    }
-
-    if(day < 10){
-      day = '0' + day;
-    }
-
-    const date = year + '-' + (month) + '-' + day;
-    const time = hour + ':' + mins + secs;
-
-    if(hour < 10){
-      hour = '0' + hour;
-    }
-
-    if(mins < 10){
-      mins = '0' + mins;
-    }
-    console.log(time);
-=======
-  handleDisplay(){
-    
-  }
-}
->>>>>>> feature/get_shares
-
-    const currTimestamp = date + " " + time;
+    const currTimestamp = getCurrentTimestamp();
 
     let prices = [];
 
@@ -136,24 +112,39 @@ export default {
       const closingTime = "15:30:00"
 
       if(day > latestDay){ //if market has not opened today
-
         for(let i = 0; i < 7; i++){
-          prices.push(sharesData[i]["4. close"])
+          prices.push(sharesData[i]["4. close"]) //Get yesterdays prices
         }
-
       }else if(time >= closingTime){ //if market has closed for the day
         for(let i = 0; i < 7; i++){
-          prices.push(sharesData[i]["4. close"])
+          prices.push(sharesData[i]["4. close"]) //get todays prices
         }
       }else if(time < closingTime){ //if market is open
-
-        const priceIntervals = latestHour - 8;
-
+        const priceIntervals = latestHour - 8; //Calculate how many prices intervals there are
         for(let i = 0; i < priceIntervals; i++){
-          prices.push(sharesData[i]["4. close"]);
+          prices.push(sharesData[i]["4. close"]); //get prices
         }
       }
       return prices;
      })
+  },
+
+
+  getPricesDaily(ticker){
+
+    let prices = [];
+
+    return fetch(baseURLext + dailyQuery + ticker + dailyParams + key1)
+    .then(doc => doc.json())
+    .then((doc) => {
+      const latestDate = new Date(doc["Meta Data"]["3. Last Refreshed"]);
+      const numberOfDays = latestDate.getDay();
+      const sharesData = Object.values(doc["Time Series (Daily)"])
+
+      for(let i = 0; i < numberOfDays; i++){
+        prices.push(sharesData[i]["4. close"]);
+      }
+      return prices;
+    })
   }
 }

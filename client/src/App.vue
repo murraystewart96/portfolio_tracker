@@ -32,9 +32,11 @@ export default {
 
     SharesService.getShares()
     .then(data => {
-      this.shares = data;
-      SharesService.updateSharePrices(this.shares);
+      // this.shares = data;
+      // SharesService.updateSharePrices(this.shares);
     })
+    SharesService.getPricesDaily("AAPL")
+    .then(prices => console.log(prices));
 
   },
 
