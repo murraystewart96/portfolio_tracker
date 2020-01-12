@@ -1,7 +1,7 @@
 <template lang="html">
   <div class="PortfolioTotal">
   <h2>Portfolio Total</h2>
-  <h4>value: £{{total}}</h4>
+  <h4>Value: £{{total}}</h4>
   </div>
 </template>
 
