@@ -17,27 +17,8 @@ export default {
   name: 'app',
   data(){
     return {
-<<<<<<< HEAD
-      shares: [{
-      _id: "5e199937dc3127e9ea7607ae",
-      ticker: "AAPL",
-      name: "Apple Inc.",
-      exchange: "NASDAQ",
-      quantity: 30,
-      price: 10
-    },
-    {
-      _id: "5e199985dc3127e9ea7607af",
-      ticker: "GOOGL",
-      name: "Alphabet Inc.",
-      exchange: "NASDAQ",
-      quantity: 200,
-      price: 30
-    }]
-=======
       shares: [],
       temp: null
->>>>>>> develop
 
     }
   },

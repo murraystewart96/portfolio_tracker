@@ -81,12 +81,6 @@ export default {
     .then(res => res.json());
   },
 
-<<<<<<< HEAD
-  handleDisplay(){
-
-  }
-}
-=======
   getPricesIntraday(ticker){
 
     const currTimestamp = getCurrentTimestamp();
@@ -123,7 +117,6 @@ export default {
      })
   },
 
->>>>>>> develop
 
   getPricesDaily(ticker){
 
