@@ -1,9 +1,18 @@
 <template>
   <div id="app">
+    <link rel="stylesheet" type="text/css" href="./assets/style.css">
     <h1>Portfolio Tracker</h1>
+
     <portfolio-total :shares="shares"></portfolio-total>
-    <share-list :shares="shares"/>
-    <share-card :shares="shares" />
+
+    <aside class="sidebar">
+      <share-list :shares="shares"/>
+    </aside>
+
+    <main>
+      <share-card :shares="shares" />
+    </main>
+
   </div>
 </template>
 
@@ -81,8 +90,9 @@ export default {
  }
 </script>
 
-<style>
+<style lang="css">
 #app {
+
   font-family: 'Avenir', Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
@@ -90,4 +100,11 @@ export default {
   color: #2c3e50;
   margin-top: 60px;
 }
+
+aside{
+  align-content: flex-start;
+  float:
+
+}
+
 </style>

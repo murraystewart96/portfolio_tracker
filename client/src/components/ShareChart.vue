@@ -27,17 +27,12 @@ export default {
 
   data(){
     return{
-      chartdata: [],
 
     }
   },
 
-  methods:{
-
-  },
-
    mounted(){
-    this.renderChart(this.chartdata,this.options)
+    this.renderChart(this.chartdata)
 
   }
 }
