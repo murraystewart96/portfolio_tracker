@@ -1,7 +1,7 @@
 <template lang="html">
   <div class="myshares">
     <div id="sharelist" v-for="share in shares">
-    <button v-on:click="handleDisplay(share._id)">{{ share.name }}</button>
+    <button v-on:click="handleDisplay(share._id)">{{ share.ticker }}</button>
   </div>
 </div>
 </template>

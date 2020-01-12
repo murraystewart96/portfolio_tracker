@@ -18,7 +18,22 @@ export default {
   name: 'app',
   data(){
     return {
-      shares: [],
+      shares: [  {
+        _id: "5e199937dc3127e9ea7607ae",
+        ticker: "AAPL",
+        name: "Apple Inc.",
+        exchange: "NASDAQ",
+        price: 10,
+        quantity: 30
+      },
+      {
+        _id: "5e199985dc3127e9ea7607af",
+        ticker: "GOOGL",
+        name: "Alphabet Inc.",
+        exchange: "NASDAQ",
+        price: 20,
+        quantity: 20
+      }],
       temp: null
 
     }
@@ -27,11 +42,12 @@ export default {
   mounted(){
 
 
-    // SharesService.getShares()
-    // .then(data => {
-    //   this.shares = data;
-    //   SharesService.updateSharePrices(this.shares);
-    // })
+    SharesService.getShares()
+    .then(data => {
+      this.shares = data;
+      console.log(data);
+      SharesService.updateSharePrices(this.shares);
+    })
 
     // SharesService.getPricesDaily("AAPL")
     // .then(prices => console.log( prices));
