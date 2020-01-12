@@ -30,10 +30,10 @@ export default {
       ticker: "GOOGL",
       name: "Alphabet Inc.",
       exchange: "NASDAQ",
-      quantity: 20,
-      price: 20
-    }],
-      temp: null
+      quantity: 200,
+      price: 30
+    }]
+
     }
   },
   components: {

@@ -52,18 +52,6 @@ export default {
       });
     })
 },
-
-  getTotalValue(shares){
-    let total = 0;
-
-    for (share in shares){
-      let value = share.price * share.quantity;
-      total += value;
-    };
-    console.log(total);
-    return total;
-  },
-
   postShares(payload){
     fetch(baseURLint, {
       method: "POST",

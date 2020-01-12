@@ -1,7 +1,7 @@
 <template lang="html">
   <div class="PortfolioTotal">
   <h2>Portfolio Total</h2>
-  <h4>value: £{{totalValue}}</h4>
+  <h4>value: £{{total}}</h4>
   </div>
 </template>
 
@@ -15,6 +15,16 @@ export default {
     return {
     totalValue: 0
   }
+  },
+  computed: {
+    total: function() {
+      for (const share of this.shares) {
+        let value = (parseInt(share.price)) * share.quantity;
+         this.totalValue += value;
+      };
+      return this.totalValue;
+
+    }
   },
 methods: {
   getTotalValue(){
