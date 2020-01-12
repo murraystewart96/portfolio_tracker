@@ -10,39 +10,39 @@
     </div>
 
     <div class="chart-container">
-      <canvas id="share-chart" width="400" height="400"></canvas>
-      <div class="container">
-        <line-chart
-          v-if="loaded"
-          :chartdata="chartdata"
-          :options="options"/>
-      </div>
+      <shares-chart v-if="loaded" :data="chartData" type="line"/>
     </div>
 
   </div>
 </template>
 
 <script>
-import LineChart from './ShareChart.vue'
 // import ShareService from '../services/ShareService.js'
-import {Line} from 'vue-chart.js'
+import pricesChart from "./myShareChart"
+import SharesChart from "@/chartHelpers/sharesChart.js"
+import SharesService from "../services/ShareService.js"
+
+
 export default {
   name: 'share-card',
-  components: {LineChart},
+  components: {
+    'shares-chart': pricesChart,
+  },
 
   data: () => ({
     loaded: false,
-    chartdata: null
+    chartData: null
   }),
 
-  async mounted(){
-    this.loaded = false
-    try {
-      this.chartdata = null
+  props: ['share'],
+
+  mounted(){
+    SharesService.getPricesDaily(this.share.ticker)
+    .then((prices) => {
+      console.log(prices);
       this.loaded = true
-    } catch(e) {
-      console.error(e);
-    }
+      this.chartData = prices;
+    })
   },
 
   methods: {

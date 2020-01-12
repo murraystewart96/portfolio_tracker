@@ -3,7 +3,9 @@
     <h1>Portfolio Tracker</h1>
     <portfolio-total :shares="shares"/>
     <share-list :shares="shares"/>
-    <shares-chart/>
+    <!-- <shares-chart v-if="displayPieChart"/> -->
+    <share-card :share="selectedShare" v-if="displayShareCard"/>
+
   </div>
 </template>
 
@@ -13,6 +15,9 @@ import SharesService from "./services/ShareService.js"
 import portfolioTotal from  "./components/portfolioTotal"
 import shareList from  "./components/shareList"
 import pricesChart from "./components/myShareChart"
+import { eventBus } from './main.js';
+import shareCard from "./components/ShareCard"
+
 
 export default {
   name: 'app',
@@ -34,7 +39,10 @@ export default {
         price: 20,
         quantity: 20
       }],
-      temp: null
+
+      selectedShare: null,
+      displayShareCard: false,
+      displayPieChart: true
 
     }
   },
@@ -54,6 +62,11 @@ export default {
     //
     // SharesService.getPricesIntraday("AAPL")
     // .then(prices => console.log("Intradaily Prices", prices));
+    eventBus.$on("display-share", (share) => {
+      this.selectedShare = share;
+      this.displayShareCard = true;
+      this.displayPieChart = false;
+    })
 
   },
 
@@ -64,7 +77,9 @@ export default {
   components: {
     'portfolio-total' : portfolioTotal,
     'share-list' : shareList,
-    'shares-chart': pricesChart
+    'shares-chart': pricesChart,
+    'share-card' : shareCard
+
   },
 }
 </script>

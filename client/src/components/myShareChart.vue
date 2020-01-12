@@ -1,6 +1,6 @@
 <template lang="html">
   <div>
-    <canvas id="prices-chart"></canvas>
+    <canvas id="chart"></canvas>
   </div>
 </template>
 
@@ -11,24 +11,20 @@ import SharesChart from "@/chartHelpers/sharesChart.js"
 
 export default {
   name: "prices-chart",
+  props: ['data', 'type'],
   data(){
     return {
       chartData: null
     }
   },
-
   mounted(){
-    SharesService.getPricesDaily("AAPL")
-    .then((prices) => {
-      console.log(prices);
-      this.chartData = SharesChart.formatChartData(["Mon", "Tue", "Wed", "Thur", "Fri"], prices, "Daily Prices");
-      SharesChart.createChart('prices-chart', this.chartData);
-    })
-  },
-
-  methods: {
-
+    console.log(this.type)
+    this.chartData = SharesChart.formatChartData(["Mon", "Tue", "Wed", "Thur", "Fri"], this.data, "Daily Prices", this.type);
+    SharesChart.createChart('chart', this.chartData);
   }
+}
+
+
 
 
 </script>

@@ -7,7 +7,7 @@ export default{
         datasets: [
           {
             label: y_label,
-            data: data,
+            data: chartData,
             backgroundColor: [
               'rgba(54,73,93,.5)', // Blue
               'rgba(54,73,93,.5)',

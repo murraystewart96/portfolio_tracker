@@ -1,7 +1,7 @@
 <template lang="html">
   <div class="myshares">
     <div id="sharelist" v-for="share in shares">
-    <button v-on:click="handleDisplay(share._id)">{{ share.ticker }}</button>
+    <button v-on:click="displayShareCard(share)">{{ share.ticker }}</button>
   </div>
 </div>
 </template>
@@ -14,11 +14,10 @@ export default {
   name: "share-list",
   props: ["shares"],
 	methods: {
-    handleDisplay(id){
-      ShareService.displayShare(id)
-    .then(response => eventBus.$emit('share-displayed', id));
+    displayShareCard(share){
+      eventBus.$emit('display-share', share);
     }
-}
+  }
 }
 </script>
 
