@@ -12,7 +12,7 @@
     </div>
 
     <div class="share-card">
-      <share-card :shares="shares" />
+      <share-card :share="selectedShare" v-if="displayShareCard" />
     </div>
 
   </div>
@@ -23,6 +23,8 @@ import SharesService from "./services/ShareService.js"
 import portfolioTotal from  "./components/portfolioTotal"
 import shareList from  "./components/shareList"
 import ShareCard from './components/ShareCard'
+import pricesChart from './components/myShareChart'
+
 
 export default {
   name: 'app',
@@ -64,6 +66,9 @@ export default {
       quantity: 40
     }],
 
+    selectedShare:null,
+    displayShareCard: false,
+    dipslayPieChart: true
 
     }
   },
@@ -97,6 +102,7 @@ export default {
   components: {
     'portfolio-total' : portfolioTotal,
     'share-list' : shareList,
+    'shares-chart': pricesChart,
     'share-card': ShareCard
   },
 }
