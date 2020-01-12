@@ -18,7 +18,6 @@ export default {
   data(){
     return {
       shares: [],
-      sharesPrices: [],
       temp: null
 
     }
@@ -30,13 +29,18 @@ export default {
   },
   mounted(){
 
-    SharesService.getShares()
-    .then(data => {
-      // this.shares = data;
-      // SharesService.updateSharePrices(this.shares);
-    })
+
+    // SharesService.getShares()
+    // .then(data => {
+    //   this.shares = data;
+    //   SharesService.updateSharePrices(this.shares);
+    // })
+
     SharesService.getPricesDaily("AAPL")
-    .then(prices => console.log(prices));
+    .then(prices => console.log(, prices));
+
+    SharesService.getPricesIntraday("AAPL")
+    .then(prices => console.log("Intradaily Prices", prices));
 
   },
 

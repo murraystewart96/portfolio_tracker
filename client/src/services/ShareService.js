@@ -12,8 +12,6 @@ const key1 = "&apikey=QTA1FETX7I0B34WC";
 const key2 = "&apikey=FT7FZ6ZFM0DJ6CZT";
 
 
-const tickers = ["AAPL","GOOGL","NVDA","AMZN","ATVI"]//,"FB","NFLX","SBUX","EXPE","CMCSA"];
-
 const getCurrentTimestamp = function(){
 
   const dateObj = new Date();
@@ -97,10 +95,11 @@ export default {
   getPricesIntraday(ticker){
 
     const currTimestamp = getCurrentTimestamp();
+    const day = currTimestamp.slice(8,10);
 
     let prices = [];
 
-    return fetch(baseURLext + intraDayQuery + ticker + intraDayParams60min + key2)
+    return fetch(baseURLext + intraDayQuery + ticker + intraDayParams60min + key1)
     .then(doc => doc.json())
     .then((doc) => {
       const latestTimestamp = doc["Meta Data"]["3. Last Refreshed"];
