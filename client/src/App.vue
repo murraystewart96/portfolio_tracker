@@ -3,7 +3,7 @@
     <h1>Portfolio Tracker</h1>
     <portfolio-total :shares="shares"/>
     <share-list :shares="shares"/>
-    <share-chart/>
+    <shares-chart/>
   </div>
 </template>
 
@@ -42,12 +42,12 @@ export default {
   mounted(){
 
 
-    SharesService.getShares()
-    .then(data => {
-      this.shares = data;
-      console.log(data);
-      SharesService.updateSharePrices(this.shares);
-    })
+    // SharesService.getShares()
+    // .then(data => {
+    //   this.shares = data;
+    //   console.log(data);
+    //   SharesService.updateSharePrices(this.shares);
+    // })
 
     // SharesService.getPricesDaily("AAPL")
     // .then(prices => console.log( prices));
@@ -64,7 +64,7 @@ export default {
   components: {
     'portfolio-total' : portfolioTotal,
     'share-list' : shareList,
-    'share-chart': pricesChart
+    'shares-chart': pricesChart
   },
 }
 </script>
