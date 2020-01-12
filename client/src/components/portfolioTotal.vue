@@ -25,13 +25,6 @@ export default {
       return this.totalValue;
 
     }
-  },
-methods: {
-  getTotalValue(){
-    ShareService.getTotalValue(shares)
-    .then(data => this.totalValue = data)
-    }
-
   }
 }
 </script>
