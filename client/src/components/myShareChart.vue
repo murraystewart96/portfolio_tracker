@@ -69,7 +69,8 @@ export default {
                   padding: 25,
               }
             }]
-          }
+          },
+
         }
 
       }

@@ -22,7 +22,6 @@
 import SharesService from "./services/ShareService.js"
 import portfolioTotal from  "./components/portfolioTotal"
 import shareList from  "./components/shareList"
-import pricesChart from "./components/myShareChart"
 import ShareCard from './components/ShareCard'
 
 export default {
@@ -76,12 +75,12 @@ export default {
   mounted(){
 
 
-    SharesService.getShares()
-    .then(data => {
-      this.shares = data;
-      console.log(data);
-      SharesService.updateSharePrices(this.shares);
-    })
+    // SharesService.getShares()
+    // .then(data => {
+    //   this.shares = data;
+    //   console.log(data);
+    //   SharesService.updateSharePrices(this.shares);
+    // })
 
     // SharesService.getPricesDaily("AAPL")
     // .then(prices => console.log( prices));
@@ -98,7 +97,7 @@ export default {
   components: {
     'portfolio-total' : portfolioTotal,
     'share-list' : shareList,
-    'share-chart': pricesChart
+    'share-card': ShareCard
   },
 }
 </script>
@@ -121,23 +120,23 @@ export default {
 
 .share-card{
   display: flex;
-  justify-content: flex-end;
+  justify-content: space-around;
   align-items: flex-end;
-
+  border: solid 3px #39CCCC;
+  align-items: baseline;
 }
 
 .share-list{
   width: auto;
   position: fixed;
-  z-index: 1;
   top: 20px;
   left: 10px;
   background: #eee;
   overflow-x: hidden;
   padding: 8px 0;
-  margin-top: 10px;
+  margin-top: 5px;
   border: solid 3px #39CCCC;
-  padding: 20px;
+  padding: 10px;
 }
 
 .share-list button{
@@ -147,13 +146,14 @@ export default {
 }
 
 .portfolio-total{
-  display: flex;
   justify-content: space-between;
   border: solid 3px #39CCCC;
   width: auto;
   position: absolute;
   top: 30px;
   right: 40px;
+  background: #eee;
+  padding: 10px;
 }
 
 
