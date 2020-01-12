@@ -20,7 +20,7 @@ const seedData = [
   ticker: "ATVI",
   name: "Activision Blizzard Inc.",
   exchange: "NASDAQ",
-  quantity: "50"
+  quantity: 50
 },
 {
   _id: "5e1999eadc3127e9ea7607b1",

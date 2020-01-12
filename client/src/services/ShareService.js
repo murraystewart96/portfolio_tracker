@@ -72,17 +72,6 @@ export default {
     });
 
 },
-
-  getTotalValue(shares){
-    let total = 0;
-
-    for (share in shares){
-      let value = share.price * share.quantity;
-      total += value;
-    };
-    return total;
-  },
-
   postShares(payload){
     fetch(baseURLint, {
       method: "POST",
@@ -112,16 +101,16 @@ export default {
 
       if(day > latestDay){ //if market has not opened today
         for(let i = 0; i < 7; i++){
-          prices.push(sharesData[i]["4. close"]) //Get yesterdays prices
+          prices.push(parseFloat(sharesData[i]["4. close"])) //Get yesterdays prices
         }
       }else if(time >= closingTime){ //if market has closed for the day
         for(let i = 0; i < 7; i++){
-          prices.push(sharesData[i]["4. close"]) //get todays prices
+          prices.push(parseFloat(sharesData[i]["4. close"])) //get todays prices
         }
       }else if(time < closingTime){ //if market is open
         const priceIntervals = latestHour - 8; //Calculate how many prices intervals there are
         for(let i = 0; i < priceIntervals; i++){
-          prices.push(sharesData[i]["4. close"]); //get prices
+          prices.push(parseFloat(sharesData[i]["4. close"])); //get prices
         }
       }
       return prices;
@@ -141,7 +130,7 @@ export default {
       const sharesData = Object.values(doc["Time Series (Daily)"])
 
       for(let i = 0; i < numberOfDays; i++){
-        prices.push(sharesData[i]["4. close"]);
+        prices.push(parseFloat(sharesData[i]["4. close"]));
       }
       return prices;
     })
