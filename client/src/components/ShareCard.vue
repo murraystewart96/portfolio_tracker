@@ -1,6 +1,6 @@
 <template lang="html">
   <div class="share-chart-wrapper">
-    <h2>Share name | {{shareSelected.ticker}}</h2>
+    <h2>{{shareSelected.ticker}}</h2>
 
     <div class="share-info">
       <p>Current valuation: {{shareSelected.quantity*shareSelected.price}} </p>
@@ -37,7 +37,7 @@ export default {
     shareId: 0,
     shareSelected:{ }
   }},
-
+  
  mounted(){
 
 
