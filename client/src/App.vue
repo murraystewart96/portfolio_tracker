@@ -1,8 +1,9 @@
 <template>
   <div id="app">
     <h1>Portfolio Tracker</h1>
-    <!-- <portfolio-total :shares="shares"/>
-    <share-list :shares="shares"/> -->
+    <portfolio-total :shares="shares"/>
+    <share-list :shares="shares"/>
+    <share-chart/>
   </div>
 </template>
 
@@ -11,7 +12,7 @@
 import SharesService from "./services/ShareService.js"
 import portfolioTotal from  "./components/portfolioTotal"
 import shareList from  "./components/shareList"
-
+import pricesChart from "./components/myShareChart"
 
 export default {
   name: 'app',
@@ -22,11 +23,7 @@ export default {
 
     }
   },
-  components: {
-    'portfolio-total' : portfolioTotal,
-    'share-list' : shareList
 
-  },
   mounted(){
 
 
@@ -36,23 +33,23 @@ export default {
     //   SharesService.updateSharePrices(this.shares);
     // })
 
-    SharesService.getPricesDaily("AAPL")
-    .then(prices => console.log(, prices));
-
-    SharesService.getPricesIntraday("AAPL")
-    .then(prices => console.log("Intradaily Prices", prices));
+    // SharesService.getPricesDaily("AAPL")
+    // .then(prices => console.log( prices));
+    //
+    // SharesService.getPricesIntraday("AAPL")
+    // .then(prices => console.log("Intradaily Prices", prices));
 
   },
 
   methods: {
 
-
-
   },
 
   components: {
-
-  }
+    'portfolio-total' : portfolioTotal,
+    'share-list' : shareList,
+    'share-chart': pricesChart
+  },
 }
 </script>
 
