@@ -1,6 +1,7 @@
 <template>
   <div id="app">
     <h1>Portfolio Tracker</h1>
+    <p>{{this.shareValues}}</p>
     <portfolio-total :shares="shares"/>
     <share-list :shares="shares"/>
     <share-chart/>
@@ -34,7 +35,8 @@ export default {
         price: 20,
         quantity: 20
       }],
-      temp: null
+      temp: null,
+      shareValues: []
 
     }
   },
@@ -55,10 +57,17 @@ export default {
     // SharesService.getPricesIntraday("AAPL")
     // .then(prices => console.log("Intradaily Prices", prices));
 
+    this.getShareValues()
+
   },
 
   methods: {
-
+    getShareValues(){
+      this.shares.map(share => {
+        let res = (share.quantity * (parseInt(share.price)))
+          this.shareValues.push(res);
+      });
+    }
   },
 
   components: {
