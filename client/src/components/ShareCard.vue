@@ -13,7 +13,6 @@
       <canvas id="share-chart" width="400" height="400">
         <line-chart
           v-if="loaded"
-          :chartdata="chartdata"
           :options="options"
           :shareSelected="shareSelected"/>
         </canvas>
@@ -37,19 +36,16 @@ export default {
     return{
     loaded: false,
     shareId: 0,
-    // This is a dummy share selected to test "share-info div this would be from
-    //eventBus in the final app"
-    shareSelected:{ _id: "5e199937dc3127e9ea7607ae",
-    price: 310,
-    ticker: "AAPL",
-    name: "Apple Inc.",
-    exchange: "NASDAQ",
-    quantity: 30},
-  }}
-  ,
+    shareSelected:{ }
+  }},
 
-  async mounted(){
+ mounted(){
     this.shares = SharesService.getShares()
+
+    eventBus.$on('share-displayed', id => id === this.shareId)
+
+    this.shareSelected = this.shares.filter(share => share._id == share)
+
 
     this.loaded = false
     try {
@@ -59,8 +55,6 @@ export default {
       console.error(e);
     }
 
-    eventBus.$on('share-displayed', id => id === this.shareId);
-    this.shareSelected = shares.filter(share => share._id == share)
   },
 
   methods: {

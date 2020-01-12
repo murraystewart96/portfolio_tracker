@@ -11,10 +11,6 @@ export default {
   extends: Line,
 
   props: {
-    chartdata: {
-      type: Object,
-      default: null
-    },
     options: {
       type: Object,
       default: null
@@ -27,14 +23,15 @@ export default {
 
   data(){
     return{
-
+      chartdata: []
     }
   },
 
    mounted(){
     this.renderChart(this.chartdata)
 
-
+    SharesService.getPricesIntraday(this.shareSelected.ticker)
+    .then(data => {data = this.chartdata});
   }
 }
 

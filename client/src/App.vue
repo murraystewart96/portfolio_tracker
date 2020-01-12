@@ -1,17 +1,19 @@
 <template>
   <div id="app">
-    <link rel="stylesheet" type="text/css" href="./assets/style.css">
-    <h1>Portfolio Tracker</h1>
+    <h1 id="title">Portfolio Tracker</h1>
 
-    <portfolio-total :shares="shares"></portfolio-total>
+    <div class="portfolio-total">
+      <portfolio-total :shares="shares"></portfolio-total>
+    </div>
 
-    <aside class="sidebar">
+    <div class="share-list">
+      <h2>Your current shares</h2>
       <share-list :shares="shares"/>
-    </aside>
+    </div>
 
-    <main>
+    <div class="share-card">
       <share-card :shares="shares" />
-    </main>
+    </div>
 
   </div>
 </template>
@@ -81,23 +83,14 @@ export default {
     // })
 
 
-  },
-
-  methods: {
-
-
-
-  },
-
-  components: {
+  }
 
   }
-}
+
 </script>
 
 <style lang="css">
 #app {
-
   font-family: 'Avenir', Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
@@ -106,10 +99,48 @@ export default {
   margin-top: 60px;
 }
 
-aside{
-  align-content: flex-start;
-  float:
+#title {
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+}
+
+.share-card{
+  display: flex;
+  justify-content: flex-end;
+  align-items: flex-end;
 
 }
+
+.share-list{
+  width: auto;
+  position: fixed;
+  z-index: 1;
+  top: 20px;
+  left: 10px;
+  background: #eee;
+  overflow-x: hidden;
+  padding: 8px 0;
+  margin-top: 10px;
+  border: solid 3px #39CCCC;
+  padding: 20px;
+}
+
+.share-list button{
+  display: flex;
+  font-size: 17px;
+  justify-content: space-around;
+}
+
+.portfolio-total{
+  display: flex;
+  justify-content: space-between;
+  border: solid 3px #39CCCC;
+  width: auto;
+  position: absolute;
+  top: 30px;
+  right: 40px;
+}
+
 
 </style>
