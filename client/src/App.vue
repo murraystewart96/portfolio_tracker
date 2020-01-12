@@ -1,22 +1,23 @@
 <template>
   <div id="app">
     <h1>Portfolio Tracker</h1>
-    <portfolio-total :shares="shares"></portfolio-total>
-    <share-list :shares="shares"/>
+    <!-- <portfolio-total :shares="shares"/>
+    <share-list :shares="shares"/> -->
   </div>
 </template>
 
 <script>
 
 import SharesService from "./services/ShareService.js"
-import portfolioTotal from "@/components/portfolioTotal"
-import shareList from "./components/shareList"
+import portfolioTotal from  "./components/portfolioTotal"
+import shareList from  "./components/shareList"
 
 
 export default {
   name: 'app',
   data(){
     return {
+<<<<<<< HEAD
       shares: [{
       _id: "5e199937dc3127e9ea7607ae",
       ticker: "AAPL",
@@ -33,30 +34,45 @@ export default {
       quantity: 200,
       price: 30
     }]
+=======
+      shares: [],
+      temp: null
+>>>>>>> develop
 
     }
   },
   components: {
-    'portfolio-total': portfolioTotal,
+    'portfolio-total' : portfolioTotal,
     'share-list' : shareList
+
   },
   mounted(){
-    SharesService.getShares()
-    .then(data => {
-      this.shares = data;
-      // debugger;
-    })
-   }
-//,
-//
-//   methods: {
-//
-//   },
-//
-//   components: {
-//
-//   }
- }
+
+
+    // SharesService.getShares()
+    // .then(data => {
+    //   this.shares = data;
+    //   SharesService.updateSharePrices(this.shares);
+    // })
+
+    SharesService.getPricesDaily("AAPL")
+    .then(prices => console.log(, prices));
+
+    SharesService.getPricesIntraday("AAPL")
+    .then(prices => console.log("Intradaily Prices", prices));
+
+  },
+
+  methods: {
+
+
+
+  },
+
+  components: {
+
+  }
+}
 </script>
 
 <style>
