@@ -20,7 +20,10 @@ export default{
               '#36495d',
               '#36495d',
             ],
-            borderWidth: 3
+            borderWidth: 3,
+            borderCapStyle: 'round',
+            borderJoinStyle: 'miter',
+            
           }
         ],
       },
