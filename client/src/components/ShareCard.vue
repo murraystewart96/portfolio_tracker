@@ -10,6 +10,7 @@
     </div>
 
     <div class="chart-container">
+
       <shares-chart v-if="loaded" :data="chartData" type="line"/>
     </div>
 
@@ -48,7 +49,7 @@ export default {
   },
 
   methods: {
-
+    
   },
 
 }

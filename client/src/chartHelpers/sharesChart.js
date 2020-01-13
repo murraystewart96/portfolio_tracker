@@ -35,7 +35,8 @@ export default{
             }
           }]
         },
-        aspectRatio: 2.5
+        aspectRatio: 2.5,
+        fontColour: 'rgba(57, 204, 204, 1)'
       }
 
     }

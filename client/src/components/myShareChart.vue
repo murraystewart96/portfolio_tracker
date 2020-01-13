@@ -21,7 +21,11 @@ export default {
     console.log(this.type)
     this.chartData = SharesChart.formatChartData(["Mon", "Tue", "Wed", "Thur", "Fri"], this.data, "Daily Prices", this.type);
     SharesChart.createChart('chart', this.chartData);
-  }
+
+  },
+
+
+
 }
 
 
