@@ -8,11 +8,12 @@
 import Chart from 'chart.js'
 import SharesService from "@/services/ShareService.js"
 import SharesChart from "@/chartHelpers/sharesChart.js"
-import {eventBus} from '@/main.js'
+import { eventBus } from '../main.js';
+
 
 export default {
-  name: "prices-chart",
-  props: ['data', 'type'],
+  name: "chart",
+  props: ['chartInfo', 'type'],
   data(){
     return {
       chartData: null
@@ -36,16 +37,19 @@ export default {
 
   mounted(){
     console.log(this.type)
-    this.chartData = SharesChart.formatChartData(["Mon", "Tue", "Wed", "Thur", "Fri"], this.data, "Daily Prices", this.type);
-    SharesChart.createChart('chart', this.chartData);
+    this.renderChart();
 
-    isUpTrending(this.data)
-
-    eventBus.$emit('up-trend',upTrend)
+    eventBus.$on('re-render-chart', () => {
+      console.log("RERENDER");
+      this.renderChart();
+    })
   },
-
-
-
+  methods: {
+    renderChart(){
+      this.chartData = SharesChart.formatChartData(this.chartInfo.labels, this.chartInfo.data, this.chartInfo.label, this.type);
+      SharesChart.createChart('chart', this.chartData);
+    }
+  }
 }
 
 
