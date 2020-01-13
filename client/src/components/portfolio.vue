@@ -1,6 +1,6 @@
 <template lang="html">
 
-    <pie-chart v-if="loaded" :chartInfo="pieChartInfo" type="line"/>
+    <pie-chart v-if="loaded && destroy === false" :chartInfo="pieChartInfo" type="line"/>
 
 </template>
 
