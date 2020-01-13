@@ -3,7 +3,7 @@
 
     <div class="title">
 
-    <h1 id="title">Portfolio Watcher</h1>
+    <h1>Watch my Folio</h1>
     <img src="./assets/growth-icon2.png" alt="">
 
     </div>

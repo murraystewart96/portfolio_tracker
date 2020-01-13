@@ -27,6 +27,8 @@ export default {
         return upTrend = true;
       } else if (data[-1] < data[-2] && data [-2] < data[-3]) {
         return upTrend = false
+      } else{
+        return null;
       }
     }
 
