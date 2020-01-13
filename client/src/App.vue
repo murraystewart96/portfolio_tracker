@@ -137,7 +137,7 @@ export default {
 .share-list{
   width: auto;
   position: fixed;
-  top: 20px;
+  top: 120px;
   left: 10px;
   background: #eee;
   overflow-x: hidden;
@@ -158,7 +158,7 @@ export default {
   border: solid 3px #39CCCC;
   width: auto;
   position: absolute;
-  top: 30px;
+  top: 125px;
   right: 40px;
   background: #eee;
   padding: 10px;

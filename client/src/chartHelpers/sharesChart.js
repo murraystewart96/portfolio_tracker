@@ -8,16 +8,8 @@ export default{
           {
             label: y_label,
             data: chartData,
-            backgroundColor: [
-              'rgba(54,73,93,.5)', // Blue
-              'rgba(54,73,93,.5)',
-              'rgba(54,73,93,.5)',
-              'rgba(54,73,93,.5)',
-              'rgba(54,73,93,.5)',
-              'rgba(54,73,93,.5)',
-              'rgba(54,73,93,.5)',
-              'rgba(54,73,93,.5)'
-            ],
+            fill:false,
+            backgroundColor: 'rgba(57, 204, 204, 1)',
             borderColor: [
               '#36495d',
               '#36495d',
