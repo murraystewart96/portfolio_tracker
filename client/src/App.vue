@@ -13,20 +13,17 @@
           <share-list :shares="shares"/>
       </div>
 
+
+
       <div class="share-card">
-        <portfolio-pie-chart v-if="displayPieChart" :chartInfo="pieChartInfo" type="pie"/>
-        <share-card v-else-if="displayShareCard" :share="selectedShare"/>
+        <portfolio-info :shares="shares" :destroy="destroyPieChart"/>
+        <share-card v-if="displayShareCard" :share="selectedShare"/>
       </div>
 
       <div class="portfolio-total">
         <portfolio-total :shares="shares"></portfolio-total>
       </div>
-
-    <div class="share-card">
-      <portfolio-info :shares="shares" :destroy="destroyPieChart"/>
-      <share-card v-if="displayShareCard" :share="selectedShare"/>
     </div>
-        </div>
   </div>
 
 </template>

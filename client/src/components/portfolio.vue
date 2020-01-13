@@ -1,7 +1,7 @@
 <template lang="html">
-  <div class="share-card">
+
     <pie-chart v-if="loaded" :chartInfo="pieChartInfo" type="line"/>
-  </div>
+
 </template>
 
 <script>
