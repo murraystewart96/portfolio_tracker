@@ -26,9 +26,6 @@ import { eventBus } from '../main.js';
 
 export default {
   name: 'share-card',
-  components: {
-    'shares-chart': Chart,
-  },
 
   components: {'shares-chart': Chart},
   props: ['share'],
@@ -47,7 +44,7 @@ export default {
     share: function(){
       this.getPricesDaily()
       .then(() => {
-        eventBus.$emit('re-render-chart');
+        eventBus.$emit('re-render-chart', this.chartInfo);
       })
     }
   },
@@ -59,7 +56,8 @@ export default {
         const newData = {
           data: prices,
           labels: ["Mon", "Tue", "Wed", "Thur", "Fri"],
-          label: "Daily Prices"
+          label: "Daily Prices",
+          type: "line"
         }
         this.chartInfo = newData
         console.log("CHART INFO CHANGED");

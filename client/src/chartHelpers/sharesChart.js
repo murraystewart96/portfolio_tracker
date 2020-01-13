@@ -44,7 +44,7 @@ export default{
 
   createChart(chartId, chartData){
     const ctx = document.getElementById(chartId);
-    const myChart = new Chart(ctx, {
+    return new Chart(ctx, {
       type: chartData.type,
       data: chartData.data,
       options: chartData.options

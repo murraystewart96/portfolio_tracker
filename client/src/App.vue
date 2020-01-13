@@ -12,7 +12,7 @@
     </div>
 
     <div class="share-card">
-      <portfolio-pie-chart v-if="displayPieChart" :chartInfo="pieChartInfo" type="pie"/>
+      <portfolio-info :shares="shares" :destroy="destroyPieChart"/>
       <share-card v-if="displayShareCard" :share="selectedShare"/>
     </div>
 
@@ -22,6 +22,7 @@
 <script>
 import SharesService from "./services/ShareService.js"
 import portfolioTotal from  "./components/portfolioTotal"
+import Portfolio from "./components/portfolio"
 import shareList from  "./components/shareList"
 import Chart from "./components/myShareChart"
 import { eventBus } from './main.js';
@@ -75,22 +76,14 @@ export default {
 
       selectedShare:null,
       displayShareCard: false,
-      displayPieChart: false,
+      destroyPieChart: false,
       shareValues: [],
 
-      pieChartInfo: {
-        data: null,
-        labels: [],
-        label: null
-      },
+      pieChartInfo: {}
     }
   },
 
-  // watch: {
-  //   selectedShare: function(){
-  //     this.getPricesDaily();
-  //   }
-  // },
+
 
   mounted(){
 
@@ -109,34 +102,24 @@ export default {
     // .then(prices => console.log("Intradaily Prices", prices));
     eventBus.$on("display-share", (share) => {
       this.selectedShare = share;
-      this.displayPieChart = false;
+      this.destroyPieChart = true;
       this.displayShareCard = true;
     })
 
-    this.getShareValues()
 
   },
 
   methods: {
-    getShareValues(){
-      this.shares.map(share => {
-        let res = (share.quantity * (parseInt(share.price)))
-          this.shareValues.push(res);
-          this.pieChartInfo.labels.push(share.ticker);
-      });
-      this.pieChartInfo.data = this.shareValues;
-      this.pieChartInfo.label = "Portfolio Compisition";
-      this.displayPieChart = true;
-    },
+
   },
 
   components: {
     'portfolio-total' : portfolioTotal,
     'share-list' : shareList,
     'portfolio-pie-chart': Chart,
-    'share-card' : shareCard
-
-  },
+    'share-card' : shareCard,
+    'portfolio-info': Portfolio
+    }
 }
 </script>
 

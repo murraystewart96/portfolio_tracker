@@ -13,25 +13,36 @@ import { eventBus } from '../main.js';
 
 export default {
   name: "chart",
-  props: ['chartInfo', 'type'],
+  props: ['chartInfo'],
   data(){
     return {
+      chart: null,
       chartData: null
     }
   },
   mounted(){
-    console.log(this.type)
+    if(this.chart) this.destroyChart();
     this.renderChart();
 
     eventBus.$on('re-render-chart', () => {
-      console.log("RERENDER");
+      this.destroyChart();
       this.renderChart();
     })
+
+    eventBus.$on('destroy-chart', () => {
+      console.log("YAAAAAASSSSS");
+      this.destroyChart();
+    })
   },
+
   methods: {
     renderChart(){
-      this.chartData = SharesChart.formatChartData(this.chartInfo.labels, this.chartInfo.data, this.chartInfo.label, this.type);
-      SharesChart.createChart('chart', this.chartData);
+      this.chartData = SharesChart.formatChartData(this.chartInfo.labels, this.chartInfo.data, this.chartInfo.label, this.chartInfo.type);
+      this.chart = SharesChart.createChart('chart', this.chartData);
+    },
+    destroyChart(){
+      console.log("destroyed");
+      this.chart.destroy();
     }
   }
 }
