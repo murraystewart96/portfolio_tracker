@@ -43,7 +43,7 @@ export default {
 
   watch: {
     share: function(){
-      this.getPricesDaily()
+      this.getPricesMonth()
       .then(() => {
         eventBus.$emit('re-render-chart', this.chartInfo);
       })
@@ -60,6 +60,42 @@ export default {
           label: "Daily Prices",
           type: "line"
         }
+        this.chartInfo = newData;
+        console.log("CHART INFO CHANGED");
+        this.loaded = true
+      })
+    },
+
+    getPricesIntraday(){
+      return SharesService.getPricesIntraday(this.share.ticker)
+      .then((prices) => {
+        const newData = {
+          data: prices,
+          labels: ["9:30", "10:30", "11:30", "12:30", "13:30", "14:30", "15:30"],
+          label: "Prices During Day",
+          type: "line"
+        }
+        this.chartInfo = newData
+        console.log("CHART INFO CHANGED");
+        this.loaded = true
+      })
+    },
+
+    getPricesMonth(){
+      return SharesService.getPricesMonth(this.share.ticker)
+      .then((data) => {
+
+        // let labels = [];
+        // for(let i = prices.length -1; i >= 0; i--){
+        //   labels.unshift(i+1);
+        // }
+
+        const newData = {
+          data: data.prices,
+          labels: data.labels,
+          label: "Prices During Month",
+          type: "line"
+        }
         this.chartInfo = newData
         console.log("CHART INFO CHANGED");
         this.loaded = true
@@ -68,7 +104,9 @@ export default {
   },
 
   mounted(){
-    this.getPricesDaily();
+    //this.getPricesDaily();
+    //this.getPricesIntraday();
+    this.getPricesMonth();
 
     eventBus.$on('up-trend', upTrend => {
       this.upTrend = upTrend

@@ -33,7 +33,16 @@ const getCurrentTimestamp = function(){
   const date = year + '-' + (month) + '-' + day;
   const time = hour + ':' + mins + secs;
 
-  return date + " " + time;
+
+  return {
+    timestamp: date + " " + time,
+    date: date,
+    month: month,
+    day: day,
+    time: time,
+    hour: hour,
+
+  }
 }
 
 export default {
@@ -84,11 +93,10 @@ export default {
   getPricesIntraday(ticker){
 
     const currTimestamp = getCurrentTimestamp();
-    const day = currTimestamp.slice(8,10);
 
     let prices = [];
 
-    return fetch(baseURLext + intraDayQuery + ticker + intraDayParams60min + key1)
+    return fetch(baseURLext + intraDayQuery + ticker + intraDayParams60min + key2)
     .then(doc => doc.json())
     .then((doc) => {
       const latestTimestamp = doc["Meta Data"]["3. Last Refreshed"];
@@ -99,15 +107,15 @@ export default {
 
       const closingTime = "15:30:00"
 
-      if(day > latestDay){ //if market has not opened today
+      if(currTimestamp.day > latestDay){ //if market has not opened today
         for(let i = 0; i < 7; i++){
           prices.push(parseFloat(sharesData[i]["4. close"])) //Get yesterdays prices
         }
-      }else if(time >= closingTime){ //if market has closed for the day
+      }else if(currTimestamp.time >= closingTime){ //if market has closed for the day
         for(let i = 0; i < 7; i++){
           prices.push(parseFloat(sharesData[i]["4. close"])) //get todays prices
         }
-      }else if(time < closingTime){ //if market is open
+      }else if(currTimestamp.time < closingTime){ //if market is open
         const priceIntervals = latestHour - 8; //Calculate how many prices intervals there are
         for(let i = 0; i < priceIntervals; i++){
           prices.push(parseFloat(sharesData[i]["4. close"])); //get prices
@@ -133,6 +141,49 @@ export default {
         prices.push(parseFloat(sharesData[i]["4. close"]));
       }
       return prices;
+    })
+  },
+
+  getPricesMonth(ticker){
+    let prices = [];
+
+    const latestDate = new Date("2020-01-13 13:09:53");
+    console.log(latestDate.getMonth());
+
+    return fetch(baseURLext + dailyQuery + ticker + dailyParams + key1)
+    .then(doc => doc.json())
+    .then((doc) => {
+
+      const latestDate = new Date(doc["Meta Data"]["3. Last Refreshed"]);
+      let month = latestDate.getMonth();
+
+
+      const sharesData = Object.entries(doc["Time Series (Daily)"]);
+      console.log(sharesData);
+
+      let date = new Date(sharesData[0][0]);
+      console.log(date);
+      let counter = 0;
+
+      let labels = [];
+      while(month === date.getMonth()){
+        console.log(counter);
+        labels.unshift(date.getDate())
+        prices.push(parseFloat(sharesData[counter][1]["4. close"]));
+        counter++;
+        date = new Date(sharesData[counter][0]);
+      }
+
+      return {
+        prices: prices,
+        labels: labels
+      };
+
+
+      // for(let i = 0; i < numberOfDays; i++){
+      //   prices.push(parseFloat(sharesData[i]["4. close"]));
+      // }
+      // return prices;
     })
   }
 }

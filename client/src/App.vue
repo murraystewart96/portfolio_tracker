@@ -16,7 +16,7 @@
 
 
       <div class="share-card">
-        <portfolio-info v-if="displayPieChart":shares="shares" :destroy="destroyPieChart"/>
+        <portfolio-info :shares="shares" :destroy="destroyPieChart"/>
         <share-card v-if="displayShareCard" :share="selectedShare"/>
       </div>
 
@@ -97,7 +97,7 @@ export default {
 
   mounted(){
 
-
+    //SharesService.getPricesWeekly("AAPL").then(data => console.log(data));
     // SharesService.getShares()
     // .then(data => {
     //   this.shares = data;
@@ -113,7 +113,6 @@ export default {
     eventBus.$on("display-share", (share) => {
       this.selectedShare = share;
       this.destroyPieChart = true;
-      this.displayPieChart = false;
       this.displayShareCard = true;
     })
 
