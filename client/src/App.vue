@@ -1,7 +1,7 @@
 <template>
   <div id="app">
     <h1 id="title">Portfolio Tracker</h1>
-
+    <p>{{this.shareValues}}</p>
     <div class="portfolio-total">
       <portfolio-total :shares="shares"></portfolio-total>
     </div>
@@ -36,6 +36,7 @@ export default {
       ticker: "AAPL",
       name: "Apple Inc.",
       exchange: "NASDAQ",
+      price: 10,
       quantity: 30
     },
     {
@@ -43,6 +44,7 @@ export default {
       ticker: "GOOGL",
       name: "Alphabet Inc.",
       exchange: "NASDAQ",
+      price: 30,
       quantity: 20
     },
     {
@@ -50,13 +52,15 @@ export default {
       ticker: "ATVI",
       name: "Activision Blizzard Inc.",
       exchange: "NASDAQ",
-      quantity: "50"
+      price: 40,
+      quantity: 50
     },
     {
       _id: "5e1999eadc3127e9ea7607b1",
       ticker: "AMZN",
       name: "Amazon.com Inc.",
       exchange: "NASDAQ",
+      price: 100,
       quantity: 40
     },
     {
@@ -64,12 +68,14 @@ export default {
       ticker: "NVDA",
       name: "NVIDIA Corporation",
       exchange: "NASDAQ",
+      price: 20,
       quantity: 40
     }],
 
     selectedShare:null,
     displayShareCard: false,
-    dipslayPieChart: true
+    dipslayPieChart: true,
+    shareValues: []
 
     }
   },
@@ -94,10 +100,17 @@ export default {
       this.displayPieChart = false;
     })
 
+    this.getShareValues()
+
   },
 
   methods: {
-
+    getShareValues(){
+      this.shares.map(share => {
+        let res = (share.quantity * (parseInt(share.price)))
+          this.shareValues.push(res);
+      });
+    }
   },
 
   components: {
