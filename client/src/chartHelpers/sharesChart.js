@@ -20,7 +20,10 @@ export default{
               '#36495d',
               '#36495d',
             ],
-            borderWidth: 3
+            borderWidth: 3,
+            borderCapStyle: 'round',
+            borderJoinStyle: 'miter',
+            
           }
         ],
       },
@@ -34,7 +37,9 @@ export default{
                 padding: 25,
             }
           }]
-        }
+        },
+        aspectRatio: 2.5,
+        fontColour: 'rgba(57, 204, 204, 1)'
       }
 
     }

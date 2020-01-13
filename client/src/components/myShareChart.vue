@@ -16,10 +16,30 @@ export default {
   props: ['chartInfo'],
   data(){
     return {
+<<<<<<< HEAD
       chart: null,
       chartData: null
+=======
+      chartData: null,
+>>>>>>> develop
     }
   },
+
+  methods: {
+
+    isUpTrending(data){
+      let upTrend;
+      if (data[-1] > data[-2] && data[-2] > data[-3]){
+        return  upTrend = true;
+      } else if (data[-1] < data[-2] && data [-2] < data[-3]) {
+        return upTrend = false
+      } else{
+        return upTrend = null;
+      }
+    }
+
+  },
+
   mounted(){
     if(this.chart) this.destroyChart();
     this.renderChart();
@@ -27,6 +47,9 @@ export default {
     eventBus.$on('re-render-chart', () => {
       this.destroyChart();
       this.renderChart();
+
+      const upTrend = isUpTrending(this.ChartInfo.data)
+      eventBus.$emit('up-trend', upTrend)
     })
 
     eventBus.$on('destroy-chart', () => {
@@ -53,4 +76,10 @@ export default {
 </script>
 
 <style lang="css" scoped>
+
+  #chart{
+    height: 300px;
+    width: 600px;
+  }
+
 </style>

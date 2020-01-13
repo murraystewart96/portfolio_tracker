@@ -6,7 +6,7 @@
       <p>Current valuation: {{share.quantity*share.price}} </p>
       <p>Exchange: {{share.exchange}} </p>
       <p>Number of shares: {{share.quantity}} </p>
-      <p>Share price: {{share.price}} </p>
+      <p v-bind:style="[upTrend ? {'color' : 'green'}: {'colour' :'red'}]"> Share price: ${{share.price}} </p>
     </div>
 
     <div class="chart-container">
@@ -36,8 +36,9 @@ export default {
     chartInfo: {
       data: null,
       labels: [],
-      label: null
-    }
+      label: null,
+    },
+    upTrend: true
   }},
 
   watch: {
@@ -68,10 +69,19 @@ export default {
 
   mounted(){
     this.getPricesDaily();
+
+    eventBus.$on('up-trend', upTrend => {
+      this.upTrend = upTrend
+    })
   }
 
 }
 </script>
 
 <style lang="css" scoped>
+
+.chart-container {
+  height: 300px;
+}
+
 </style>

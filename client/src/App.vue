@@ -1,22 +1,36 @@
 <template>
   <div id="app">
+
+  <div class="title">
     <h1 id="title">Portfolio Tracker</h1>
-    <p>{{this.shareValues}}</p>
-    <div class="portfolio-total">
-      <portfolio-total :shares="shares"></portfolio-total>
-    </div>
+    <img src="@/assets/growth-icon2.png" alt="">
+  </div>
 
-    <div class="share-list">
-      <h2>Your current shares</h2>
-      <share-list :shares="shares"/>
-    </div>
+    <div class="main-content">
 
+      <div class="share-list">
+          <h2>Your current shares</h2>
+          <share-list :shares="shares"/>
+      </div>
+
+      <div class="share-card">
+        <portfolio-pie-chart v-if="displayPieChart" :chartInfo="pieChartInfo" type="pie"/>
+        <share-card v-else-if="displayShareCard" :share="selectedShare"/>
+      </div>
+
+      <div class="portfolio-total">
+        <portfolio-total :shares="shares"></portfolio-total>
+      </div>
+
+<<<<<<< HEAD
     <div class="share-card">
       <portfolio-info :shares="shares" :destroy="destroyPieChart"/>
       <share-card v-if="displayShareCard" :share="selectedShare"/>
+=======
+>>>>>>> develop
     </div>
+        </div>
 
-  </div>
 </template>
 
 <script>
@@ -124,6 +138,11 @@ export default {
 </script>
 
 <style lang="css">
+@font-face {
+font-family: "Quicksand";
+src: url("./assets/Quicksand.ttf");
+}
+
 #app {
   font-family: 'Avenir', Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
@@ -133,23 +152,34 @@ export default {
   margin-top: 60px;
 }
 
-#title {
+.title {
   display: flex;
   align-items: flex-start;
   justify-content: center;
+  font-family: Quicksand;
 }
 
+  img{
+    width: 50px;
+    height: 50px;
+    position: relative;
+    left: 10px;
+    top: 6px;
+  }
+
 .share-card{
+  font-family: Quicksand;
   display: flex;
   justify-content: space-around;
   align-items: flex-end;
   border: solid 3px #39CCCC;
   align-items: baseline;
+  width: 850px;
 }
 
 .share-list{
   width: auto;
-  position: fixed;
+  font-family: Quicksand;
   top: 120px;
   left: 10px;
   background: #eee;
@@ -167,15 +197,24 @@ export default {
 }
 
 .portfolio-total{
-  justify-content: space-between;
+  justify-content: space-around;
   border: solid 3px #39CCCC;
   width: auto;
-  position: absolute;
+  font-family: Quicksand;
   top: 125px;
   right: 40px;
   background: #eee;
   padding: 10px;
+  height: 150px;
 }
 
+.share-card p{
+  font-family: Quicksand;
+}
+
+.main-content {
+  display: flex;
+  justify-content: space-between;
+}
 
 </style>
