@@ -1,6 +1,7 @@
+use shares_portfolio;
 
-
-const seedData = [
+db.dropDatabase();
+db.shares.insertMany([
   {
   _id: "5e199937dc3127e9ea7607ae",
   ticker: "AAPL",
@@ -36,4 +37,4 @@ const seedData = [
   exchange: "NASDAQ",
   quantity: 40
 }
-]
+])
