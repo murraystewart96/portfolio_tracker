@@ -22,7 +22,7 @@
 import pricesChart from "./myShareChart"
 import SharesChart from "@/chartHelpers/sharesChart.js"
 import SharesService from "../services/ShareService.js"
-
+import {eventBus} from '@/main.js'
 
 export default {
   name: 'share-card',
@@ -36,7 +36,8 @@ export default {
   data(){
     return{
     loaded: false,
-    chartData: null
+    chartData: null,
+    upTrend: true,
   }},
 
   mounted(){
@@ -46,10 +47,14 @@ export default {
       this.loaded = true
       this.chartData = prices;
     })
+
+    eventBus.$on('up-trend',upTrend => {
+      upTrend = this.upTrend
+    })
   },
 
   methods: {
-    
+
   },
 
 }

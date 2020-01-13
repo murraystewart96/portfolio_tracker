@@ -147,7 +147,7 @@ src: url("./assets/Quicksand.ttf");
     height: 50px;
     position: relative;
     left: 10px;
-    top: 10px;
+    top: 6px;
   }
 
 .share-card{
