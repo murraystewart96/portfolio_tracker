@@ -48,6 +48,8 @@ export default {
     destroyChart(){
       console.log("destroyed");
       this.chart.destroy();
+      this.chart = null;
+      this.chartData = null;
     },
 
     isUpTrending(data){

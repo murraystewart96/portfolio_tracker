@@ -1,6 +1,6 @@
 <template lang="html">
 
-    <pie-chart v-if="loaded && destroy === false" :chartInfo="pieChartInfo" type="line"/>
+    <pie-chart v-if="loaded" :chartInfo="pieChartInfo" type="line"/>
 
 </template>
 
@@ -29,6 +29,7 @@ export default {
   watch: {
     destroy: function(){
       eventBus.$emit('destroy-chart');
+      this.loaded = false;
     }
   },
 
@@ -38,23 +39,24 @@ export default {
 
   methods: {
     getShareValues(){
+      if (!this.destroy) {
+        let labels = []
 
-      let labels = []
-
-      this.shares.map(share => {
-        let res = (share.quantity * (parseInt(share.price)))
-          this.shareValues.push(res);
-          labels.push(share.ticker);
-      });
-      const newData = {
-        data: this.shareValues,
-        labels: labels,
-        label: "Portfolio Compisition",
-        type: 'pie'
+        this.shares.map(share => {
+          let res = (share.quantity * (parseInt(share.price)))
+            this.shareValues.push(res);
+            labels.push(share.ticker);
+        });
+        const newData = {
+          data: this.shareValues,
+          labels: labels,
+          label: "Portfolio Compisition",
+          type: 'pie'
+        }
+        this.pieChartInfo = newData;
+        this.loaded = true;
       }
-      this.pieChartInfo = newData;
-      this.loaded = true;
-    },
+    }
   },
 
   components: {
