@@ -21,21 +21,6 @@ export default {
     }
   },
 
-  methods: {
-
-    isUpTrending(data){
-      let upTrend;
-      if (data[-1] > data[-2] && data[-2] > data[-3]){
-        return  upTrend = true;
-      } else if (data[-1] < data[-2] && data [-2] < data[-3]) {
-        return upTrend = false
-      } else{
-        return upTrend = null;
-      }
-    }
-
-  },
-
   mounted(){
     if(this.chart) this.destroyChart();
     this.renderChart();
@@ -44,7 +29,7 @@ export default {
       this.destroyChart();
       this.renderChart();
 
-      const upTrend = isUpTrending(this.ChartInfo.data)
+      const upTrend = this.isUpTrending(this.chartInfo.data)
       eventBus.$emit('up-trend', upTrend)
     })
 
@@ -62,6 +47,17 @@ export default {
     destroyChart(){
       console.log("destroyed");
       this.chart.destroy();
+    },
+
+    isUpTrending(data){
+      let upTrend;
+      if (data[-1] > data[-2] && data[-2] > data[-3]){
+        return  upTrend = true;
+      } else if (data[-1] < data[-2] && data [-2] < data[-3]) {
+        return upTrend = false
+      } else{
+        return upTrend = null;
+      }
     }
   }
 }
