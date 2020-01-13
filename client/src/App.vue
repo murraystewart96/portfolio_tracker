@@ -22,14 +22,12 @@
         <portfolio-total :shares="shares"></portfolio-total>
       </div>
 
-<<<<<<< HEAD
     <div class="share-card">
       <portfolio-info :shares="shares" :destroy="destroyPieChart"/>
       <share-card v-if="displayShareCard" :share="selectedShare"/>
-=======
->>>>>>> develop
     </div>
         </div>
+  </div>
 
 </template>
 

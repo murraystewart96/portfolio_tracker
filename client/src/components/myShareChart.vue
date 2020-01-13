@@ -16,12 +16,8 @@ export default {
   props: ['chartInfo'],
   data(){
     return {
-<<<<<<< HEAD
       chart: null,
       chartData: null
-=======
-      chartData: null,
->>>>>>> develop
     }
   },
 
