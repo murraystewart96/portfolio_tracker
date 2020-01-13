@@ -39,8 +39,9 @@ export default {
     chartInfo: {
       data: null,
       labels: [],
-      label: null
-    }
+      label: null,
+    },
+    upTrend: true
   }},
 
   watch: {
@@ -70,6 +71,10 @@ export default {
 
   mounted(){
     this.getPricesDaily();
+
+    eventBus.$on('up-trend', upTrend => {
+      this.upTrend = upTrend
+    })
   }
 
 }

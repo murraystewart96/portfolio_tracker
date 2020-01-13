@@ -16,7 +16,7 @@ export default {
   props: ['chartInfo', 'type'],
   data(){
     return {
-      chartData: null
+      chartData: null,
     }
   },
 
@@ -25,11 +25,11 @@ export default {
     isUpTrending(data){
       let upTrend;
       if (data[-1] > data[-2] && data[-2] > data[-3]){
-        return upTrend = true;
+        return  upTrend = true;
       } else if (data[-1] < data[-2] && data [-2] < data[-3]) {
         return upTrend = false
       } else{
-        return null;
+        return upTrend = null;
       }
     }
 
@@ -42,6 +42,9 @@ export default {
     eventBus.$on('re-render-chart', () => {
       console.log("RERENDER");
       this.renderChart();
+
+      const upTrend = isUpTrending(this.ChartInfo.data)
+      eventBus.$emit('up-trend', upTrend)
     })
   },
   methods: {
