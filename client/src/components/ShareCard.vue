@@ -10,7 +10,7 @@
     </div>
 
     <div class="chart-container">
-      <shares-chart v-if="loaded" :data="chartData" type="line"/>
+      <shares-chart v-if="loaded" :chartInfo="chartInfo" type="line"/>
     </div>
 
   </div>
@@ -18,38 +18,59 @@
 
 <script>
 // import ShareService from '../services/ShareService.js'
-import pricesChart from "./myShareChart"
+import Chart from "./myShareChart"
 import SharesChart from "@/chartHelpers/sharesChart.js"
 import SharesService from "../services/ShareService.js"
+import { eventBus } from '../main.js';
 
 
 export default {
   name: 'share-card',
   components: {
-    'shares-chart': pricesChart,
+    'shares-chart': Chart,
   },
 
-  components: {'shares-chart': pricesChart},
+  components: {'shares-chart': Chart},
   props: ['share'],
 
   data(){
     return{
     loaded: false,
-    chartData: null
+    chartInfo: {
+      data: null,
+      labels: [],
+      label: null
+    }
   }},
 
-  mounted(){
-    SharesService.getPricesDaily(this.share.ticker)
-    .then((prices) => {
-      console.log(prices);
-      this.loaded = true
-      this.chartData = prices;
-    })
+  watch: {
+    share: function(){
+      this.getPricesDaily()
+      .then(() => {
+        eventBus.$emit('re-render-chart');
+      })
+    }
   },
 
   methods: {
-
+    getPricesDaily(){
+      return SharesService.getPricesDaily(this.share.ticker)
+      .then((prices) => {
+        const newData = {
+          data: prices,
+          labels: ["Mon", "Tue", "Wed", "Thur", "Fri"],
+          label: "Daily Prices"
+        }
+        this.chartInfo = newData
+        console.log("CHART INFO CHANGED");
+        this.loaded = true
+      })
+    }
   },
+
+  mounted(){
+    this.getPricesDaily();
+  }
 
 }
 </script>

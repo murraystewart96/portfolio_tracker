@@ -12,7 +12,8 @@
     </div>
 
     <div class="share-card">
-      <share-card :share="selectedShare" v-if="displayShareCard" />
+      <portfolio-pie-chart v-if="displayPieChart" :chartInfo="pieChartInfo" type="pie"/>
+      <share-card v-if="displayShareCard" :share="selectedShare"/>
     </div>
 
   </div>
@@ -22,7 +23,7 @@
 import SharesService from "./services/ShareService.js"
 import portfolioTotal from  "./components/portfolioTotal"
 import shareList from  "./components/shareList"
-import pricesChart from "./components/myShareChart"
+import Chart from "./components/myShareChart"
 import { eventBus } from './main.js';
 import shareCard from "./components/ShareCard"
 
@@ -72,13 +73,25 @@ export default {
       quantity: 40
     }],
 
-    selectedShare:null,
-    displayShareCard: false,
-    dipslayPieChart: true,
-    shareValues: []
+      selectedShare:null,
+      displayShareCard: false,
+      displayPieChart: false,
+      shareValues: [],
 
+      pieChartInfo: {
+        data: null,
+        labels: [],
+        label: null
+      },
     }
   },
+
+  // watch: {
+  //   selectedShare: function(){
+  //     this.getPricesDaily();
+  //   }
+  // },
+
   mounted(){
 
 
@@ -96,8 +109,8 @@ export default {
     // .then(prices => console.log("Intradaily Prices", prices));
     eventBus.$on("display-share", (share) => {
       this.selectedShare = share;
-      this.displayShareCard = true;
       this.displayPieChart = false;
+      this.displayShareCard = true;
     })
 
     this.getShareValues()
@@ -109,14 +122,18 @@ export default {
       this.shares.map(share => {
         let res = (share.quantity * (parseInt(share.price)))
           this.shareValues.push(res);
+          this.pieChartInfo.labels.push(share.ticker);
       });
-    }
+      this.pieChartInfo.data = this.shareValues;
+      this.pieChartInfo.label = "Portfolio Compisition";
+      this.displayPieChart = true;
+    },
   },
 
   components: {
     'portfolio-total' : portfolioTotal,
     'share-list' : shareList,
-    'shares-chart': pricesChart,
+    'portfolio-pie-chart': Chart,
     'share-card' : shareCard
 
   },
