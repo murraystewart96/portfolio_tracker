@@ -18,6 +18,7 @@ export default {
   },
   computed: {
     total: function() {
+      this.totalValue = 0;
       for (const share of this.shares) {
         let value = (parseInt(share.price)) * share.quantity;
          this.totalValue += value;

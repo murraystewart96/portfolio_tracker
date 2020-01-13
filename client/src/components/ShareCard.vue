@@ -13,11 +13,34 @@
       <shares-chart v-if="loaded" :data="chartData" type="line"/>
     </div>
 
+    <div class="buttons">
+      <form id="add-shares" v-on:submit.prevent="handleAddShares(share._id)">
+      		<div class="formWrap">
+      			<label for="add">Shares:</label>
+      			<input min="0.0" step="1.0" type="number" required v-model="add" placeholder="Enter number "/>
+      		</div>
+          <input type="submit" value="Add Shares" id="add"/>
+
+      </form>
+
+      <br/>
+      <br/>
+
+      <form id="remove-shares" v-on:submit.prevent="handleRemoveShares(share._id)">
+      		<div class="formWrap">
+      			<label for="remove">|   Shares:</label>
+      			<input min="0.0" step="1.0" type="number" required v-model="remove" placeholder="Enter number "/>
+      		</div>
+          <input type="submit" value="Remove Shares" id="remove"/>
+      </form>
+
+    </div>
+
   </div>
 </template>
 
 <script>
-// import ShareService from '../services/ShareService.js'
+import {eventBus} from '../main.js'
 import pricesChart from "./myShareChart"
 import SharesChart from "@/chartHelpers/sharesChart.js"
 import SharesService from "../services/ShareService.js"
@@ -35,7 +58,9 @@ export default {
   data(){
     return{
     loaded: false,
-    chartData: null
+    chartData: null,
+    add: 0,
+    remove: 0
   }},
 
   mounted(){
@@ -44,15 +69,55 @@ export default {
       console.log(prices);
       this.loaded = true
       this.chartData = prices;
+      form.reset()
     })
   },
 
   methods: {
-
+    handleAddShares(id){
+      this.share.quantity += parseFloat(this.add)
+      SharesService.update(id)
+      eventBus.$emit('booking-updated', this.share)
+      this.add = 0;
   },
+  handleRemoveShares(id){
+    this.share.quantity -= parseFloat(this.remove)
+    SharesService.update(id)
+    eventBus.$emit('booking-updated', this.share)
+      this.remove = 0;
+}
+}
 
 }
 </script>
 
 <style lang="css" scoped>
+.buttons {
+  display: flex;
+  padding: 10px;
+  font-size: 0.75em;
+  justify-content: space-between;
+  align-content: space-between;
+}
+
+#add-shares {
+  padding: 10px;
+}
+
+#remove-shares {
+  padding: 10px;
+}
+
+#remove {
+  display: flex;
+  align-items: flex-end;
+  margin: 5px;
+}
+
+#add {
+  display: flex;
+  align-items: flex-end;
+  margin: 5px;
+}
+
 </style>

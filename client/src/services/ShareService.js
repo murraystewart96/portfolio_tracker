@@ -1,4 +1,4 @@
-const baseURLint = "http://localhost:3000/api/shares"
+const baseURLint = "http://localhost:3000/api/shares/"
 const baseURLext = "https://www.alphavantage.co/query?function=";
 
 const intraDayQuery = "TIME_SERIES_INTRADAY&symbol=";
@@ -134,5 +134,16 @@ export default {
       }
       return prices;
     })
+  },
+
+  update(id, payload){
+    return fetch(baseURLint + id, {
+      method: 'PUT',
+      body: JSON.stringify(payload),
+      headers: {'Content-Type': 'application/json'}
+    })
+    .then(res => res.json())
   }
+
+
 }
