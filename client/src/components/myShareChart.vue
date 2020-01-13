@@ -30,4 +30,10 @@ export default {
 </script>
 
 <style lang="css" scoped>
+
+  #chart{
+    height: 300px;
+    width: 600px;
+  }
+
 </style>

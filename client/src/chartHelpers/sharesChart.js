@@ -34,7 +34,8 @@ export default{
                 padding: 25,
             }
           }]
-        }
+        },
+        aspectRatio: 2.5
       }
 
     }

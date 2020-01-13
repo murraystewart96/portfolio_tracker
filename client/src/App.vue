@@ -3,7 +3,7 @@
 
     <div class="title">
 
-    <h1 id="title">Portfolio Tracker</h1>
+    <h1 id="title">Portfolio Watcher</h1>
     <img src="./assets/growth-icon2.png" alt="">
 
     </div>
@@ -188,6 +188,11 @@ src: url("./assets/Quicksand.ttf");
   right: 40px;
   background: #eee;
   padding: 10px;
+  height: 150px;
+}
+
+.share-card p{
+  font-family: Quicksand;
 }
 
 .main-content {

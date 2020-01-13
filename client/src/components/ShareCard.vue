@@ -56,6 +56,8 @@ export default {
 
 <style lang="css" scoped>
 
-  
+.chart-container {
+  height: 300px;
+}
 
 </style>
