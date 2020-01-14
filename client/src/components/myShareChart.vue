@@ -43,10 +43,10 @@ export default {
 
   methods: {
     renderChart(){
-      this.chartData = SharesChart.formatChartData(this.chartInfo.labels, this.chartInfo.data, this.chartInfo.label, this.chartInfo.type);
+      this.chartData = SharesChart.formatChartData(this.chartInfo.labels, this.chartInfo.data, this.chartInfo.label, this.chartInfo.type, this.chartInfo.backgroundColor);
       this.chart = SharesChart.createChart('chart', this.chartData);
     },
-    
+
     destroyChart(){
       this.chart.destroy();
       this.chart = null;

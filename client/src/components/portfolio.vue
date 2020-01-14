@@ -25,6 +25,7 @@ export default {
         labels: [],
         label: null,
         backgroundColor: [],
+        type: ''
       },
 
     }},
@@ -85,7 +86,7 @@ export default {
     },
 
     components: {
-      'pie-chart': Chart,
+      'pie-chart': Chart
     }
 
   }
