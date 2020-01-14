@@ -68,19 +68,12 @@ export default {
 
         createPieColours(arrayOfShares){
           let colours = [];
-          let r;
-          let g;
-          let b;
-          let newColour;
-          arrayOfShares.forEach( (share) => {
-            r = Math.floor(Math.random() * 200);
-            g = Math.floor(Math.random() * 200);
-            b = Math.floor(Math.random() * 200);
-            newColour = 'rgba(' + `${r}` + ', ' + `${g}` + ', ' + `${b}`+ ')';
-            colours.push(newColour)
-          }
-        )
-        return colours
+          colours.push('rgba(232,226,226)')
+          colours.push('rgba(241,48,48)')
+          colours.push('rgba(48,145,241)')
+          colours.push('rgba(243,135,27)')
+          colours.push('rgba(55,147,55)')
+          return colours
       }
 
     },
