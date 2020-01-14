@@ -10,11 +10,12 @@
       <p>Exchange: {{share.exchange}} </p>
       <p>Number of shares: {{share.quantity}} </p>
       <p v-bind:style="[upTrend ? {'color' : 'green'}: {'colour' :'red'}]"> Share price: ${{share.price}} </p>
+
+      <button  v-on:click="handlePriceFunc('intraDay')">IntraDay Prices</button>
+        <button  v-on:click="handlePriceFunc('daily')">Daily Prices</button>
     </div>
 
     <div class="chart-container">
-      <button class="button" v-on:click="handlePriceFunc('intraDay')">IntraDay Prices</button>
-        <button class="button" v-on:click="handlePriceFunc('daily')">Daily Prices</button>
       <shares-chart v-if="loaded" :chartInfo="chartInfo" type="line"/>
     </div>
 
@@ -218,10 +219,6 @@ export default {
   align-content: space-between;
 }
 
-.button {
-
-}
-
 #add-shares {
   padding: 10px;
 }
@@ -256,8 +253,12 @@ export default {
 .share-chart{
   display: flex;
   align-items:baseline;
+}
 
-
+button {
+  height: auto;
+  width: 80px;
+  margin: 8px;
 }
 
 </style>
