@@ -3,6 +3,9 @@
 
   <div class="title">
     <h1 id="title">Portfolio Tracker</h1>
+    <!-- <div class="portfolio-total">
+      <portfolio-total :shares="shares"></portfolio-total>
+    </div> -->
     <img src="@/assets/growth-icon2.png" alt="">
   </div>
 
@@ -16,7 +19,7 @@
 
 
       <div class="share-card">
-        <portfolio-info :shares="shares" :destroy="destroyPieChart"/>
+        <portfolio-info v-if="sharesLoaded":shares="shares" :destroy="destroyPieChart"/>
         <share-card v-if="displayShareCard" :share="selectedShare"/>
       </div>
 
@@ -42,53 +45,13 @@ export default {
   name: 'app',
   data(){
     return {
-      shares: [{
-      _id: "5e199937dc3127e9ea7607ae",
-      ticker: "AAPL",
-      name: "Apple Inc.",
-      exchange: "NASDAQ",
-      price: 10,
-      quantity: 30
-    },
-    {
-      _id: "5e199985dc3127e9ea7607af",
-      ticker: "GOOGL",
-      name: "Alphabet Inc.",
-      exchange: "NASDAQ",
-      price: 30,
-      quantity: 20
-    },
-    {
-      _id: "5e1999bbdc3127e9ea7607b0",
-      ticker: "ATVI",
-      name: "Activision Blizzard Inc.",
-      exchange: "NASDAQ",
-      price: 40,
-      quantity: 50
-    },
-    {
-      _id: "5e1999eadc3127e9ea7607b1",
-      ticker: "AMZN",
-      name: "Amazon.com Inc.",
-      exchange: "NASDAQ",
-      price: 100,
-      quantity: 40
-    },
-    {
-      _id: "5e199a15dc3127e9ea7607b2",
-      ticker: "NVDA",
-      name: "NVIDIA Corporation",
-      exchange: "NASDAQ",
-      price: 20,
-      quantity: 40
-    }],
+      shares: [],
 
       selectedShare:null,
       displayShareCard: false,
       destroyPieChart: false,
-      displayPieChart: true,
       shareValues: [],
-
+      sharesLoaded: false,
       pieChartInfo: {}
     }
   },
@@ -97,30 +60,48 @@ export default {
 
   mounted(){
 
-    //SharesService.getPricesWeekly("AAPL").then(data => console.log(data));
-    // SharesService.getShares()
-    // .then(data => {
-    //   this.shares = data;
-    //   console.log(data);
-    //   SharesService.updateSharePrices(this.shares);
-    // })
 
-    // SharesService.getPricesDaily("AAPL")
-    // .then(prices => console.log( prices));
-    //
-    // SharesService.getPricesIntraday("AAPL")
-    // .then(prices => console.log("Intradaily Prices", prices));
+    SharesService.getShares()
+    .then(data => {
+      this.shares = data;
+      SharesService.updateSharePrices(this.shares)
+      .then(() => {
+        this.updateShares()
+        this.sharesLoaded = true;
+        SharesService.getShares()
+        .then((shares) =>
+        console.log("GETTING SHARES FROM DATABASE", shares));
+      })
+    })
+
+
+
+
+
     eventBus.$on("display-share", (share) => {
       this.selectedShare = share;
       this.destroyPieChart = true;
       this.displayShareCard = true;
     })
 
-
   },
 
   methods: {
+    updateShares(){
+      for(let i = 0; i < this.shares.length; i++){
+        const updatedShare = {
+          ticker: this.shares[i].ticker,
+          name: this.shares[i].name,
+          exchange: this.shares[i].exchange,
+          quantity: this.shares[i].quantity,
+          price: this.shares[i].price
+        }
+        console.log("UPDATED SHARE VALUE", updatedShare);
+        SharesService.update(this.shares[i]._id, updatedShare);
+      }
+      console.log("SHARES UPDATED");
 
+    }
   },
 
   components: {

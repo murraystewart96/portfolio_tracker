@@ -13,6 +13,29 @@
       <shares-chart v-if="loaded" :chartInfo="chartInfo" type="line"/>
     </div>
 
+    <div class="buttons">
+      <form id="add-shares" v-on:submit.prevent="handleAddShares(share._id)">
+      		<div class="formWrap">
+      			<label for="add">Shares:</label>
+      			<input min="0.0" step="1.0" type="number" required v-model="add" placeholder="Enter number "/>
+      		</div>
+          <input type="submit" value="Add Shares" id="add"/>
+
+      </form>
+
+      <br/>
+      <br/>
+
+      <form id="remove-shares" v-on:submit.prevent="handleRemoveShares(share._id)">
+      		<div class="formWrap">
+      			<label for="remove">|   Shares:</label>
+      			<input min="0.0" step="1.0" type="number" required v-model="remove" placeholder="Enter number "/>
+      		</div>
+          <input type="submit" value="Remove Shares" id="remove"/>
+      </form>
+
+    </div>
+
   </div>
 </template>
 
@@ -36,9 +59,11 @@ export default {
     chartInfo: {
       data: null,
       labels: [],
-      label: null,
+      label: null
     },
-    upTrend: true
+    upTrend: true,
+    add: 0,
+    remove: 0
   }},
 
   watch: {
@@ -85,11 +110,7 @@ export default {
       return SharesService.getPricesMonth(this.share.ticker)
       .then((data) => {
 
-        // let labels = [];
-        // for(let i = prices.length -1; i >= 0; i--){
-        //   labels.unshift(i+1);
-        // }
-
+        
         const newData = {
           data: data.prices,
           labels: data.labels,
@@ -100,8 +121,30 @@ export default {
         console.log("CHART INFO CHANGED");
         this.loaded = true
       })
+    },
+  handleAddShares(id){
+    this.share.quantity += parseFloat(this.add);
+    let updatedAddShare = {
+      ticker: this.share.ticker,
+      name: this.share.name,
+      exchange: this.share.exchange,
+      quantity: this.share.quantity
     }
+    SharesService.update(id, updatedAddShare)
+    this.add = 0;
   },
+  handleRemoveShares(id){
+    this.share.quantity -= parseFloat(this.remove)
+    let updatedRemoveShare = {
+      ticker: this.share.ticker,
+      name: this.share.name,
+      exchange: this.share.exchange,
+      quantity: this.share.quantity
+    }
+    SharesService.update(id, updatedRemoveShare)
+      this.remove = 0;
+}
+},
 
   mounted(){
     //this.getPricesDaily();
@@ -117,7 +160,33 @@ export default {
 </script>
 
 <style lang="css" scoped>
+.buttons {
+  display: flex;
+  padding: 10px;
+  font-size: 0.75em;
+  justify-content: space-between;
+  align-content: space-between;
+}
 
+#add-shares {
+  padding: 10px;
+}
+
+#remove-shares {
+  padding: 10px;
+}
+
+#remove {
+  display: flex;
+  align-items: flex-end;
+  margin: 5px;
+}
+
+#add {
+  display: flex;
+  align-items: flex-end;
+  margin: 5px;
+}
 .chart-container {
   height: 300px;
 }
