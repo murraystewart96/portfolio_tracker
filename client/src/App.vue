@@ -66,6 +66,7 @@ export default {
       this.shares = data;
       SharesService.updateSharePrices(this.shares)
       .then((result) => {
+        console.log(result)
         if(result){
           this.updateShares()
         }
