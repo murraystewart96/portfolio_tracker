@@ -13,8 +13,8 @@
     </div>
 
     <div class="chart-container">
-      <button class="button" v-on:click="getPricesIntraday()">IntraDay Prices</button>
-      <button class="button" v-on:click="getPricesDaily()">Daily Prices</button>
+      <button class="button" v-on:click="handlePriceFunc('intraDay')">IntraDay Prices</button>
+        <button class="button" v-on:click="handlePriceFunc('daily')">Daily Prices</button>
       <shares-chart v-if="loaded" :chartInfo="chartInfo" type="line"/>
     </div>
 
@@ -74,12 +74,13 @@ export default {
     },
     upTrend: true,
     add: 0,
-    remove: 0
+    remove: 0,
+    getPricesFunc: null
   }},
 
   watch: {
     share: function(){
-      this.getPricesMonth()
+      this.getPricesFunc()
       .then(() => {
         eventBus.$emit('re-render-chart', this.chartInfo);
       })
@@ -107,6 +108,7 @@ export default {
     getPricesIntraday(){
       return SharesService.getPricesIntraday(this.share.ticker)
       .then((prices) => {
+        console.log(prices);
         const newData = {
           data: prices,
           labels: ["9:30", "10:30", "11:30", "12:30", "13:30", "14:30", "15:30"],
@@ -142,6 +144,23 @@ export default {
 
     },
 
+    handlePriceFunc(funcType){
+      if(funcType === "intraDay"){
+        this.getPricesIntraday()
+        .then(() => {
+          eventBus.$emit('re-render-chart', this.chartInfo)
+          this.getPricesFunc = this.getPricesIntraday;
+        })
+      }else if(funcType === "daily"){
+        this.getPricesDaily()
+        .then(() => {
+          eventBus.$emit('re-render-chart', this.chartInfo)
+          this.getPricesFunc = this.getPricesDaily;
+        })
+      }
+
+    },
+
 
     handleAddShares(id){
       this.share.quantity += parseFloat(this.add);
@@ -172,7 +191,8 @@ export default {
   mounted(){
     //this.getPricesDaily();
     //this.getPricesIntraday();
-    this.getPricesMonth();
+    this.getPricesFunc = this.getPricesIntraday;
+    this.getPricesIntraday();
 
     eventBus.$on('up-trend', upTrend => {
       this.upTrend = upTrend
@@ -189,6 +209,10 @@ export default {
   font-size: 0.75em;
   justify-content: space-between;
   align-content: space-between;
+}
+
+.button {
+
 }
 
 #add-shares {
