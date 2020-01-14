@@ -3,6 +3,7 @@
     <h2>{{share.ticker}}</h2>
 
     <div class="share-info">
+      <p>Name of Company: {{share.name}}</p>
       <p>Current valuation: {{share.quantity*share.price}} </p>
       <p>Exchange: {{share.exchange}} </p>
       <p>Number of shares: {{share.quantity}} </p>
@@ -10,6 +11,8 @@
     </div>
 
     <div class="chart-container">
+      <button class="button" v-on:click="getPricesIntraday()">IntraDay Prices</button>
+      <button class="button" v-on:click="getPricesDaily()">Daily Prices</button>
       <shares-chart v-if="loaded" :chartInfo="chartInfo" type="line"/>
     </div>
 
@@ -87,6 +90,19 @@ export default {
         }
         this.chartInfo = newData
         console.log("CHART INFO CHANGED");
+        this.loaded = true
+      })
+    },
+    getPricesIntraday(){
+      return SharesService.getPricesIntraday(this.share.ticker)
+      .then((prices) => {
+        const newData = {
+          data: prices,
+          labels: ["09:00", "10:00", "11:00", "12:00", "13:00", "14:00", "15:00"],
+          label: "Intraday Prices",
+          type: "line"
+        }
+        this.chartInfo = newData
         this.loaded = true
       })
     },

@@ -10,6 +10,7 @@
     "chart.js": "^2.9.3",
     "core-js": "^3.4.4",
     "vue": "^2.6.11",
+    "vue-carousel": "^0.18.0",
     "vue-chart.js": "^0.2.0",
     "vue-chartjs": "^3.5.0",
     "vuescroll-carousel": "0.0.13"
