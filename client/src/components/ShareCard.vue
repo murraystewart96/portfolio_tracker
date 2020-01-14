@@ -5,6 +5,7 @@
     <h2>{{share.ticker}}</h2>
 
     <div class="share-info">
+      <p>Name of Company: {{share.name}}</p>
       <p>Current valuation: {{share.quantity*share.price}} </p>
       <p>Exchange: {{share.exchange}} </p>
       <p>Number of shares: {{share.quantity}} </p>
@@ -12,6 +13,8 @@
     </div>
 
     <div class="chart-container">
+      <button class="button" v-on:click="handlePriceFunc('intraDay')">IntraDay Prices</button>
+        <button class="button" v-on:click="handlePriceFunc('daily')">Daily Prices</button>
       <shares-chart v-if="loaded" :chartInfo="chartInfo" type="line"/>
     </div>
 
@@ -43,7 +46,6 @@
 </template>
 
 <script>
-// import ShareService from '../services/ShareService.js'
 import Chart from "./myShareChart"
 import SharesChart from "@/chartHelpers/sharesChart.js"
 import SharesService from "../services/ShareService.js"
@@ -72,12 +74,13 @@ export default {
     },
     upTrend: true,
     add: 0,
-    remove: 0
+    remove: 0,
+    getPricesFunc: null
   }},
 
   watch: {
     share: function(){
-      this.getPricesMonth()
+      this.getPricesFunc()
       .then(() => {
         eventBus.$emit('re-render-chart', this.chartInfo);
       })
@@ -110,6 +113,7 @@ export default {
     getPricesIntraday(){
       return SharesService.getPricesIntraday(this.share.ticker)
       .then((prices) => {
+<<<<<<< HEAD
         if(prices){
           const newData = {
             data: prices,
@@ -122,6 +126,14 @@ export default {
         }else{
           this.chartInfo = this.chartInfoApiLimit;
           this.loaded = true
+=======
+        console.log(prices);
+        const newData = {
+          data: prices,
+          labels: ["9:30", "10:30", "11:30", "12:30", "13:30", "14:30", "15:30"],
+          label: "Prices During Day",
+          type: "line"
+>>>>>>> develop
         }
       })
     },
@@ -145,6 +157,23 @@ export default {
           this.loaded = true
         }
       })
+
+    },
+
+    handlePriceFunc(funcType){
+      if(funcType === "intraDay"){
+        this.getPricesIntraday()
+        .then(() => {
+          eventBus.$emit('re-render-chart', this.chartInfo)
+          this.getPricesFunc = this.getPricesIntraday;
+        })
+      }else if(funcType === "daily"){
+        this.getPricesDaily()
+        .then(() => {
+          eventBus.$emit('re-render-chart', this.chartInfo)
+          this.getPricesFunc = this.getPricesDaily;
+        })
+      }
 
     },
 
@@ -178,7 +207,8 @@ export default {
   mounted(){
     //this.getPricesDaily();
     //this.getPricesIntraday();
-    this.getPricesMonth();
+    this.getPricesFunc = this.getPricesIntraday;
+    this.getPricesIntraday();
 
     eventBus.$on('up-trend', upTrend => {
       this.upTrend = upTrend
@@ -195,6 +225,10 @@ export default {
   font-size: 0.75em;
   justify-content: space-between;
   align-content: space-between;
+}
+
+.button {
+
 }
 
 #add-shares {
