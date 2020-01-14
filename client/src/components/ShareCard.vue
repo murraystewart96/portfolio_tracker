@@ -10,11 +10,12 @@
       <p>Exchange: {{share.exchange}} </p>
       <p>Number of shares: {{share.quantity}} </p>
       <p v-bind:style="[upTrend ? {'color' : 'green'}: {'colour' :'red'}]"> Share price: ${{share.price}} </p>
+
+      <button class="button" v-on:click="handlePriceFunc('intraDay')">IntraDay Prices</button>
+        <button class="button" v-on:click="handlePriceFunc('daily')">Daily Prices</button>
     </div>
 
     <div class="chart-container">
-      <button class="button" v-on:click="handlePriceFunc('intraDay')">IntraDay Prices</button>
-        <button class="button" v-on:click="handlePriceFunc('daily')">Daily Prices</button>
       <shares-chart v-if="loaded" :chartInfo="chartInfo" type="line"/>
     </div>
 
@@ -33,7 +34,7 @@
 
       <form id="remove-shares" v-on:submit.prevent="handleRemoveShares(share._id)">
       		<div class="formWrap">
-      			<label for="remove">|   Shares:</label>
+      			<label for="remove"> Shares:</label>
       			<input min="0.0" step="1.0" type="number" required v-model="remove" placeholder="Enter number "/>
       		</div>
           <input type="submit" value="Remove Shares" id="remove"/>
@@ -245,6 +246,7 @@ export default {
   height: 300px;
   display: flex;
   justify-content: center;
+  margin: 30px;
 }
 
 .share-card-wrapper{
@@ -256,8 +258,11 @@ export default {
 .share-chart{
   display: flex;
   align-items:baseline;
+}
 
-
+button {
+  width: 80px;
+  height: auto;
 }
 
 </style>
