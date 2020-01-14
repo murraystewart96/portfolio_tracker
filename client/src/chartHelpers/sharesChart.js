@@ -40,7 +40,6 @@ export default{
         },
         responsive: true,
         maintainAspectRatio: false,
-        aspectRatio: 2.5,
         fontColour: 'rgba(57, 204, 204, 1)'
       }
 

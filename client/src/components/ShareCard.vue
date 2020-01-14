@@ -15,6 +15,29 @@
       <shares-chart v-if="loaded" :chartInfo="chartInfo" type="line"/>
     </div>
 
+    <div class="buttons">
+      <form id="add-shares" v-on:submit.prevent="handleAddShares(share._id)">
+      		<div class="formWrap">
+      			<label for="add">Shares:</label>
+      			<input min="0.0" step="1.0" type="number" required v-model="add" placeholder="Enter number "/>
+      		</div>
+          <input type="submit" value="Add Shares" id="add"/>
+
+      </form>
+
+      <br/>
+      <br/>
+
+      <form id="remove-shares" v-on:submit.prevent="handleRemoveShares(share._id)">
+      		<div class="formWrap">
+      			<label for="remove">|   Shares:</label>
+      			<input min="0.0" step="1.0" type="number" required v-model="remove" placeholder="Enter number "/>
+      		</div>
+          <input type="submit" value="Remove Shares" id="remove"/>
+      </form>
+
+    </div>
+
   </div>
 
 </template>
@@ -39,14 +62,16 @@ export default {
     chartInfo: {
       data: null,
       labels: [],
-      label: null,
+      label: null
     },
-    upTrend: true
+    upTrend: true,
+    add: 0,
+    remove: 0
   }},
 
   watch: {
     share: function(){
-      this.getPricesDaily()
+      this.getPricesMonth()
       .then(() => {
         eventBus.$emit('re-render-chart', this.chartInfo);
       })
@@ -63,15 +88,71 @@ export default {
           label: "Daily Prices",
           type: "line"
         }
+        this.chartInfo = newData;
+        console.log("CHART INFO CHANGED");
+        this.loaded = true
+      })
+    },
+
+    getPricesIntraday(){
+      return SharesService.getPricesIntraday(this.share.ticker)
+      .then((prices) => {
+        const newData = {
+          data: prices,
+          labels: ["9:30", "10:30", "11:30", "12:30", "13:30", "14:30", "15:30"],
+          label: "Prices During Day",
+          type: "line"
+        }
         this.chartInfo = newData
         console.log("CHART INFO CHANGED");
         this.loaded = true
       })
+    },
+
+    getPricesMonth(){
+      return SharesService.getPricesMonth(this.share.ticker)
+      .then((data) => {
+
+        
+        const newData = {
+          data: data.prices,
+          labels: data.labels,
+          label: "Prices During Month",
+          type: "line"
+        }
+        this.chartInfo = newData
+        console.log("CHART INFO CHANGED");
+        this.loaded = true
+      })
+    },
+  handleAddShares(id){
+    this.share.quantity += parseFloat(this.add);
+    let updatedAddShare = {
+      ticker: this.share.ticker,
+      name: this.share.name,
+      exchange: this.share.exchange,
+      quantity: this.share.quantity
     }
+    SharesService.update(id, updatedAddShare)
+    this.add = 0;
   },
+  handleRemoveShares(id){
+    this.share.quantity -= parseFloat(this.remove)
+    let updatedRemoveShare = {
+      ticker: this.share.ticker,
+      name: this.share.name,
+      exchange: this.share.exchange,
+      quantity: this.share.quantity
+    }
+    SharesService.update(id, updatedRemoveShare)
+      this.remove = 0;
+}
+},
 
   mounted(){
-    this.getPricesDaily();
+    //this.getPricesDaily();
+    //this.getPricesIntraday();
+    this.getPricesMonth();
 
     eventBus.$on('up-trend', upTrend => {
       this.upTrend = upTrend
@@ -82,7 +163,33 @@ export default {
 </script>
 
 <style lang="css" scoped>
+.buttons {
+  display: flex;
+  padding: 10px;
+  font-size: 0.75em;
+  justify-content: space-between;
+  align-content: space-between;
+}
 
+#add-shares {
+  padding: 10px;
+}
+
+#remove-shares {
+  padding: 10px;
+}
+
+#remove {
+  display: flex;
+  align-items: flex-end;
+  margin: 5px;
+}
+
+#add {
+  display: flex;
+  align-items: flex-end;
+  margin: 5px;
+}
 .chart-container {
   height: 300px;
   display: flex;

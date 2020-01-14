@@ -35,7 +35,8 @@ export default {
   },
 
   mounted(){
-    this.getShareValues()
+
+    this.getShareValues();
   },
 
   methods: {
