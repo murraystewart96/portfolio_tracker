@@ -84,22 +84,6 @@ export default {
 
     },
 
-    createPieColours(sharesArray){
-      let colour = [];
-      let r;
-      let g;
-      let b;
-      let newColour;
-      sharesArray.forEach( (share) => {
-        r = Math.floor(Math.random() * 200);
-        g = Math.floor(Math.random() * 200);
-        b = Math.floor(Math.random() * 200);
-        newColour = 'rgba(' + `${r}` + ', ' + `${g}` + ', ' + `${rb}`+ ')';
-        colour.push(newcolour)
-      })
-      return colour
-    },
-
     components: {
       'pie-chart': Chart
     }
