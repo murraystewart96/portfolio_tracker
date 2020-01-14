@@ -101,30 +101,33 @@ export default {
     return fetch(baseURLext + intraDayQuery + ticker + intraDayParams60min + key2)
     .then(doc => doc.json())
     .then((doc) => {
-      const latestTimestamp = doc["Meta Data"]["3. Last Refreshed"];
-      const latestDay = latestTimestamp.slice(8,10)
-      const latestHour = latestTimestamp.slice(11,13)
+      if(doc["Meta Data"]){
+        const latestTimestamp = doc["Meta Data"]["3. Last Refreshed"];
+        const latestDay = latestTimestamp.slice(8,10)
+        const latestHour = latestTimestamp.slice(11,13)
 
-      const sharesData = Object.values(doc["Time Series (60min)"])
+        const sharesData = Object.values(doc["Time Series (60min)"])
 
-      const closingTime = "15:30:00"
+        const closingTime = "15:30:00"
 
-      if(currTimestamp.day > latestDay){ //if market has not opened today
-        for(let i = 0; i < 7; i++){
-          prices.push(parseFloat(sharesData[i]["4. close"])) //Get yesterdays prices
+        if(currTimestamp.day > latestDay){ //if market has not opened today
+          for(let i = 0; i < 7; i++){
+            prices.push(parseFloat(sharesData[i]["4. close"])) //Get yesterdays prices
+          }
+        }else if(currTimestamp.time >= closingTime){ //if market has closed for the day
+          for(let i = 0; i < 7; i++){
+            prices.push(parseFloat(sharesData[i]["4. close"])) //get todays prices
+          }
+        }else if(currTimestamp.time < closingTime){ //if market is open
+          const priceIntervals = latestHour - 8; //Calculate how many prices intervals there are
+          for(let i = 0; i < priceIntervals; i++){
+            prices.push(parseFloat(sharesData[i]["4. close"])); //get prices
+          }
         }
-      }else if(currTimestamp.time >= closingTime){ //if market has closed for the day
-        for(let i = 0; i < 7; i++){
-          prices.push(parseFloat(sharesData[i]["4. close"])) //get todays prices
-        }
-      }else if(currTimestamp.time < closingTime){ //if market is open
-        const priceIntervals = latestHour - 8; //Calculate how many prices intervals there are
-        for(let i = 0; i < priceIntervals; i++){
-          prices.push(parseFloat(sharesData[i]["4. close"])); //get prices
-        }
+        return prices;
       }
-      return prices;
-     })
+      return null;
+    })
   },
 
 
@@ -135,14 +138,17 @@ export default {
     return fetch(baseURLext + dailyQuery + ticker + dailyParams + key1)
     .then(doc => doc.json())
     .then((doc) => {
-      const latestDate = new Date(doc["Meta Data"]["3. Last Refreshed"]);
-      const numberOfDays = latestDate.getDay();
-      const sharesData = Object.values(doc["Time Series (Daily)"])
+      if(doc["Meta Data"]){
+        const latestDate = new Date(doc["Meta Data"]["3. Last Refreshed"]);
+        const numberOfDays = latestDate.getDay();
+        const sharesData = Object.values(doc["Time Series (Daily)"])
 
-      for(let i = 0; i < numberOfDays; i++){
-        prices.push(parseFloat(sharesData[i]["4. close"]));
+        for(let i = 0; i < numberOfDays; i++){
+          prices.push(parseFloat(sharesData[i]["4. close"]));
+        }
+        return prices;
       }
-      return prices;
+      return null;
     })
   },
 
@@ -158,7 +164,7 @@ export default {
         let month = latestDate.getMonth();
 
         const sharesData = Object.entries(doc["Time Series (Daily)"]);
-        
+
 
         let date = new Date(sharesData[0][0]);
         let counter = 0;

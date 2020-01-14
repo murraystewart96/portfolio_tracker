@@ -90,30 +90,39 @@ export default {
     getPricesDaily(){
       return SharesService.getPricesDaily(this.share.ticker)
       .then((prices) => {
-        const newData = {
-          data: prices,
-          labels: ["Mon", "Tue", "Wed", "Thur", "Fri"],
-          label: "Daily Prices",
-          type: "line"
+        if(prices){
+          const newData = {
+            data: prices,
+            labels: ["Mon", "Tue", "Wed", "Thur", "Fri"],
+            label: "Daily Prices",
+            type: "line"
+          }
+          this.chartInfo = newData;
+          console.log("CHART INFO CHANGED");
+          this.loaded = true
+        }else{
+          this.chartInfo = this.chartInfoApiLimit;
+          this.loaded = true
         }
-        this.chartInfo = newData;
-        console.log("CHART INFO CHANGED");
-        this.loaded = true
       })
     },
 
     getPricesIntraday(){
       return SharesService.getPricesIntraday(this.share.ticker)
       .then((prices) => {
-        const newData = {
-          data: prices,
-          labels: ["9:30", "10:30", "11:30", "12:30", "13:30", "14:30", "15:30"],
-          label: "Prices During Day",
-          type: "line"
+        if(prices){
+          const newData = {
+            data: prices,
+            labels: ["9:30", "10:30", "11:30", "12:30", "13:30", "14:30", "15:30"],
+            label: "Prices During Day",
+            type: "line"
+          }
+          this.chartInfo = newData
+          this.loaded = true
+        }else{
+          this.chartInfo = this.chartInfoApiLimit;
+          this.loaded = true
         }
-        this.chartInfo = newData
-        console.log("CHART INFO CHANGED");
-        this.loaded = true
       })
     },
 
@@ -132,7 +141,6 @@ export default {
           this.chartInfo = newData
           this.loaded = true
         }else{
-
           this.chartInfo = this.chartInfoApiLimit;
           this.loaded = true
         }
