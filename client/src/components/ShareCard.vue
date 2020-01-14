@@ -10,11 +10,12 @@
       <p>Exchange: {{share.exchange}} </p>
       <p>Number of shares: {{share.quantity}} </p>
       <p v-bind:style="[upTrend ? {'color' : 'green'}: {'colour' :'red'}]"> Share price: ${{share.price}} </p>
+
+      <button  v-on:click="handlePriceFunc('intraDay')">IntraDay Prices</button>
+        <button  v-on:click="handlePriceFunc('daily')">Daily Prices</button>
     </div>
 
     <div class="chart-container">
-      <button class="button" v-on:click="handlePriceFunc('intraDay')">IntraDay Prices</button>
-        <button class="button" v-on:click="handlePriceFunc('daily')">Daily Prices</button>
       <shares-chart v-if="loaded" :chartInfo="chartInfo" type="line"/>
     </div>
 
@@ -33,7 +34,7 @@
 
       <form id="remove-shares" v-on:submit.prevent="handleRemoveShares(share._id)">
       		<div class="formWrap">
-      			<label for="remove">|   Shares:</label>
+      			<label for="remove"> Shares:</label>
       			<input min="0.0" step="1.0" type="number" required v-model="remove" placeholder="Enter number "/>
       		</div>
           <input type="submit" value="Remove Shares" id="remove"/>
@@ -113,7 +114,6 @@ export default {
     getPricesIntraday(){
       return SharesService.getPricesIntraday(this.share.ticker)
       .then((prices) => {
-<<<<<<< HEAD
         if(prices){
           const newData = {
             data: prices,
@@ -126,14 +126,6 @@ export default {
         }else{
           this.chartInfo = this.chartInfoApiLimit;
           this.loaded = true
-=======
-        console.log(prices);
-        const newData = {
-          data: prices,
-          labels: ["9:30", "10:30", "11:30", "12:30", "13:30", "14:30", "15:30"],
-          label: "Prices During Day",
-          type: "line"
->>>>>>> develop
         }
       })
     },
@@ -227,10 +219,6 @@ export default {
   align-content: space-between;
 }
 
-.button {
-
-}
-
 #add-shares {
   padding: 10px;
 }
@@ -254,6 +242,7 @@ export default {
   height: 300px;
   display: flex;
   justify-content: center;
+  margin: 30px;
 }
 
 .share-card-wrapper{
@@ -265,8 +254,12 @@ export default {
 .share-chart{
   display: flex;
   align-items:baseline;
+}
 
-
+button {
+  height: auto;
+  width: 80px;
+  margin: 8px;
 }
 
 </style>

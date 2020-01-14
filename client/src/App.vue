@@ -170,6 +170,7 @@ src: url("./assets/Quicksand.ttf");
   display: flex;
   font-size: 17px;
   justify-content: space-around;
+  height: auto;
 }
 
 .portfolio-total{
