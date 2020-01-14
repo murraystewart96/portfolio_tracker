@@ -24,8 +24,8 @@ export default {
         data: null,
         labels: [],
         label: null,
-        colours: []
-      }
+      },
+      colours: []
     }},
 
     watch: {
@@ -38,7 +38,7 @@ export default {
     mounted(){
       this.getShareValues();
 
-      this.colours = this.createPieColours(this.pieChartInfo.data)
+      this.colours = this.createPieColours(this.pieChartInfo.labels)
     },
 
     methods: {
@@ -73,8 +73,8 @@ export default {
             r = Math.floor(Math.random() * 200);
             g = Math.floor(Math.random() * 200);
             b = Math.floor(Math.random() * 200);
-            newColour = 'rgba(' + `${r}` + ', ' + `${g}` + ', ' + `${rb}`+ ')';
-            colours.push(newcolour)
+            newColour = 'rgba(' + `${r}` + ', ' + `${g}` + ', ' + `${b}`+ ')';
+            colours.push(newColour)
           }
         )
         return colours
