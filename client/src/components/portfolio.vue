@@ -2,7 +2,7 @@
 
   <div class="">
     <pie-chart v-if="loaded" :chartInfo="pieChartInfo" type="line"/>
-</div>
+  </div>
 </template>
 
 <script>
@@ -18,73 +18,76 @@ export default {
 
   data(){
     return{
-    loaded: false,
-    shareValues: [],
-    pieChartInfo: {
-      data: null,
-      labels: [],
-      label: null,
-      colours: []
-    }
-  }},
+      loaded: false,
+      shareValues: [],
+      pieChartInfo: {
+        data: null,
+        labels: [],
+        label: null,
+        colours: []
+      }
+    }},
 
-  watch: {
-    destroy: function(){
-      eventBus.$emit('destroy-chart');
-      this.loaded = false;
-    }
-  },
-
-  mounted(){
-
-    this.getShareValues();
-  },
-
-  methods: {
-    getShareValues(){
-      if (!this.destroy) {
-        let labels = []
-
-        this.shares.map(share => {
-          let res = (share.quantity * (parseInt(share.price)))
-            this.shareValues.push(res);
-            labels.push(share.ticker);
-        });
-        const newData = {
-          data:  this.shareValues,
-          labels: labels,
-          label: "Portfolio Compisition",
-          type: 'pie'
-        }
-        this.pieChartInfo = newData;
-        this.loaded = true;
+    watch: {
+      destroy: function(){
+        eventBus.$emit('destroy-chart');
+        this.loaded = false;
       }
     },
 
-    createPieColours(sharesArray){
-      let colour = [];
-      let r;
-      let g;
-      let b;
-      let newColour;
-      sharesArray.forEach(
-        r = Math.floor(Math.random() * 200);
-        g = Math.floor(Math.random() * 200);
-        b = Math.floor(Math.random() * 200);
-        newColour = 'rgba(' + `${r}` + ', ' + `${g}` + ', ' + `${rb}`+ ')';
-        colour.push(newcolour)
-      )
-      return colour
+    mounted(){
+      this.getShareValues();
+
+      this.colours = this.createPieColours(this.pieChartInfo.data)
+    },
+
+    methods: {
+      getShareValues(){
+        if (!this.destroy) {
+          let labels = []
+
+          this.shares.map(share => {
+            let res = (share.quantity * (parseInt(share.price)))
+            this.shareValues.push(res);
+            labels.push(share.ticker);
+          });
+          const newData = {
+            data: this.shareValues,
+            labels: labels,
+            backgroundColor: this.colours,
+            label: "Portfolio Compisition",
+            type: 'pie'
+            }
+            this.pieChartInfo = newData;
+            this.loaded = true;
+          }
+        },
+
+        createPieColours(sharesArray){
+          let colours = [];
+          let r;
+          let g;
+          let b;
+          let newColour;
+          sharesArray.forEach( (share) => {
+            r = Math.floor(Math.random() * 200);
+            g = Math.floor(Math.random() * 200);
+            b = Math.floor(Math.random() * 200);
+            newColour = 'rgba(' + `${r}` + ', ' + `${g}` + ', ' + `${rb}`+ ')';
+            colours.push(newcolour)
+          }
+        )
+        return colours
+      }
+
+    },
+
+    components: {
+      'pie-chart': Chart,
     }
 
-  },
-
-  components: {
-    'pie-chart': Chart,
   }
+  </script>
 
-}
-</script>
-
-<style lang="css" scoped>
-</style>
+  <style lang="css" scoped>
+  </style>
