@@ -2,7 +2,7 @@
 
   <div class="">
     <pie-chart v-if="loaded" :chartInfo="pieChartInfo" type="line"/>
-</div>
+  </div>
 </template>
 
 <script>
@@ -18,56 +18,72 @@ export default {
 
   data(){
     return{
-    loaded: false,
-    shareValues: [],
-    pieChartInfo: {
-      data: null,
-      labels: [],
-      label: null
-    }
-  }},
+      loaded: false,
+      shareValues: [],
+      pieChartInfo: {
+        data: null,
+        labels: [],
+        label: null,
+        backgroundColor: [],
+        type: ''
+      },
 
-  watch: {
-    destroy: function(){
-      eventBus.$emit('destroy-chart');
-      this.loaded = false;
-    }
-  },
+    }},
 
-  mounted(){
-
-    this.getShareValues();
-  },
-
-  methods: {
-    getShareValues(){
-      if (!this.destroy) {
-        let labels = []
-
-        this.shares.map(share => {
-          let res = (share.quantity * (parseInt(share.price)))
-            this.shareValues.push(res);
-            labels.push(share.ticker);
-        });
-        const newData = {
-          data: this.shareValues,
-          labels: labels,
-          label: "Portfolio Compisition",
-          type: 'pie'
-        }
-        this.pieChartInfo = newData;
-        this.loaded = true;
+    watch: {
+      destroy: function(){
+        eventBus.$emit('destroy-chart');
+        this.loaded = false;
       }
     },
 
-  },
+    mounted(){
+      this.getShareValues();
 
-  components: {
-    'pie-chart': Chart,
+      this.pieChartInfo.backgroundColor = this.createPieColours(this.pieChartInfo.labels)
+    },
+
+    methods: {
+      getShareValues(){
+        if (!this.destroy) {
+          let labels = []
+
+          this.shares.map((share) => {
+            let res = (share.quantity * (parseInt(share.price)))
+            this.shareValues.push(res);
+            labels.push(share.ticker);
+          });
+          const newData = {
+            data: this.shareValues,
+            labels: labels,
+            label: 'Portfolio Composition',
+            backgroundColor: [],
+            type: 'pie'
+            }
+
+            this.pieChartInfo = newData;
+            this.loaded = true;
+          }
+        },
+
+        createPieColours(arrayOfShares){
+          let colours = [];
+          colours.push('rgba(232,226,226)')
+          colours.push('rgba(241,48,48)')
+          colours.push('rgba(48,145,241)')
+          colours.push('rgba(243,135,27)')
+          colours.push('rgba(55,147,55)')
+          return colours
+      }
+
+    },
+
+    components: {
+      'pie-chart': Chart
+    }
+
   }
+  </script>
 
-}
-</script>
-
-<style lang="css" scoped>
-</style>
+  <style lang="css" scoped>
+  </style>

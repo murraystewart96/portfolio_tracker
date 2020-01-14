@@ -34,7 +34,7 @@
 
       <form id="remove-shares" v-on:submit.prevent="handleRemoveShares(share._id)">
       		<div class="formWrap">
-      			<label for="remove">|   Shares:</label>
+      			<label for="remove"> Shares:</label>
       			<input min="0.0" step="1.0" type="number" required v-model="remove" placeholder="Enter number "/>
       		</div>
           <input type="submit" value="Remove Shares" id="remove"/>
@@ -255,6 +255,7 @@ export default {
   height: 300px;
   display: flex;
   justify-content: center;
+  margin: 30px;
 }
 
 .share-card-wrapper{
@@ -266,8 +267,12 @@ export default {
 .share-chart{
   display: flex;
   align-items:baseline;
+}
 
-
+button {
+  height: auto;
+  width: 80px;
+  margin: 8px;
 }
 
 </style>

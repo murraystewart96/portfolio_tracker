@@ -3,9 +3,6 @@
 
   <div class="title">
     <h1 id="title">Portfolio Tracker</h1>
-    <!-- <div class="portfolio-total">
-      <portfolio-total :shares="shares"></portfolio-total>
-    </div> -->
     <img src="@/assets/growth-icon2.png" alt="">
   </div>
 
@@ -65,16 +62,16 @@ export default {
 
   mounted(){
 
-
+    //get shares from database
     SharesService.getShares()
-    .then(data => {
+    .then((data) => {
+      //assign shares
       this.shares = data;
+      //update shares to get price
       SharesService.updateSharePrices(this.shares)
-      .then((result) => {
-        if(result){
-          this.updateShares()
-        }
-        this.sharesLoaded = true;
+      .then(() => {
+
+        this.updateShares()
       })
     })
 
@@ -83,8 +80,6 @@ export default {
       this.destroyPieChart = false;
       this.displayShareCard = false;
     })
-
-
 
     eventBus.$on("display-share", (share) => {
       this.selectedShare = share;
@@ -96,6 +91,9 @@ export default {
 
   methods: {
     updateShares(){
+
+      let promises =[];
+
       for(let i = 0; i < this.shares.length; i++){
         const updatedShare = {
           ticker: this.shares[i].ticker,
@@ -104,11 +102,15 @@ export default {
           quantity: this.shares[i].quantity,
           price: this.shares[i].price
         }
-        SharesService.update(this.shares[i]._id, updatedShare);
+      console.log("UPDATED SHARE", updatedShare)
+      promises.push(SharesService.update(this.shares[i]._id, updatedShare))
       }
 
+      Promise.all(promises)
+      .then(result => this.sharesLoaded = true);
     }
   },
+
 
   components: {
     'portfolio-total' : portfolioTotal,
@@ -178,6 +180,7 @@ src: url("./assets/Quicksand.ttf");
   display: flex;
   font-size: 17px;
   justify-content: space-around;
+  height: auto;
 }
 
 .portfolio-total{

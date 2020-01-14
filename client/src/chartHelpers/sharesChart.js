@@ -1,5 +1,6 @@
 export default{
-  formatChartData(x_labels, chartData, y_label, chartType){
+  formatChartData(x_labels, chartData, y_label, chartType, backgroundColor){
+    if (chartType == 'line'){
     const l_chartData = {
       type: chartType,
       data: {
@@ -9,16 +10,16 @@ export default{
             label: y_label,
             data: chartData,
             fill:false,
-            backgroundColor: 'rgba(57, 204, 204, 1)',
+            backgroundColor: '#39cccc',
             borderColor: [
-              '#36495d',
-              '#36495d',
-              '#36495d',
-              '#36495d',
-              '#36495d',
-              '#36495d',
-              '#36495d',
-              '#36495d',
+              '#39cccc',
+              '#39cccc',
+              '#39cccc',
+              '#39cccc',
+              '#39cccc',
+              '#39cccc',
+              '#39cccc',
+              '#39cccc',
             ],
             borderWidth: 3,
             borderCapStyle: 'round',
@@ -39,13 +40,62 @@ export default{
           }]
         },
         responsive: true,
-        maintainAspectRatio: false,
-        fontColour: 'rgba(57, 204, 204, 1)'
+        maintainAspectRatio: false
       }
 
     }
 
-    return l_chartData;
+    return l_chartData; }
+    else {
+      const l_chartData = {
+        type: chartType,
+        data: {
+          labels: x_labels,
+          datasets: [
+            {
+              label: y_label,
+              data: chartData,
+              backgroundColor: backgroundColor,
+              fill:false,
+              borderColor: [
+                '#39cccc',
+                '#39cccc',
+                '#39cccc',
+                '#39cccc',
+                '#39cccc',
+                '#39cccc',
+                '#39cccc',
+                '#39cccc',
+              ],
+              borderWidth: 3,
+              borderCapStyle: 'round',
+              borderJoinStyle: 'miter',
+
+            }
+          ],
+        },
+        options: {
+          responsive: true,
+          lineTension: 1,
+          scales: {
+            yAxes: [{
+              gridLines: {
+                display: false
+              }
+            }],
+            xAxes: [{
+              gridLines: {
+                display: false
+              }
+            }]
+          },
+          responsive: true,
+          maintainAspectRatio: false
+        }
+
+      }
+        return l_chartData;
+    }
   },
 
   createChart(chartId, chartData){
@@ -56,4 +106,5 @@ export default{
       options: chartData.options
     })
   }
+
 }
