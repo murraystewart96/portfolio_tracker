@@ -1,5 +1,7 @@
 <template lang="html">
-  <div class="share-chart-wrapper">
+
+  <div class="share-card-wrapper">
+
     <h2>{{share.ticker}}</h2>
 
     <div class="share-info">
@@ -37,6 +39,7 @@
     </div>
 
   </div>
+
 </template>
 
 <script>
@@ -207,6 +210,21 @@ export default {
 }
 .chart-container {
   height: 300px;
+  display: flex;
+  justify-content: center;
+}
+
+.share-card-wrapper{
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+}
+
+.share-chart{
+  display: flex;
+  align-items:baseline;
+
+
 }
 
 </style>

@@ -1,7 +1,8 @@
 <template lang="html">
-  <div>
-    <canvas id="chart"></canvas>
-  </div>
+    <div class="">
+      <canvas id="chart"></canvas>
+    </div>
+
 </template>
 
 <script>
