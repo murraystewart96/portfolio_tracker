@@ -113,7 +113,6 @@ export default {
     getPricesIntraday(){
       return SharesService.getPricesIntraday(this.share.ticker)
       .then((prices) => {
-<<<<<<< HEAD
         if(prices){
           const newData = {
             data: prices,
@@ -126,14 +125,6 @@ export default {
         }else{
           this.chartInfo = this.chartInfoApiLimit;
           this.loaded = true
-=======
-        console.log(prices);
-        const newData = {
-          data: prices,
-          labels: ["9:30", "10:30", "11:30", "12:30", "13:30", "14:30", "15:30"],
-          label: "Prices During Day",
-          type: "line"
->>>>>>> develop
         }
       })
     },
