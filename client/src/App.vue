@@ -16,7 +16,7 @@
 
 
       <div class="share-card">
-        <portfolio-info :shares="shares" :destroy="destroyPieChart"/>
+        <portfolio-info v-if="displayPieChart":shares="shares" :destroy="destroyPieChart"/>
         <share-card v-if="displayShareCard" :share="selectedShare"/>
       </div>
 
@@ -86,6 +86,7 @@ export default {
       selectedShare:null,
       displayShareCard: false,
       destroyPieChart: false,
+      displayPieChart: true,
       shareValues: [],
 
       pieChartInfo: {}
@@ -112,6 +113,7 @@ export default {
     eventBus.$on("display-share", (share) => {
       this.selectedShare = share;
       this.destroyPieChart = true;
+      this.displayPieChart = false;
       this.displayShareCard = true;
     })
 
