@@ -10,7 +10,7 @@
     </div>
 
     <div class="chart-container">
-      <shares-chart v-if="loaded" :data="chartData" type="line"/>
+      <shares-chart v-if="loaded" :chartInfo="chartInfo" type="line"/>
     </div>
 
     <div class="buttons">
@@ -40,53 +40,81 @@
 </template>
 
 <script>
-import {eventBus} from '../main.js'
-import pricesChart from "./myShareChart"
+// import ShareService from '../services/ShareService.js'
+import Chart from "./myShareChart"
 import SharesChart from "@/chartHelpers/sharesChart.js"
 import SharesService from "../services/ShareService.js"
+import { eventBus } from '../main.js';
 
 
 export default {
   name: 'share-card',
-  components: {
-    'shares-chart': pricesChart,
-  },
-
-  components: {'shares-chart': pricesChart},
+  components: {'shares-chart': Chart},
   props: ['share'],
 
   data(){
     return{
     loaded: false,
-    chartData: null,
+    chartInfo: {
+      data: null,
+      labels: [],
+      label: null
+    },
     add: 0,
     remove: 0
-  }},
+  }
+},
 
-  mounted(){
-    SharesService.getPricesDaily(this.share.ticker)
-    .then((prices) => {
-      console.log(prices);
-      this.loaded = true
-      this.chartData = prices;
-      form.reset()
-    })
+  watch: {
+    share: function(){
+      this.getPricesDaily()
+      .then(() => {
+        eventBus.$emit('re-render-chart');
+      })
+    }
   },
 
   methods: {
-    handleAddShares(id){
-      this.share.quantity += parseFloat(this.add)
-      SharesService.update(id)
-      eventBus.$emit('booking-updated', this.share)
-      this.add = 0;
+    getPricesDaily(){
+      return SharesService.getPricesDaily(this.share.ticker)
+      .then((prices) => {
+        const newData = {
+          data: prices,
+          labels: ["Mon", "Tue", "Wed", "Thur", "Fri"],
+          label: "Daily Prices"
+        }
+        this.chartInfo = newData
+        console.log("CHART INFO CHANGED");
+        this.loaded = true
+      })
+    },
+  handleAddShares(id){
+    this.share.quantity += parseFloat(this.add);
+    let updatedAddShare = {
+      ticker: this.share.ticker,
+      name: this.share.name,
+      exchange: this.share.exchange,
+      quantity: this.share.quantity
+    }
+    SharesService.update(id, updatedAddShare)
+    this.add = 0;
   },
   handleRemoveShares(id){
     this.share.quantity -= parseFloat(this.remove)
-    SharesService.update(id)
-    eventBus.$emit('booking-updated', this.share)
+    let updatedRemoveShare = {
+      ticker: this.share.ticker,
+      name: this.share.name,
+      exchange: this.share.exchange,
+      quantity: this.share.quantity
+    }
+    SharesService.update(id, updatedRemoveShare)
       this.remove = 0;
 }
-}
+},
+
+  mounted(){
+    this.getPricesDaily();
+  }
 
 }
 </script>

@@ -14,6 +14,7 @@ export default {
   name: "share-list",
   props: ["shares"],
 	methods: {
+
     displayShareCard(share){
       eventBus.$emit('display-share', share);
     }
