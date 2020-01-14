@@ -23,7 +23,8 @@ export default {
     pieChartInfo: {
       data: null,
       labels: [],
-      label: null
+      label: null,
+      colours: []
     }
   }},
 
@@ -50,7 +51,7 @@ export default {
             labels.push(share.ticker);
         });
         const newData = {
-          data: this.shareValues,
+          data:  this.shareValues,
           labels: labels,
           label: "Portfolio Compisition",
           type: 'pie'
@@ -59,6 +60,22 @@ export default {
         this.loaded = true;
       }
     },
+
+    createPieColours(sharesArray){
+      let colour = [];
+      let r;
+      let g;
+      let b;
+      let newColour;
+      sharesArray.forEach(
+        r = Math.floor(Math.random() * 200);
+        g = Math.floor(Math.random() * 200);
+        b = Math.floor(Math.random() * 200);
+        newColour = 'rgba(' + `${r}` + ', ' + `${g}` + ', ' + `${rb}`+ ')';
+        colour.push(newcolour)
+      )
+      return colour
+    }
 
   },
 
