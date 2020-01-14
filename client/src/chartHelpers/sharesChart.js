@@ -9,16 +9,15 @@ export default{
             label: y_label,
             data: chartData,
             fill:false,
-            backgroundColor: 'rgba(57, 204, 204, 1)',
             borderColor: [
-              '#36495d',
-              '#36495d',
-              '#36495d',
-              '#36495d',
-              '#36495d',
-              '#36495d',
-              '#36495d',
-              '#36495d',
+              '#39cccc',
+              '#39cccc',
+              '#39cccc',
+              '#39cccc',
+              '#39cccc',
+              '#39cccc',
+              '#39cccc',
+              '#39cccc',
             ],
             borderWidth: 3,
             borderCapStyle: 'round',
@@ -39,8 +38,7 @@ export default{
           }]
         },
         responsive: true,
-        maintainAspectRatio: false,
-        fontColour: 'rgba(57, 204, 204, 1)'
+        maintainAspectRatio: false
       }
 
     }

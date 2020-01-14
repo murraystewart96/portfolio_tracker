@@ -24,8 +24,9 @@ export default {
         data: null,
         labels: [],
         label: null,
+        backgroundColor: []
       },
-      colours: []
+
     }},
 
     watch: {
@@ -38,7 +39,7 @@ export default {
     mounted(){
       this.getShareValues();
 
-      this.colours = this.createPieColours(this.pieChartInfo.labels)
+      this.pieChartInfo.backgroundColor = this.createPieColours(this.pieChartInfo.labels)
     },
 
     methods: {
@@ -54,7 +55,7 @@ export default {
           const newData = {
             data: this.shareValues,
             labels: labels,
-            backgroundColor: this.colours,
+            backgroundColor: [],
             label: "Portfolio Compisition",
             type: 'pie'
             }
@@ -63,13 +64,13 @@ export default {
           }
         },
 
-        createPieColours(sharesArray){
+        createPieColours(arrayOfShares){
           let colours = [];
           let r;
           let g;
           let b;
           let newColour;
-          sharesArray.forEach( (share) => {
+          arrayOfShares.forEach( (share) => {
             r = Math.floor(Math.random() * 200);
             g = Math.floor(Math.random() * 200);
             b = Math.floor(Math.random() * 200);
