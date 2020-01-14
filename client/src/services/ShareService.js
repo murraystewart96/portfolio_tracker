@@ -33,7 +33,16 @@ const getCurrentTimestamp = function(){
   const date = year + '-' + (month) + '-' + day;
   const time = hour + ':' + mins + secs;
 
-  return date + " " + time;
+
+  return {
+    timestamp: date + " " + time,
+    date: date,
+    month: month,
+    day: day,
+    time: time,
+    hour: hour,
+
+  }
 }
 
 export default {
@@ -61,12 +70,14 @@ export default {
     .then(() => {
       return Promise.all(responsePromises) //Once all docs have converted to JSON
       .then((docs) => {
-
         for(let i = 0; i < docs.length; i++){
-          const timestamp = docs[i]["Meta Data"]["3. Last Refreshed"];
-          const price = docs[i]["Time Series (1min)"][timestamp]["4. close"];
-          shares[i]["price"] = price;
+          if(docs[i]["Meta Data"]){
+            const timestamp = docs[i]["Meta Data"]["3. Last Refreshed"];
+            const price = docs[i]["Time Series (1min)"][timestamp]["4. close"];
+            shares[i]["price"] = price;
+          }
         }
+        console.log("FINSIHED UPDATING SHARE PRICES");
       })
 
     });
@@ -84,11 +95,10 @@ export default {
   getPricesIntraday(ticker){
 
     const currTimestamp = getCurrentTimestamp();
-    const day = currTimestamp.slice(8,10);
 
     let prices = [];
 
-    return fetch(baseURLext + intraDayQuery + ticker + intraDayParams60min + key1)
+    return fetch(baseURLext + intraDayQuery + ticker + intraDayParams60min + key2)
     .then(doc => doc.json())
     .then((doc) => {
       const latestTimestamp = doc["Meta Data"]["3. Last Refreshed"];
@@ -99,15 +109,15 @@ export default {
 
       const closingTime = "15:30:00"
 
-      if(day > latestDay){ //if market has not opened today
+      if(currTimestamp.day > latestDay){ //if market has not opened today
         for(let i = 0; i < 7; i++){
           prices.push(parseFloat(sharesData[i]["4. close"])) //Get yesterdays prices
         }
-      }else if(time >= closingTime){ //if market has closed for the day
+      }else if(currTimestamp.time >= closingTime){ //if market has closed for the day
         for(let i = 0; i < 7; i++){
           prices.push(parseFloat(sharesData[i]["4. close"])) //get todays prices
         }
-      }else if(time < closingTime){ //if market is open
+      }else if(currTimestamp.time < closingTime){ //if market is open
         const priceIntervals = latestHour - 8; //Calculate how many prices intervals there are
         for(let i = 0; i < priceIntervals; i++){
           prices.push(parseFloat(sharesData[i]["4. close"])); //get prices
@@ -136,6 +146,44 @@ export default {
     })
   },
 
+
+  getPricesMonth(ticker){
+    let prices = [];
+
+    return fetch(baseURLext + dailyQuery + ticker + dailyParams + key1)
+    .then(doc => doc.json())
+    .then((doc) => {
+      if(doc["Meta Data"]){
+        const latestDate = new Date(doc["Meta Data"]["3. Last Refreshed"]);
+        let month = latestDate.getMonth();
+
+        const sharesData = Object.entries(doc["Time Series (Daily)"]);
+        
+
+        let date = new Date(sharesData[0][0]);
+        let counter = 0;
+
+        let labels = [];
+        while(month === date.getMonth()){
+          labels.unshift(date.getDate())
+          prices.push(parseFloat(sharesData[counter][1]["4. close"]));
+          counter++;
+          date = new Date(sharesData[counter][0]);
+        }
+
+        return {
+          prices: prices,
+          labels: labels
+        };
+      }
+      return {
+        prices: null,
+        labels: []
+      };
+    })
+
+  },
+
   update(id, payload){
     return fetch(baseURLint + id, {
       method: 'PUT',
@@ -144,6 +192,4 @@ export default {
     })
     .then(res => res.json())
   }
-
-
 }

@@ -1,7 +1,8 @@
 <template lang="html">
-  <div>
-    <canvas id="chart"></canvas>
-  </div>
+    <div class="">
+      <canvas id="chart"></canvas>
+    </div>
+
 </template>
 
 <script>
@@ -23,11 +24,13 @@ export default {
 
   mounted(){
     if(this.chart) this.destroyChart();
-    this.renderChart();
+    if(!this.chart) this.renderChart();
 
     eventBus.$on('re-render-chart', () => {
-      this.destroyChart();
-      this.renderChart();
+      if(this.chart){
+        this.destroyChart();
+        this.renderChart();
+      }
 
       const upTrend = this.isUpTrending(this.chartInfo.data)
       eventBus.$emit('up-trend', upTrend)
@@ -43,8 +46,8 @@ export default {
       this.chartData = SharesChart.formatChartData(this.chartInfo.labels, this.chartInfo.data, this.chartInfo.label, this.chartInfo.type);
       this.chart = SharesChart.createChart('chart', this.chartData);
     },
+    
     destroyChart(){
-      console.log("destroyed");
       this.chart.destroy();
       this.chart = null;
       this.chartData = null;

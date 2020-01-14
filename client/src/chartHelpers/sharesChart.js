@@ -23,7 +23,7 @@ export default{
             borderWidth: 3,
             borderCapStyle: 'round',
             borderJoinStyle: 'miter',
-            
+
           }
         ],
       },
@@ -38,7 +38,8 @@ export default{
             }
           }]
         },
-        aspectRatio: 2.5,
+        responsive: true,
+        maintainAspectRatio: false,
         fontColour: 'rgba(57, 204, 204, 1)'
       }
 

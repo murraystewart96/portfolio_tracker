@@ -1,5 +1,7 @@
 <template lang="html">
-  <div class="share-chart-wrapper">
+
+  <div class="share-card-wrapper">
+
     <h2>{{share.ticker}}</h2>
 
     <div class="share-info">
@@ -40,10 +42,10 @@
     </div>
 
   </div>
+
 </template>
 
 <script>
-// import ShareService from '../services/ShareService.js'
 import Chart from "./myShareChart"
 import SharesChart from "@/chartHelpers/sharesChart.js"
 import SharesService from "../services/ShareService.js"
@@ -64,6 +66,12 @@ export default {
       labels: [],
       label: null
     },
+    chartInfoApiLimit: {
+      data: [],
+      labels: [],
+      label: "Exceeded API limit. Go Premuim for just $200/month",
+      type: "line"
+    },
     upTrend: true,
     add: 0,
     remove: 0
@@ -71,7 +79,7 @@ export default {
 
   watch: {
     share: function(){
-      this.getPricesDaily()
+      this.getPricesMonth()
       .then(() => {
         eventBus.$emit('re-render-chart', this.chartInfo);
       })
@@ -79,6 +87,8 @@ export default {
   },
 
   methods: {
+
+
     getPricesDaily(){
       return SharesService.getPricesDaily(this.share.ticker)
       .then((prices) => {
@@ -88,50 +98,81 @@ export default {
           label: "Daily Prices",
           type: "line"
         }
-        this.chartInfo = newData
+        this.chartInfo = newData;
         console.log("CHART INFO CHANGED");
         this.loaded = true
       })
     },
+
     getPricesIntraday(){
       return SharesService.getPricesIntraday(this.share.ticker)
       .then((prices) => {
         const newData = {
           data: prices,
-          labels: ["09:00", "10:00", "11:00", "12:00", "13:00", "14:00", "15:00"],
-          label: "Intraday Prices",
+          labels: ["9:30", "10:30", "11:30", "12:30", "13:30", "14:30", "15:30"],
+          label: "Prices During Day",
           type: "line"
         }
         this.chartInfo = newData
+        console.log("CHART INFO CHANGED");
         this.loaded = true
       })
     },
-  handleAddShares(id){
-    this.share.quantity += parseFloat(this.add);
-    let updatedAddShare = {
-      ticker: this.share.ticker,
-      name: this.share.name,
-      exchange: this.share.exchange,
-      quantity: this.share.quantity
-    }
-    SharesService.update(id, updatedAddShare)
-    this.add = 0;
-  },
-  handleRemoveShares(id){
-    this.share.quantity -= parseFloat(this.remove)
-    let updatedRemoveShare = {
-      ticker: this.share.ticker,
-      name: this.share.name,
-      exchange: this.share.exchange,
-      quantity: this.share.quantity
-    }
-    SharesService.update(id, updatedRemoveShare)
+
+    getPricesMonth(){
+      return SharesService.getPricesMonth(this.share.ticker)
+      .then((data) => {
+        console.log(data.prices);
+        if(data.prices){
+          console.log("UPDATED SHARE", this.share)
+          const newData = {
+            data: data.prices,
+            labels: data.labels,
+            label: "Prices During Month",
+            type: "line"
+          }
+          this.chartInfo = newData
+          this.loaded = true
+        }else{
+
+          this.chartInfo = this.chartInfoApiLimit;
+          this.loaded = true
+        }
+      })
+
+    },
+
+
+    handleAddShares(id){
+      this.share.quantity += parseFloat(this.add);
+      let updatedAddShare = {
+        ticker: this.share.ticker,
+        name: this.share.name,
+        exchange: this.share.exchange,
+        quantity: this.share.quantity
+      }
+      SharesService.update(id, updatedAddShare)
+      this.add = 0;
+    },
+
+    handleRemoveShares(id){
+      this.share.quantity -= parseFloat(this.remove)
+      let updatedRemoveShare = {
+        ticker: this.share.ticker,
+        name: this.share.name,
+        exchange: this.share.exchange,
+        quantity: this.share.quantity
+      }
+      SharesService.update(id, updatedRemoveShare)
       this.remove = 0;
-}
-},
+    }
+  },
+
 
   mounted(){
-    this.getPricesDaily();
+    //this.getPricesDaily();
+    //this.getPricesIntraday();
+    this.getPricesMonth();
 
     eventBus.$on('up-trend', upTrend => {
       this.upTrend = upTrend
@@ -171,6 +212,21 @@ export default {
 }
 .chart-container {
   height: 300px;
+  display: flex;
+  justify-content: center;
+}
+
+.share-card-wrapper{
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+}
+
+.share-chart{
+  display: flex;
+  align-items:baseline;
+
+
 }
 
 </style>

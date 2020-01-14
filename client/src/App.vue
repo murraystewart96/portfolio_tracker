@@ -19,7 +19,7 @@
 
 
       <div class="share-card">
-        <portfolio-info v-if="displayPieChart":shares="shares" :destroy="destroyPieChart"/>
+        <portfolio-info v-if="sharesLoaded":shares="shares" :destroy="destroyPieChart"/>
         <share-card v-if="displayShareCard" :share="selectedShare"/>
       </div>
 
@@ -50,9 +50,8 @@ export default {
       selectedShare:null,
       displayShareCard: false,
       destroyPieChart: false,
-      displayPieChart: true,
       shareValues: [],
-
+      sharesLoaded: false,
       pieChartInfo: {}
     }
   },
@@ -65,28 +64,41 @@ export default {
     SharesService.getShares()
     .then(data => {
       this.shares = data;
-      console.log(data);
-      SharesService.updateSharePrices(this.shares);
+      SharesService.updateSharePrices(this.shares)
+      .then((result) => {
+        if(result){
+          this.updateShares()
+        }
+        this.sharesLoaded = true;
+      })
     })
 
-    SharesService.getPricesDaily("AAPL")
-    .then(prices => console.log( prices));
 
-    SharesService.getPricesIntraday("AAPL")
-    .then(prices => console.log("Intradaily Prices", prices));
+
+
 
     eventBus.$on("display-share", (share) => {
       this.selectedShare = share;
       this.destroyPieChart = true;
-      this.displayPieChart = false;
       this.displayShareCard = true;
     })
 
-// this.getShareValues()
   },
 
   methods: {
+    updateShares(){
+      for(let i = 0; i < this.shares.length; i++){
+        const updatedShare = {
+          ticker: this.shares[i].ticker,
+          name: this.shares[i].name,
+          exchange: this.shares[i].exchange,
+          quantity: this.shares[i].quantity,
+          price: this.shares[i].price
+        }
+        SharesService.update(this.shares[i]._id, updatedShare);
+      }
 
+    }
   },
 
   components: {
