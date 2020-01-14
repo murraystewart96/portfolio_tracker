@@ -5,6 +5,7 @@
     <h2>{{share.ticker}}</h2>
 
     <div class="share-info">
+      <p>Name of Company: {{share.name}}</p>
       <p>Current valuation: {{share.quantity*share.price}} </p>
       <p>Exchange: {{share.exchange}} </p>
       <p>Number of shares: {{share.quantity}} </p>
@@ -12,6 +13,8 @@
     </div>
 
     <div class="chart-container">
+      <button class="button" v-on:click="handlePriceFunc('intraDay')">IntraDay Prices</button>
+        <button class="button" v-on:click="handlePriceFunc('daily')">Daily Prices</button>
       <shares-chart v-if="loaded" :chartInfo="chartInfo" type="line"/>
     </div>
 
@@ -43,7 +46,6 @@
 </template>
 
 <script>
-// import ShareService from '../services/ShareService.js'
 import Chart from "./myShareChart"
 import SharesChart from "@/chartHelpers/sharesChart.js"
 import SharesService from "../services/ShareService.js"
@@ -64,14 +66,21 @@ export default {
       labels: [],
       label: null
     },
+    chartInfoApiLimit: {
+      data: [],
+      labels: [],
+      label: "Exceeded API limit. Go Premuim for just $200/month",
+      type: "line"
+    },
     upTrend: true,
     add: 0,
-    remove: 0
+    remove: 0,
+    getPricesFunc: null
   }},
 
   watch: {
     share: function(){
-      this.getPricesMonth()
+      this.getPricesFunc()
       .then(() => {
         eventBus.$emit('re-render-chart', this.chartInfo);
       })
@@ -79,80 +88,118 @@ export default {
   },
 
   methods: {
+
+
     getPricesDaily(){
       return SharesService.getPricesDaily(this.share.ticker)
       .then((prices) => {
-        const newData = {
-          data: prices,
-          labels: ["Mon", "Tue", "Wed", "Thur", "Fri"],
-          label: "Daily Prices",
-          type: "line"
+        if(prices){
+          const newData = {
+            data: prices,
+            labels: ["Mon", "Tue", "Wed", "Thur", "Fri"],
+            label: "Daily Prices",
+            type: "line"
+          }
+          this.chartInfo = newData;
+          console.log("CHART INFO CHANGED");
+          this.loaded = true
+        }else{
+          this.chartInfo = this.chartInfoApiLimit;
+          this.loaded = true
         }
-        this.chartInfo = newData;
-        console.log("CHART INFO CHANGED");
-        this.loaded = true
       })
     },
 
     getPricesIntraday(){
       return SharesService.getPricesIntraday(this.share.ticker)
       .then((prices) => {
-        const newData = {
-          data: prices,
-          labels: ["9:30", "10:30", "11:30", "12:30", "13:30", "14:30", "15:30"],
-          label: "Prices During Day",
-          type: "line"
+        if(prices){
+          const newData = {
+            data: prices,
+            labels: ["9:30", "10:30", "11:30", "12:30", "13:30", "14:30", "15:30"],
+            label: "Prices During Day",
+            type: "line"
+          }
+          this.chartInfo = newData
+          this.loaded = true
+        }else{
+          this.chartInfo = this.chartInfoApiLimit;
+          this.loaded = true
         }
-        this.chartInfo = newData
-        console.log("CHART INFO CHANGED");
-        this.loaded = true
       })
     },
 
     getPricesMonth(){
       return SharesService.getPricesMonth(this.share.ticker)
       .then((data) => {
-
-        
-        const newData = {
-          data: data.prices,
-          labels: data.labels,
-          label: "Prices During Month",
-          type: "line"
+        console.log(data.prices);
+        if(data.prices){
+          console.log("UPDATED SHARE", this.share)
+          const newData = {
+            data: data.prices,
+            labels: data.labels,
+            label: "Prices During Month",
+            type: "line"
+          }
+          this.chartInfo = newData
+          this.loaded = true
+        }else{
+          this.chartInfo = this.chartInfoApiLimit;
+          this.loaded = true
         }
-        this.chartInfo = newData
-        console.log("CHART INFO CHANGED");
-        this.loaded = true
       })
+
     },
-  handleAddShares(id){
-    this.share.quantity += parseFloat(this.add);
-    let updatedAddShare = {
-      ticker: this.share.ticker,
-      name: this.share.name,
-      exchange: this.share.exchange,
-      quantity: this.share.quantity
-    }
-    SharesService.update(id, updatedAddShare)
-    this.add = 0;
-  },
-  handleRemoveShares(id){
-    this.share.quantity -= parseFloat(this.remove)
-    let updatedRemoveShare = {
-      ticker: this.share.ticker,
-      name: this.share.name,
-      exchange: this.share.exchange,
-      quantity: this.share.quantity
-    }
-    SharesService.update(id, updatedRemoveShare)
+
+    handlePriceFunc(funcType){
+      if(funcType === "intraDay"){
+        this.getPricesIntraday()
+        .then(() => {
+          eventBus.$emit('re-render-chart', this.chartInfo)
+          this.getPricesFunc = this.getPricesIntraday;
+        })
+      }else if(funcType === "daily"){
+        this.getPricesDaily()
+        .then(() => {
+          eventBus.$emit('re-render-chart', this.chartInfo)
+          this.getPricesFunc = this.getPricesDaily;
+        })
+      }
+
+    },
+
+
+    handleAddShares(id){
+      this.share.quantity += parseFloat(this.add);
+      let updatedAddShare = {
+        ticker: this.share.ticker,
+        name: this.share.name,
+        exchange: this.share.exchange,
+        quantity: this.share.quantity
+      }
+      SharesService.update(id, updatedAddShare)
+      this.add = 0;
+    },
+
+    handleRemoveShares(id){
+      this.share.quantity -= parseFloat(this.remove)
+      let updatedRemoveShare = {
+        ticker: this.share.ticker,
+        name: this.share.name,
+        exchange: this.share.exchange,
+        quantity: this.share.quantity
+      }
+      SharesService.update(id, updatedRemoveShare)
       this.remove = 0;
-}
-},
+    }
+  },
+
 
   mounted(){
     //this.getPricesDaily();
     //this.getPricesIntraday();
-    this.getPricesMonth();
+    this.getPricesFunc = this.getPricesIntraday;
+    this.getPricesIntraday();
 
     eventBus.$on('up-trend', upTrend => {
       this.upTrend = upTrend
@@ -169,6 +216,10 @@ export default {
   font-size: 0.75em;
   justify-content: space-between;
   align-content: space-between;
+}
+
+.button {
+
 }
 
 #add-shares {
