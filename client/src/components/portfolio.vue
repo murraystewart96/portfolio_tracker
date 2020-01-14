@@ -24,7 +24,7 @@ export default {
         data: null,
         labels: [],
         label: null,
-        backgroundColor: []
+        backgroundColor: [],
       },
 
     }},
@@ -47,7 +47,7 @@ export default {
         if (!this.destroy) {
           let labels = []
 
-          this.shares.map(share => {
+          this.shares.map((share) => {
             let res = (share.quantity * (parseInt(share.price)))
             this.shareValues.push(res);
             labels.push(share.ticker);
@@ -55,10 +55,11 @@ export default {
           const newData = {
             data: this.shareValues,
             labels: labels,
+            label: 'Portfolio Composition',
             backgroundColor: [],
-            label: "Portfolio Compisition",
             type: 'pie'
             }
+
             this.pieChartInfo = newData;
             this.loaded = true;
           }
