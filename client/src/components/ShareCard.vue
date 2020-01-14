@@ -61,6 +61,12 @@ export default {
       labels: [],
       label: null
     },
+    chartInfoApiLimit: {
+      data: [],
+      labels: [],
+      label: "Exceeded API limit. Go Premuim for just $200/month",
+      type: "line"
+    },
     upTrend: true,
     add: 0,
     remove: 0
@@ -76,6 +82,8 @@ export default {
   },
 
   methods: {
+
+
     getPricesDaily(){
       return SharesService.getPricesDaily(this.share.ticker)
       .then((prices) => {
@@ -109,42 +117,52 @@ export default {
     getPricesMonth(){
       return SharesService.getPricesMonth(this.share.ticker)
       .then((data) => {
+        console.log(data.prices);
+        if(data.prices){
+          console.log("UPDATED SHARE", this.share)
+          const newData = {
+            data: data.prices,
+            labels: data.labels,
+            label: "Prices During Month",
+            type: "line"
+          }
+          this.chartInfo = newData
+          this.loaded = true
+        }else{
 
-        
-        const newData = {
-          data: data.prices,
-          labels: data.labels,
-          label: "Prices During Month",
-          type: "line"
+          this.chartInfo = this.chartInfoApiLimit;
+          this.loaded = true
         }
-        this.chartInfo = newData
-        console.log("CHART INFO CHANGED");
-        this.loaded = true
       })
+
     },
-  handleAddShares(id){
-    this.share.quantity += parseFloat(this.add);
-    let updatedAddShare = {
-      ticker: this.share.ticker,
-      name: this.share.name,
-      exchange: this.share.exchange,
-      quantity: this.share.quantity
-    }
-    SharesService.update(id, updatedAddShare)
-    this.add = 0;
-  },
-  handleRemoveShares(id){
-    this.share.quantity -= parseFloat(this.remove)
-    let updatedRemoveShare = {
-      ticker: this.share.ticker,
-      name: this.share.name,
-      exchange: this.share.exchange,
-      quantity: this.share.quantity
-    }
-    SharesService.update(id, updatedRemoveShare)
+
+
+    handleAddShares(id){
+      this.share.quantity += parseFloat(this.add);
+      let updatedAddShare = {
+        ticker: this.share.ticker,
+        name: this.share.name,
+        exchange: this.share.exchange,
+        quantity: this.share.quantity
+      }
+      SharesService.update(id, updatedAddShare)
+      this.add = 0;
+    },
+
+    handleRemoveShares(id){
+      this.share.quantity -= parseFloat(this.remove)
+      let updatedRemoveShare = {
+        ticker: this.share.ticker,
+        name: this.share.name,
+        exchange: this.share.exchange,
+        quantity: this.share.quantity
+      }
+      SharesService.update(id, updatedRemoveShare)
       this.remove = 0;
-}
-},
+    }
+  },
+
 
   mounted(){
     //this.getPricesDaily();

@@ -65,12 +65,11 @@ export default {
     .then(data => {
       this.shares = data;
       SharesService.updateSharePrices(this.shares)
-      .then(() => {
-        this.updateShares()
+      .then((result) => {
+        if(result){
+          this.updateShares()
+        }
         this.sharesLoaded = true;
-        SharesService.getShares()
-        .then((shares) =>
-        console.log("GETTING SHARES FROM DATABASE", shares));
       })
     })
 
@@ -96,10 +95,8 @@ export default {
           quantity: this.shares[i].quantity,
           price: this.shares[i].price
         }
-        console.log("UPDATED SHARE VALUE", updatedShare);
         SharesService.update(this.shares[i]._id, updatedShare);
       }
-      console.log("SHARES UPDATED");
 
     }
   },

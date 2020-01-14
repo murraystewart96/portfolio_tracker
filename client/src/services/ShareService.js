@@ -70,11 +70,12 @@ export default {
     .then(() => {
       return Promise.all(responsePromises) //Once all docs have converted to JSON
       .then((docs) => {
-
         for(let i = 0; i < docs.length; i++){
-          const timestamp = docs[i]["Meta Data"]["3. Last Refreshed"];
-          const price = docs[i]["Time Series (1min)"][timestamp]["4. close"];
-          shares[i]["price"] = price;
+          if(docs[i]["Meta Data"]){
+            const timestamp = docs[i]["Meta Data"]["3. Last Refreshed"];
+            const price = docs[i]["Time Series (1min)"][timestamp]["4. close"];
+            shares[i]["price"] = price;
+          }
         }
         console.log("FINSIHED UPDATING SHARE PRICES");
       })
@@ -152,29 +153,32 @@ export default {
     return fetch(baseURLext + dailyQuery + ticker + dailyParams + key1)
     .then(doc => doc.json())
     .then((doc) => {
+      if(doc["Meta Data"]){
+        const latestDate = new Date(doc["Meta Data"]["3. Last Refreshed"]);
+        let month = latestDate.getMonth();
 
-      const latestDate = new Date(doc["Meta Data"]["3. Last Refreshed"]);
-      let month = latestDate.getMonth();
+        const sharesData = Object.entries(doc["Time Series (Daily)"]);
+        
 
-      const sharesData = Object.entries(doc["Time Series (Daily)"]);
-      console.log(sharesData);
+        let date = new Date(sharesData[0][0]);
+        let counter = 0;
 
-      let date = new Date(sharesData[0][0]);
-      console.log(date);
-      let counter = 0;
+        let labels = [];
+        while(month === date.getMonth()){
+          labels.unshift(date.getDate())
+          prices.push(parseFloat(sharesData[counter][1]["4. close"]));
+          counter++;
+          date = new Date(sharesData[counter][0]);
+        }
 
-      let labels = [];
-      while(month === date.getMonth()){
-        console.log(counter);
-        labels.unshift(date.getDate())
-        prices.push(parseFloat(sharesData[counter][1]["4. close"]));
-        counter++;
-        date = new Date(sharesData[counter][0]);
+        return {
+          prices: prices,
+          labels: labels
+        };
       }
-
       return {
-        prices: prices,
-        labels: labels
+        prices: null,
+        labels: []
       };
     })
 
