@@ -147,16 +147,12 @@ export default {
   getPricesMonth(ticker){
     let prices = [];
 
-    const latestDate = new Date("2020-01-13 13:09:53");
-    console.log(latestDate.getMonth());
-
     return fetch(baseURLext + dailyQuery + ticker + dailyParams + key1)
     .then(doc => doc.json())
     .then((doc) => {
 
       const latestDate = new Date(doc["Meta Data"]["3. Last Refreshed"]);
       let month = latestDate.getMonth();
-
 
       const sharesData = Object.entries(doc["Time Series (Daily)"]);
       console.log(sharesData);
@@ -178,12 +174,6 @@ export default {
         prices: prices,
         labels: labels
       };
-
-
-      // for(let i = 0; i < numberOfDays; i++){
-      //   prices.push(parseFloat(sharesData[i]["4. close"]));
-      // }
-      // return prices;
     })
   }
 }
