@@ -79,9 +79,13 @@ export default{
           lineTension: 1,
           scales: {
             yAxes: [{
-              ticks: {
-                  beginAtZero: true,
-                  padding: 25,
+              gridLines: {
+                display: false
+              }
+            }],
+            xAxes: [{
+              gridLines: {
+                display: false
               }
             }]
           },
