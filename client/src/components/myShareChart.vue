@@ -37,7 +37,7 @@ export default {
     })
 
     eventBus.$on('destroy-chart', () => {
-      this.destroyChart();
+      if(this.chart) this.destroyChart();
     })
   },
 
@@ -46,7 +46,7 @@ export default {
       this.chartData = SharesChart.formatChartData(this.chartInfo.labels, this.chartInfo.data, this.chartInfo.label, this.chartInfo.type);
       this.chart = SharesChart.createChart('chart', this.chartData);
     },
-    
+
     destroyChart(){
       this.chart.destroy();
       this.chart = null;

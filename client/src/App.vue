@@ -27,6 +27,11 @@
         <portfolio-total :shares="shares"></portfolio-total>
       </div>
     </div>
+
+    <div>
+      <carousel> here is the news carousel</carousel>
+    </div>
+
   </div>
 
 </template>
@@ -39,7 +44,7 @@ import shareList from  "./components/shareList"
 import Chart from "./components/myShareChart"
 import { eventBus } from './main.js';
 import shareCard from "./components/ShareCard"
-
+import Carousel from './components/carousel'
 
 export default {
   name: 'app',
@@ -73,7 +78,11 @@ export default {
       })
     })
 
-
+    eventBus.$on("display-pie", (shares) => {
+      this.shares = shares;
+      this.destroyPieChart = false;
+      this.displayShareCard = false;
+    })
 
 
 
@@ -106,7 +115,8 @@ export default {
     'share-list' : shareList,
     'portfolio-pie-chart': Chart,
     'share-card' : shareCard,
-    'portfolio-info': Portfolio
+    'portfolio-info': Portfolio,
+    'carousel': Carousel
     }
 }
 </script>

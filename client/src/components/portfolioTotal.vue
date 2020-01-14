@@ -1,12 +1,13 @@
 <template lang="html">
   <div class="PortfolioTotal">
-  <h2>Portfolio Total</h2>
+  <h2 v-on:click="displayPieChart(shares)">Portfolio Total</h2>
   <h4>Value: £{{total}}</h4>
   </div>
 </template>
 
 <script>
 import ShareService from '../services/ShareService.js';
+import { eventBus } from '../main.js';
 
 export default {
   name: "portfolio-total",
@@ -25,6 +26,12 @@ export default {
       };
       return this.totalValue;
 
+    }
+  },
+  methods: {
+
+    displayPieChart(shares){
+      eventBus.$emit('display-pie', shares);
     }
   }
 

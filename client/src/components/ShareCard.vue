@@ -10,11 +10,12 @@
       <p>Exchange: {{share.exchange}} </p>
       <p>Number of shares: {{share.quantity}} </p>
       <p v-bind:style="[upTrend ? {'color' : 'green'}: {'colour' :'red'}]"> Share price: ${{share.price}} </p>
+      <button class="button" v-on:click="handlePriceFunc('intraDay')">IntraDay Prices</button>
+      <button class="button" v-on:click="handlePriceFunc('daily')">Daily Prices</button>
+      <button class="button" v-on:click="handlePriceFunc('monthly')">Month to Date Prices</button>
     </div>
 
     <div class="chart-container">
-      <button class="button" v-on:click="handlePriceFunc('intraDay')">IntraDay Prices</button>
-        <button class="button" v-on:click="handlePriceFunc('daily')">Daily Prices</button>
       <shares-chart v-if="loaded" :chartInfo="chartInfo" type="line"/>
     </div>
 
@@ -120,7 +121,7 @@ export default {
             label: "Prices During Day",
             type: "line"
           }
-          this.chartInfo = newData
+          this.chartInfo = newData;
           this.loaded = true
         }else{
           this.chartInfo = this.chartInfoApiLimit;
@@ -131,17 +132,17 @@ export default {
 
     getPricesMonth(){
       return SharesService.getPricesMonth(this.share.ticker)
-      .then((data) => {
-        console.log(data.prices);
-        if(data.prices){
+      .then((prices) => {
+        console.log(prices);
+        if(prices){
           console.log("UPDATED SHARE", this.share)
           const newData = {
-            data: data.prices,
-            labels: data.labels,
+            data: prices,
+            labels: ["1", "2", "3", "4", "5", "6", "7"],
             label: "Prices During Month",
             type: "line"
           }
-          this.chartInfo = newData
+          this.chartInfo = newData;
           this.loaded = true
         }else{
           this.chartInfo = this.chartInfoApiLimit;
@@ -163,6 +164,12 @@ export default {
         .then(() => {
           eventBus.$emit('re-render-chart', this.chartInfo)
           this.getPricesFunc = this.getPricesDaily;
+        })
+      }else if(funcType === "monthly"){
+        this.getPricesMonth()
+        .then(() => {
+          eventBus.$emit('re-render-chart', this.chartInfo)
+          this.getPricesFunc = this.getPricesMonth;
         })
       }
 
@@ -219,7 +226,10 @@ export default {
 }
 
 .button {
-
+  display: flex;
+  margin: 5px;
+  justify-content: center;
+  align-items: space-between;
 }
 
 #add-shares {
