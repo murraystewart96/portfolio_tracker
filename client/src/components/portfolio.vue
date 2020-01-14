@@ -25,6 +25,7 @@ export default {
         labels: [],
         label: null,
         backgroundColor: [],
+        type: ''
       },
 
     }},
