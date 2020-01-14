@@ -79,14 +79,10 @@ export default{
           lineTension: 1,
           scales: {
             yAxes: [{
-              gridLines: {
-                display: false
-              }
+              display: false,
             }],
             xAxes: [{
-              gridLines: {
-                display: false
-              }
+              display: false,
             }]
           },
           responsive: true,
