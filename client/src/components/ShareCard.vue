@@ -132,13 +132,13 @@ export default {
 
     getPricesMonth(){
       return SharesService.getPricesMonth(this.share.ticker)
-      .then((prices) => {
-        console.log(prices);
-        if(prices){
+      .then((data) => {
+        console.log("MONTHLY PRICES", data.prices);
+        if(data.prices){
           console.log("UPDATED SHARE", this.share)
           const newData = {
-            data: prices,
-            labels: ["1", "2", "3", "4", "5", "6", "7"],
+            data: data.prices,
+            labels: data.labels,
             label: "Prices During Month",
             type: "line"
           }
@@ -203,8 +203,7 @@ export default {
 
 
   mounted(){
-    //this.getPricesDaily();
-    //this.getPricesIntraday();
+
     this.getPricesFunc = this.getPricesIntraday;
     this.getPricesIntraday();
 

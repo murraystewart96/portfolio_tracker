@@ -175,6 +175,7 @@ export default {
           prices.push(parseFloat(sharesData[counter][1]["4. close"]));
           counter++;
           date = new Date(sharesData[counter][0]);
+          console.log(date.getDate());
         }
 
         return {

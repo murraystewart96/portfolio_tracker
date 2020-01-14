@@ -32,8 +32,12 @@ export default {
 
     watch: {
       destroy: function(){
-        eventBus.$emit('destroy-chart');
-        this.loaded = false;
+        if(this.destroy){
+          eventBus.$emit('destroy-chart');
+          this.loaded = false;
+        }else {
+          this.loaded = true;
+        }
       }
     },
 

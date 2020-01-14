@@ -21,7 +21,7 @@
       </div>
 
       <div class="portfolio-total">
-        <portfolio-total :shares="shares"></portfolio-total>
+        <portfolio-total v-if="sharesLoaded" :shares="shares"></portfolio-total>
       </div>
     </div>
 
@@ -70,7 +70,6 @@ export default {
       //update shares to get price
       SharesService.updateSharePrices(this.shares)
       .then(() => {
-
         this.updateShares()
       })
     })

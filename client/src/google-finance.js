@@ -32,3 +32,32 @@ yahooFinance.historical({
     console.log('N/A');
   }
 });
+
+
+// '2019-12-31'
+//
+// getQuotesByDate(symbol, startDate, endDate){
+//   yahooFinance.historical({
+//     symbol: symbol,
+//     from: startDate,
+//     to: endDate,
+//     period: 'd'
+//   }, function (err, quotes) {
+//     if (err) { throw err; }
+//     console.log(util.format(
+//       '=== %s (%d) ===',
+//       SYMBOL,
+//       quotes.length
+//     ).cyan);
+//     if (quotes[0]) {
+//       console.log(
+//         '%s\n...\n%s',
+//         JSON.stringify(quotes[0], null, 2),
+//         JSON.stringify(quotes[quotes.length - 1], null, 2)
+//       );
+//     } else {
+//       console.log('N/A');
+//     }
+//   });
+//
+// }
