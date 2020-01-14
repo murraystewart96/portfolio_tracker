@@ -6,7 +6,7 @@
       <p>Current valuation: {{share.quantity*share.price}} </p>
       <p>Exchange: {{share.exchange}} </p>
       <p>Number of shares: {{share.quantity}} </p>
-      <p>Share price: {{share.price}} </p>
+      <p v-bind:style="[upTrend ? {'color' : 'green'}: {'colour' :'red'}]"> Share price: ${{share.price}} </p>
     </div>
 
     <div class="chart-container">
@@ -49,6 +49,7 @@ import { eventBus } from '../main.js';
 
 export default {
   name: 'share-card',
+
   components: {'shares-chart': Chart},
   props: ['share'],
 
@@ -60,16 +61,16 @@ export default {
       labels: [],
       label: null
     },
+    upTrend: true,
     add: 0,
     remove: 0
-  }
-},
+  }},
 
   watch: {
     share: function(){
       this.getPricesDaily()
       .then(() => {
-        eventBus.$emit('re-render-chart');
+        eventBus.$emit('re-render-chart', this.chartInfo);
       })
     }
   },
@@ -81,7 +82,8 @@ export default {
         const newData = {
           data: prices,
           labels: ["Mon", "Tue", "Wed", "Thur", "Fri"],
-          label: "Daily Prices"
+          label: "Daily Prices",
+          type: "line"
         }
         this.chartInfo = newData
         console.log("CHART INFO CHANGED");
@@ -114,6 +116,10 @@ export default {
 
   mounted(){
     this.getPricesDaily();
+
+    eventBus.$on('up-trend', upTrend => {
+      this.upTrend = upTrend
+    })
   }
 
 }
@@ -146,6 +152,9 @@ export default {
   display: flex;
   align-items: flex-end;
   margin: 5px;
+}
+.chart-container {
+  height: 300px;
 }
 
 </style>

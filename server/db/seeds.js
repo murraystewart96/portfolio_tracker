@@ -1,7 +1,6 @@
 use shares_portfolio;
 
-db.dropDatabase()
-
+db.dropDatabase();
 db.shares.insertMany([
   {
   "ticker": "AAPL",

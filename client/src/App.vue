@@ -1,26 +1,40 @@
 <template>
   <div id="app">
+
+  <div class="title">
     <h1 id="title">Portfolio Tracker</h1>
-    <div class="portfolio-total">
+    <!-- <div class="portfolio-total">
       <portfolio-total :shares="shares"></portfolio-total>
-    </div>
-
-    <div class="share-list">
-      <h2>Your current shares</h2>
-      <share-list :shares="shares"/>
-    </div>
-
-    <div class="share-card">
-      <portfolio-pie-chart v-if="displayPieChart" :chartInfo="pieChartInfo" type="pie"/>
-      <share-card v-if="displayShareCard" :share="selectedShare"/>
-    </div>
-
+    </div> -->
+    <img src="@/assets/growth-icon2.png" alt="">
   </div>
+
+    <div class="main-content">
+
+      <div class="share-list">
+          <h2>Your current shares</h2>
+          <share-list :shares="shares"/>
+      </div>
+
+
+
+      <div class="share-card">
+        <portfolio-info v-if="displayPieChart":shares="shares" :destroy="destroyPieChart"/>
+        <share-card v-if="displayShareCard" :share="selectedShare"/>
+      </div>
+
+      <div class="portfolio-total">
+        <portfolio-total :shares="shares"></portfolio-total>
+      </div>
+    </div>
+  </div>
+
 </template>
 
 <script>
 import SharesService from "./services/ShareService.js"
 import portfolioTotal from  "./components/portfolioTotal"
+import Portfolio from "./components/portfolio"
 import shareList from  "./components/shareList"
 import Chart from "./components/myShareChart"
 import { eventBus } from './main.js';
@@ -35,22 +49,15 @@ export default {
 
       selectedShare:null,
       displayShareCard: false,
-      displayPieChart: false,
+      destroyPieChart: false,
+      displayPieChart: true,
       shareValues: [],
 
-      pieChartInfo: {
-        data: null,
-        labels: [],
-        label: null
-      },
+      pieChartInfo: {}
     }
   },
 
-  // watch: {
-  //   selectedShare: function(){
-  //     this.getPricesDaily();
-  //   }
-  // },
+
 
   mounted(){
 
@@ -70,38 +77,34 @@ export default {
 
     eventBus.$on("display-share", (share) => {
       this.selectedShare = share;
+      this.destroyPieChart = true;
       this.displayPieChart = false;
       this.displayShareCard = true;
     })
 
-
-    this.getShareValues()
-
+// this.getShareValues()
   },
 
   methods: {
-    getShareValues(){
-      this.shares.map(share => {
-        let res = (share.quantity * (parseInt(share.price)))
-          this.shareValues.push(res);
-          this.pieChartInfo.labels.push(share.ticker);
-      });
-      this.pieChartInfo.data = this.shareValues;
-      this.pieChartInfo.label = "Portfolio Compisition";
-      this.displayPieChart = true;
-    },
+
   },
 
   components: {
     'portfolio-total' : portfolioTotal,
     'share-list' : shareList,
     'portfolio-pie-chart': Chart,
-    'share-card' : shareCard
-  },
+    'share-card' : shareCard,
+    'portfolio-info': Portfolio
+    }
 }
 </script>
 
 <style lang="css">
+@font-face {
+font-family: "Quicksand";
+src: url("./assets/Quicksand.ttf");
+}
+
 #app {
   font-family: 'Avenir', Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
@@ -111,23 +114,34 @@ export default {
   margin-top: 60px;
 }
 
-#title {
+.title {
   display: flex;
   align-items: flex-start;
   justify-content: center;
+  font-family: Quicksand;
 }
 
+  img{
+    width: 50px;
+    height: 50px;
+    position: relative;
+    left: 10px;
+    top: 6px;
+  }
+
 .share-card{
+  font-family: Quicksand;
   display: flex;
   justify-content: space-around;
   align-items: flex-end;
   border: solid 3px #39CCCC;
   align-items: baseline;
+  width: 850px;
 }
 
 .share-list{
   width: auto;
-  position: fixed;
+  font-family: Quicksand;
   top: 120px;
   left: 10px;
   background: #eee;
@@ -145,15 +159,24 @@ export default {
 }
 
 .portfolio-total{
-  justify-content: space-between;
+  justify-content: space-around;
   border: solid 3px #39CCCC;
   width: auto;
-  position: absolute;
+  font-family: Quicksand;
   top: 125px;
   right: 40px;
   background: #eee;
   padding: 10px;
+  height: 150px;
 }
 
+.share-card p{
+  font-family: Quicksand;
+}
+
+.main-content {
+  display: flex;
+  justify-content: space-between;
+}
 
 </style>
