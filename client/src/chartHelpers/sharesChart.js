@@ -45,7 +45,8 @@ export default{
 
     }
 
-    return l_chartData; }
+    return l_chartData;
+  }
     else {
       const l_chartData = {
         type: chartType,
@@ -86,13 +87,14 @@ export default{
             }]
           },
           responsive: true,
-          maintainAspectRatio: false
-        }
-
+          maintainAspectRatio: false,
+    }
       }
-        return l_chartData;
+      return l_chartData;
     }
   },
+
+
 
   createChart(chartId, chartData){
     const ctx = document.getElementById(chartId);
@@ -102,5 +104,4 @@ export default{
       options: chartData.options
     })
   }
-
 }
