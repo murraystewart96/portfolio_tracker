@@ -1,12 +1,13 @@
 <template>
-  <div class='carousel-view'>
+  <div class='carousel-view' >
     <transition-group
       class='carousel'
       tag="div">
       <div
         v-for="slide in slides"
         class='slide'
-        :key="slide.id">
+        :key="slide.id"
+        >
         <h4> {{ slide.title }} </h4>
       </div>
     </transition-group>
@@ -24,6 +25,7 @@
 export default {
   data () {
       return {
+        auto: 2000,
         slides: [
           {
             title: 'Apple News',
@@ -67,6 +69,10 @@ export default {
   display: flex;
   flex-direction: column;
   align-items: center;
+  border: solid 3px #39CCCC;
+  width: inherit;
+  font-family: Quicksand;
+  margin-top: 4.25em;
 }
 .carousel {
   display: flex;
@@ -74,18 +80,16 @@ export default {
   align-items: center;
   overflow: hidden;
 
-  width: 24em;
+  width: 12em;
   min-height: 3em;
 }
 .slide {
   flex: 0 0 5em;
-  height: 0.75em;
-  margin: 2em;
+  height: 1em;
+  margin: .75em;
   display: flex;
   justify-content: center;
   align-items: center;
-  border: 0.1em ;
-  border-radius: 60%;
   transition: transform 0.3s ease-in-out;
 }
 .slide:first-of-type {
@@ -93,6 +97,9 @@ export default {
 }
 .slide:last-of-type {
   opacity: 0;
+}
+button {
+  font-weight: bold;
 }
 
 

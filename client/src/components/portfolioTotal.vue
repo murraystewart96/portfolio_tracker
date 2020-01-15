@@ -39,4 +39,8 @@ export default {
 </script>
 
 <style lang="css" scoped>
+h2 {
+  cursor: pointer;
+}
+
 </style>
