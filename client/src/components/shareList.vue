@@ -32,4 +32,7 @@ export default {
   #dontDisplay {
   display: none;
 }
+  button {
+  font-weight: bold;
+}
 </style>

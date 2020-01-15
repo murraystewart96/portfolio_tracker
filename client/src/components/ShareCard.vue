@@ -199,7 +199,9 @@ export default {
       }
       SharesService.update(id, updatedRemoveShare)
       this.remove = 0;
-    }
+    },
+
+
   },
 
 
@@ -223,6 +225,7 @@ export default {
   font-size: 0.75em;
   justify-content: space-between;
   align-content: space-between;
+  font-weight: bold;
 }
 
 .button {
@@ -230,6 +233,7 @@ export default {
   margin: 5px;
   justify-content: center;
   align-items: space-between;
+
 }
 
 #add-shares {
@@ -244,12 +248,14 @@ export default {
   display: flex;
   align-items: flex-end;
   margin: 5px;
+  font-weight: bold;
 }
 
 #add {
   display: flex;
   align-items: flex-end;
   margin: 5px;
+  font-weight: bold;
 }
 .chart-container {
   height: 300px;
@@ -277,6 +283,7 @@ button {
   height: auto;
   width: 80px;
   margin: 8px;
+  font-weight: bold;
 }
 
 </style>

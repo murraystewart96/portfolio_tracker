@@ -22,12 +22,11 @@
 
       <div class="portfolio-total">
         <portfolio-total v-if="sharesLoaded" :shares="shares"></portfolio-total>
+          <carousel class="carousel"> here is the news carousel</carousel>
       </div>
     </div>
 
-    <div>
-      <carousel> here is the news carousel</carousel>
-    </div>
+
 
   </div>
 
@@ -160,6 +159,8 @@ src: url("./assets/Quicksand.ttf");
   border: solid 3px #39CCCC;
   align-items: baseline;
   width: 850px;
+  font-size: 1.25em;
+  font-weight: bold;
 }
 
 .share-list{
@@ -171,8 +172,7 @@ src: url("./assets/Quicksand.ttf");
   overflow-x: hidden;
   padding: 8px 0;
   margin-top: 5px;
-  border: solid 3px #39CCCC;
-  padding: 10px;
+  border: solid 3px #39CCCC; 
 }
 
 .share-list button{
@@ -190,7 +190,7 @@ src: url("./assets/Quicksand.ttf");
   top: 125px;
   right: 40px;
   background: #eee;
-  padding: 10px;
+  /* padding: 10px; */
   height: 150px;
 }
 
@@ -201,6 +201,15 @@ src: url("./assets/Quicksand.ttf");
 .main-content {
   display: flex;
   justify-content: space-between;
+}
+
+.carousel {
+top: 125px;
+right: 40px;
+background: #eee;
+padding: .5em;
+height: 110px;
+/* width: auto; */
 }
 
 </style>
