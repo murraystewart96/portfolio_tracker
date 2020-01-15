@@ -22,7 +22,7 @@
 
       <div class="portfolio-total">
         <portfolio-total v-if="sharesLoaded" :shares="shares"></portfolio-total>
-          <carousel class="carousel"> here is the news carousel</carousel>
+          <carousel class="carousel"></carousel>
       </div>
     </div>
 
@@ -183,7 +183,8 @@ src: url("./assets/Quicksand.ttf");
 }
 
 .portfolio-total{
-  justify-content: space-around;
+  justify-content: space-between;
+  flex-direction: column;
   border: solid 3px #39CCCC;
   width: auto;
   font-family: Quicksand;
@@ -209,6 +210,7 @@ right: 40px;
 background: #eee;
 padding: .5em;
 height: 110px;
+margin-top: 5px;
 /* width: auto; */
 }
 
