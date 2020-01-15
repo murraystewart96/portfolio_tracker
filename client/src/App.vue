@@ -172,7 +172,7 @@ src: url("./assets/Quicksand.ttf");
   overflow-x: hidden;
   padding: 8px 0;
   margin-top: 5px;
-  border: solid 3px #39CCCC; 
+  border: solid 3px #39CCCC;
 }
 
 .share-list button{
@@ -210,6 +210,10 @@ background: #eee;
 padding: .5em;
 height: 110px;
 /* width: auto; */
+}
+
+h2 {
+  margin: 5px;
 }
 
 </style>
