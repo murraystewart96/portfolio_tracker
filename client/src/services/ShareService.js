@@ -12,6 +12,7 @@ const key1 = "&apikey=QTA1FETX7I0B34WC";
 const key2 = "&apikey=FT7FZ6ZFM0DJ6CZT";
 
 
+//Returns an object with all the neccessary date info
 const getCurrentTimestamp = function(){
 
   const dateObj = new Date();
@@ -33,7 +34,6 @@ const getCurrentTimestamp = function(){
   const date = year + '-' + (month) + '-' + day;
   const time = hour + ':' + mins + secs;
 
-
   return {
     timestamp: date + " " + time,
     date: date,
@@ -41,7 +41,6 @@ const getCurrentTimestamp = function(){
     day: day,
     time: time,
     hour: hour,
-
   }
 }
 
@@ -52,6 +51,7 @@ export default {
     .then(docs => docs.json());
   },
 
+  //Updates the prices of all shares based on the most recent closing price
   updateSharePrices(shares){
     let fetchPromises = [];
     let responsePromises = [];
@@ -82,6 +82,7 @@ export default {
     });
 
 },
+
   postShares(payload){
     fetch(baseURLint, {
       method: "POST",
@@ -91,7 +92,9 @@ export default {
     .then(res => res.json());
   },
 
+  //Returns all the closing prices throughout the day at hour intervals
   getPricesIntraday(ticker){
+
 
     const currTimestamp = getCurrentTimestamp();
     let prices = [];
@@ -129,6 +132,7 @@ export default {
   },
 
 
+  //Gets all the daily closing prices for the current week
   getPricesDaily(ticker){
 
     let prices = [];
@@ -150,7 +154,7 @@ export default {
     })
   },
 
-
+  //Gets the closing prices all the trading days in the month so far
   getPricesMonth(ticker){
     let prices = [];
 
@@ -163,11 +167,12 @@ export default {
 
         const sharesData = Object.entries(doc["Time Series (Daily)"]);
 
-
         let date = new Date(sharesData[0][0]);
         let counter = 0;
 
         let labels = [];
+
+        //while the retrieved timestamp month is the same as the current month 
         while(month === date.getMonth()){
           labels.unshift(date.getDate())
           prices.push(parseFloat(sharesData[counter][1]["4. close"]));
