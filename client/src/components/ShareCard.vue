@@ -10,9 +10,14 @@
       <p>Exchange: {{share.exchange}} </p>
       <p>Number of shares: {{share.quantity}} </p>
       <p v-bind:style="[upTrend ? {'color' : 'green'}: {'colour' :'red'}]"> Share price: ${{share.price}} </p>
+
+      <div class="time-frame-buttons">
+
+
       <button class="button" v-on:click="handlePriceFunc('intraDay')">IntraDay Prices</button>
       <button class="button" v-on:click="handlePriceFunc('daily')">Daily Prices</button>
       <button class="button" v-on:click="handlePriceFunc('monthly')">Month to Date Prices</button>
+      </div>
     </div>
 
     <div class="chart-container">
@@ -284,6 +289,12 @@ button {
   width: 80px;
   margin: 8px;
   font-weight: bold;
+}
+
+.time-frame-buttons {
+  display: flex;
+  justify-content: center;
+  flex-direction: row;
 }
 
 </style>
