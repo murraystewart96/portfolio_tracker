@@ -43,13 +43,11 @@ export default {
 
   methods: {
     renderChart(){
-      console.log("RENDERING CHART");
       this.chartData = SharesChart.formatChartData(this.chartInfo.labels, this.chartInfo.data, this.chartInfo.label, this.chartInfo.type, this.chartInfo.backgroundColor);
       this.chart = SharesChart.createChart('chart', this.chartData);
     },
 
     destroyChart(){
-      console.log("DESTROYING CHART");
       this.chart.destroy();
       this.chart = null;
       this.chartData = null;

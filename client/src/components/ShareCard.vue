@@ -158,6 +158,7 @@ export default {
 
     },
 
+    
     handlePriceFunc(funcType){
       if(funcType === "intraDay"){
         this.getPricesIntraday()
