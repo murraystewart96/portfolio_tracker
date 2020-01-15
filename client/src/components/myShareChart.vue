@@ -1,5 +1,5 @@
 <template lang="html">
-    <div class="">
+    <div class ="chart-sizing">
       <canvas id="chart"></canvas>
     </div>
 
@@ -43,11 +43,13 @@ export default {
 
   methods: {
     renderChart(){
+      console.log("RENDERING CHART");
       this.chartData = SharesChart.formatChartData(this.chartInfo.labels, this.chartInfo.data, this.chartInfo.label, this.chartInfo.type, this.chartInfo.backgroundColor);
       this.chart = SharesChart.createChart('chart', this.chartData);
     },
 
     destroyChart(){
+      console.log("DESTROYING CHART");
       this.chart.destroy();
       this.chart = null;
       this.chartData = null;
@@ -76,6 +78,11 @@ export default {
   #chart{
     height: 300px;
     width: 600px;
+  }
+
+  .chart-sizing{
+    height: 100%;
+    width: 100%;
   }
 
 </style>

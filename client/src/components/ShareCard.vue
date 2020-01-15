@@ -6,7 +6,7 @@
 
     <div class="share-info">
       <p>Name of Company: {{share.name}}</p>
-      <p>Current valuation: {{share.quantity*share.price}} </p>
+      <p>Current valuation: £{{(share.quantity*share.price).toFixed(2)}} </p>
       <p>Exchange: {{share.exchange}} </p>
       <p>Number of shares: {{share.quantity}} </p>
       <p v-bind:style="[upTrend ? {'color' : 'green'}: {'colour' :'red'}]"> Share price: ${{share.price}} </p>
@@ -114,6 +114,7 @@ export default {
     getPricesIntraday(){
       return SharesService.getPricesIntraday(this.share.ticker)
       .then((prices) => {
+        console.log(prices)
         if(prices){
           const newData = {
             data: prices,
@@ -253,14 +254,18 @@ export default {
 .chart-container {
   height: 300px;
   display: flex;
+  height:40vh;
+  width:50vw;
   justify-content: center;
   margin: 30px;
+
 }
 
 .share-card-wrapper{
   display: flex;
   justify-content: center;
   flex-direction: column;
+
 }
 
 .share-chart{

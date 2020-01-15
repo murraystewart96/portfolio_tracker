@@ -41,11 +41,13 @@ export default{
         },
         responsive: true,
         maintainAspectRatio: false
+
       }
 
     }
 
-    return l_chartData; }
+    return l_chartData;
+  }
     else {
       const l_chartData = {
         type: chartType,

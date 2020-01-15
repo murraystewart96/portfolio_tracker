@@ -21,7 +21,7 @@ const getCurrentTimestamp = function(){
   month.toString();
   let day = dateObj.getDate();
 
-  let hour = dateObj.getHours().toString();
+  let hour = (dateObj.getHours()-5).toString();
   let mins = dateObj.getMinutes().toString();
   const secs = ":00";
 
@@ -77,7 +77,6 @@ export default {
             shares[i]["price"] = price;
           }
         }
-        console.log("FINSIHED UPDATING SHARE PRICES");
       })
 
     });
@@ -95,7 +94,6 @@ export default {
   getPricesIntraday(ticker){
 
     const currTimestamp = getCurrentTimestamp();
-
     let prices = [];
 
     return fetch(baseURLext + intraDayQuery + ticker + intraDayParams60min + key2)
