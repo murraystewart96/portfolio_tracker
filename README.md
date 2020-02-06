@@ -9,6 +9,7 @@ npm run seeds
 npm run server:dev
 
 in the client folder:
+
 npm run serve
 
 Then go to localhost:8080 on a browser. Refresh the page but note there is only 1 API call allowed per minute so when more than 1 calls 
